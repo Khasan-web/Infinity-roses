@@ -1,0 +1,9 @@
+RewriteBase /
+
+# unreal file
+RewriteCond %{REQUEST_FILENAME} !-f 
+# unreal dir
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# readdress to index.php
+RewriteRule . index.php
