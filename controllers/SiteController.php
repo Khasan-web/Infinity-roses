@@ -10,6 +10,7 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 use app\components\Navbar;
+use app\models\Product;
 
 class SiteController extends AppController
 {
@@ -33,7 +34,7 @@ class SiteController extends AppController
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'logout' => ['post'],
+                    'logout' => ['post', 'get'],
                 ],
             ],
         ];
@@ -62,8 +63,15 @@ class SiteController extends AppController
      */
     public function actionIndex()
     {
+        if (Yii::$app->language == 'en') {
+            $lang = 0;
+        } else if (Yii::$app->language == 'ru') {
+            $lang = 1;
+        }
+        // get hits
+        $hits = Product::find()->where(['hit' => '1'])->with('productT')->all();
         $this->setMeta("Home | Infinity-roses", "keys", "desc");
-        return $this->render('index');
+        return $this->render('index', compact('hits', 'lang'));
     }
 
     /**

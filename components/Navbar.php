@@ -1,21 +1,61 @@
 <?php
 
 namespace app\components;
-use yii\base\Widget;
+
 use Yii;
+use yii\base\Widget;
+use app\models\Product;
+use app\models\Category;
 
-class Navbar extends Widget { 
+class Navbar extends Widget {
 
-    public $bg;
-    public $navbar;
+    public $categories;
+    public $products;
+    public $description;
+    public $id;
+    public $navHtml;
+    public $lang;
+
 
     public function init() {
         parent::init();
+        // if (!$name || !$products || !$description) {
+        //     $this->goHome();
+        // }
+        if (Yii::$app->language == 'en') {
+            $this->lang = 0;
+          } else if (Yii::$app->language == 'ru') {
+            $this->lang = 1;
+        }
     }
 
     public function run() {
-        $navbar = include __DIR__ . '\navbar\navbar.php';
-        return $this->navbar;
+        // get cache
+        if (Yii::$app->user->isGuest) {
+            $nav = Yii::$app->cache->get('nav');
+            if ($nav) return $nav;
+        }
+
+        $this->products = Product::find()->with('productT')->all();
+        $this->categories = Category::find()->with('categoryT')->all();
+        $this->navHtml = $this->catToTemplate();
+
+        // set cache
+        if (Yii::$app->user->isGuest) {
+            Yii::$app->cache->set('nav', $this->navHtml, 3600);
+        } else {
+            Yii::$app->cache->delete('nav');
+        }
+
+        return $this->navHtml;
+    }
+
+    protected function catToTemplate() {
+        ob_start();
+        include '/navbar/navHtml.php';
+        return ob_get_clean();
     }
 
 }
+
+?>

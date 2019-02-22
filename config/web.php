@@ -12,13 +12,23 @@ $config = [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
     ],
+    'modules' => [
+        'admin' => [
+            'class' => 'app\modules\admin\Module',
+            'layout' => 'admin',
+        ],
+    ],
     'components' => [
         'i18n' => [
             'translations' => [
                 'app*' => [
                     'class' => 'yii\i18n\PhpMessageSource',
-                    'basePath' => '@web/translations',
-                    'sourceLanguage' => 'en-US',
+                    // 'basePath' => '@web/translations/',
+                    // 'sourceLanguage' => 'en',
+                    'fileMap' => [
+                        'app' => 'app.php',
+                        'app/error' => 'error.php',
+                    ],
                 ],
             ],
         ],
@@ -42,7 +52,15 @@ $config = [
             // send all mails to a file by default. You have to set
             // 'useFileTransport' to false and configure a transport
             // for the mailer to send real emails.
-            'useFileTransport' => true,
+            'useFileTransport' => false,
+            'transport' => [
+                'class' => 'Swift_SmtpTransport',
+                'host' => 'mail.infinityroses.uz',
+                'username' => 'info@infinityroses.uz',
+                'password' => 'infinityrosesmail',
+                'port' => '465',
+                'encryption' => 'ssl',
+            ],
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -60,6 +78,13 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                'login' => 'site/login',
+                'contact' => 'site/contact',
+                'about' => 'site/about',
+                'search/<q:\w+>' => 'category/search',
+                'category/<id:\d+>' => 'category/view',
+                'product/<id:\d+>' => 'product/view',
+                'cart' => 'cart/view',
             ],
         ],
     ],

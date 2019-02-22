@@ -10,7 +10,8 @@ class AppController extends Controller {
         $this->view->registerMetaTag(["name" => "keywords", "content" => "$keywords"]);
         $this->view->registerMetaTag(["name" => "description", "content" => "$description"]);
     }
-
+    
 }
+
 
 ?>

@@ -1,7 +1,7 @@
 <?
 
 function debug($arr) {
-    echo '<pre>' . print_r($arr, true) . '</pre>';
+    echo '<pre style="background: #fff">' . print_r($arr, true) . '</pre>';
 }
 
 ?>
