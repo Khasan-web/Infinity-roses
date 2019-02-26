@@ -49,9 +49,9 @@ use yii\helpers\Url;
           <div class="col-lg-3 col-md-6 product wow fadeIn" data-wow-delay="<?= $delay?>s">
             <a href="<?= Url::to(['product/view', 'id' => $hit->id])?>">
               <img src="img/product/<?= $hit->img?>" alt="" class="w-100" />
-              <h2 class="name"><?= $hit->productT[$lang]->name?></h2>
+              <h2 class="name"><?= $hit->name?></h2>
             </a>
-            <p class="price">from $<?= $hit->price?></p>
+            <p class="price"><?= $hit->category->$name?></p>
           </div>
         <?php endforeach;?>
         <!-- <div class="col-lg-3 col-md-6 product wow fadeIn" data-wow-delay="0.8s">

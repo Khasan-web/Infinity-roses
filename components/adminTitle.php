@@ -9,6 +9,7 @@ class AdminTitle extends Widget {
 
     public $title;
     public $breadcrumbs;
+    public $link;
     public $html;
 
     public function init() {

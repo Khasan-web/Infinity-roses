@@ -68,10 +68,11 @@ class SiteController extends AppController
         } else if (Yii::$app->language == 'ru') {
             $lang = 1;
         }
+        $name = 'name_' . Yii::$app->language;
         // get hits
-        $hits = Product::find()->where(['hit' => '1'])->with('productT')->all();
+        $hits = Product::find()->where(['hit' => '1'])->with('category')->all();
         $this->setMeta("Home | Infinity-roses", "keys", "desc");
-        return $this->render('index', compact('hits', 'lang'));
+        return $this->render('index', compact('hits', 'lang', 'name'));
     }
 
     /**

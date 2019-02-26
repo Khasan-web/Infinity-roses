@@ -318,7 +318,7 @@ $(function() {
 	// color
 
 	var selectedColor,
-		color;
+		color = {};
 
 	$('.colors').on('click', 'img', function() {
 		var activeImg = $('.active-img'),
@@ -334,8 +334,9 @@ $(function() {
 		activeImg.fadeOut(100, function(){
 			activeImg.attr('src', img.attr('src'));
 			// activeImg.attr('data-color', img.attr('data-color'));
+			color.img = activeImg.attr('src');
 		});
-		color = img.data('color');
+		color.color = img.data('color');
 		activeImg.fadeIn();
 	});
 

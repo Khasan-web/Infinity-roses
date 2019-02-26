@@ -13,6 +13,7 @@ use Yii;
  * @property int $product_id
  * @property string $name
  * @property string $size
+ * @property string $color
  * @property int $parfume
  * @property int $chocolate
  * @property double $price
@@ -39,7 +40,7 @@ class OrderItems extends ActiveRecord
     public function rules()
     {
         return [
-            [['order_id', 'product_id', 'name', 'price', 'qty_item', 'sum_item'], 'required'],
+            [['order_id', 'product_id', 'color', 'name', 'price', 'qty_item', 'sum_item'], 'required'],
             [['order_id', 'product_id', 'parfume', 'chocolate', 'qty_item'], 'integer'],
             [['size'], 'string'],
             [['price', 'sum_item'], 'number'],

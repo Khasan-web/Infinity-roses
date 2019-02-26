@@ -15,11 +15,11 @@ class ProductController extends AppController {
           } else if (Yii::$app->language == 'ru') {
             $lang = 1;
         }
-        $product = Product::find()->with('productT')->where(['id' => $id])->one();
+        $product = Product::findOne($id);
         if ($product == null) {
             throw new HttpException(404, 'This product does not exist');
         }
-        $this->setMeta("{$product->productT[$lang]->name} | Infinity roses", $product->keywords, $product->productT[$lang]->description);
+        $this->setMeta("{$product->name} | Infinity roses", $product->keywords, $product->description);
         return $this->render('view', compact('product', 'lang'));
 
     }

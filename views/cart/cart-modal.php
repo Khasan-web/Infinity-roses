@@ -14,9 +14,9 @@
     </tr>
     </thead>
     <tbody>
-    <?php foreach ($session['cart'] as $id => $item):?>
+    <?php foreach ($session['cart'] as $item):?>
         <tr>
-            <td><img class="img-prod" src="web/img/product/<?= $item['img']?>" alt="<?= $item['name']?>"></td>
+            <td><img class="img-prod" src="<?= $item['img']?>" alt="<?= $item['name']?>"></td>
             <td><?= $item['name']?></td>
             <td><?= $item['size']?></td>
             <td>$<?= $item['price']?></td>

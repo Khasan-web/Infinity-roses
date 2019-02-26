@@ -6,7 +6,7 @@ use yii\helpers\Url;
 <section id="product-details">
 		<div class="container">
 			<div class="row">
-				<h2 class="mt-5 px-2 w-100 text-center show-on-mob"><?= $product->productT[$lang]->name?> <span class="subheader">Collection</span></h2>
+				<h2 class="mt-5 px-2 w-100 text-center show-on-mob"><?= $product->name?> <span class="subheader">Collection</span></h2>
 				<div class="col-lg-6 col-md-10 text-center">
 					<img src="img/product/OnlyRoses-Metropolis-Footed-Bowl.jpg" alt="" class="active-img" data-color="red">
 					<h2>About</h2>
@@ -20,7 +20,7 @@ use yii\helpers\Url;
 					</div>
 				</div>
 				<div class="col-lg-6 col-md-10 info">
-					<h2 class="hide-on-mob"><?= $product->productT[$lang]->name?> <span class="subheader">Collection</span></h2>
+					<h2 class="hide-on-mob"><?= $product->name?> <span class="subheader">Collection</span></h2>
 					<div class="row mt-5 mb-4">
 						<div class="col-md-6">
 							<button class="btn btn-outline-dark w-100 toggle-parfume mb-1">Parfume</button>

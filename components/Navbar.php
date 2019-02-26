@@ -4,7 +4,6 @@ namespace app\components;
 
 use Yii;
 use yii\base\Widget;
-use app\models\Product;
 use app\models\Category;
 
 class Navbar extends Widget {
@@ -36,8 +35,7 @@ class Navbar extends Widget {
             if ($nav) return $nav;
         }
 
-        $this->products = Product::find()->with('productT')->all();
-        $this->categories = Category::find()->with('categoryT')->all();
+        $this->categories = Category::find()->with('product')->all();
         $this->navHtml = $this->catToTemplate();
 
         // set cache

@@ -42,6 +42,10 @@ body {
     color: grey;
 }
 
+.gridview-custom .glyphicon{
+    padding: 0 15px!important;
+}
+
 /* add sorting icons to gridview sort links */
 a.asc:after, a.desc:after {
     position: relative;

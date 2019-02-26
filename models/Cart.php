@@ -12,7 +12,7 @@ class Cart extends ActiveRecord {
         $i = count($_SESSION['cart']);
         if ($i != 0) {
             for ($id = 0; $id <= $i; $id++) {
-                if ($_SESSION['cart'][$id]['id'] == $product->id && $_SESSION['cart'][$id]['name'] == $product->productT[0]->name && $_SESSION['cart'][$id]['size'] == $size && $_SESSION['cart'][$id]['parfume'] == $accessories['parfume'] && $_SESSION['cart'][$id]['chocolate'] == $accessories['chocolate'] && $_SESSION['cart'][$id]['color'] == $color) {
+                if ($_SESSION['cart'][$id]['id'] == $product->id && $_SESSION['cart'][$id]['name'] == $product->name && $_SESSION['cart'][$id]['size'] == $size && $_SESSION['cart'][$id]['parfume'] == $accessories['parfume'] && $_SESSION['cart'][$id]['chocolate'] == $accessories['chocolate'] && $_SESSION['cart'][$id]['color'] == $color['color']) {
                     $_SESSION['cart'][$id]['qty'] += 1;
                     break;
                 }
@@ -20,12 +20,12 @@ class Cart extends ActiveRecord {
                     $_SESSION['cart'][$i] = [
                         'id' => $product->id,
                         'qty' => 1,
-                        'name' => $product->productT[0]->name,
+                        'name' => $product->name,
                         'price' => $product->price, // not correct, also size!
                         // 'price' => $product->$priceFromSize // after you will add true db structure
-                        'img' => $product->img,
+                        'img' => $color['img'],
                         'size' => $size,
-                        'color' => $color,
+                        'color' => $color['color'],
                         'parfume' => $accessories['parfume'], // if accessories will not be important set them in condition
                         'chocolate' => $accessories['chocolate'],
                     ];
@@ -36,11 +36,11 @@ class Cart extends ActiveRecord {
             $_SESSION['cart'][$i] = [
                 'id' => $product->id,
                 'qty' => 1,
-                'name' => $product->productT[0]->name,
+                'name' => $product->name,
                 'price' => $product->price, // not correct, also size!
-                'img' => $product->img,
+                'img' => $color['img'],
                 'size' => $size,
-                'color' => $color,
+                'color' => $color['color'],
                 'parfume' => $accessories['parfume'], // if accessories will not be important set them in condition
                 'chocolate' => $accessories['chocolate'],
             ];

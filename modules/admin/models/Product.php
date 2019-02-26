@@ -9,11 +9,13 @@ use Yii;
  *
  * @property int $id
  * @property int $category_id
+ * @property string $name
  * @property int $price
  * @property string $keywords
+ * @property string $description
+ * @property string $description_ru
  * @property string $img
  * @property string $hit
- * @property string $size
  */
 class Product extends \yii\db\ActiveRecord
 {
@@ -25,8 +27,8 @@ class Product extends \yii\db\ActiveRecord
         return 'product';
     }
 
-    public function getProductT() {
-        return $this->hasMany(ProductT::className(), ['product_id' => 'id']);
+    public function getCategory() {
+        return $this->hasOne(Category::className(), ['id' => 'category_id']);
     }
 
     /**
@@ -35,10 +37,10 @@ class Product extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['category_id', 'price', 'img'], 'required'],
+            [['category_id', 'name', 'price', 'description', 'description_ru', 'img'], 'required'],
             [['category_id', 'price'], 'integer'],
-            [['hit', 'size'], 'string'],
-            [['keywords'], 'string', 'max' => 255],
+            [['description', 'description_ru', 'hit'], 'string'],
+            [['name', 'keywords'], 'string', 'max' => 255],
             [['img'], 'string', 'max' => 500],
         ];
     }
@@ -49,12 +51,15 @@ class Product extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'category_id' => Yii::t('app', 'Category ID'),
+            'id' => Yii::t('app', 'Product №'),
+            'category_id' => Yii::t('app', 'Category'),
+            'name' => Yii::t('app', 'Name'),
             'price' => Yii::t('app', 'Price'),
             'keywords' => Yii::t('app', 'Keywords'),
+            'description' => Yii::t('app', 'Description'),
+            'description_ru' => Yii::t('app', 'Description Ru'),
             'img' => Yii::t('app', 'Img'),
             'hit' => Yii::t('app', 'Hit'),
-            'size' => Yii::t('app', 'Size'),
         ];
     }
 }

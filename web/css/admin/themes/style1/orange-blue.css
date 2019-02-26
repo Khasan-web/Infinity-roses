@@ -3876,7 +3876,7 @@ body.sidebar-icons #wrapper #page-wrapper {
   padding-bottom: 0;
 }
 .table tbody tr td {
-  border-top: 1px solid #efefef;
+  /* border-top: 1px solid #efefef; */
 }
 .ticker-wrapper.has-js {
   margin: 0;

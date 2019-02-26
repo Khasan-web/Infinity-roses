@@ -41,7 +41,7 @@ class CartController extends AppController {
     public function actionAdd() {
         $id = Yii::$app->request->get('id');
         $data = Yii::$app->request->get('data');
-        $product = Product::find()->with('productT')->where(['id' => $id])->one();
+        $product = Product::findOne($id);
         if (empty($product)) {
             return false;
         }
@@ -89,6 +89,7 @@ class CartController extends AppController {
             $order_items->order_id = $order_id;
             $order_items->name = $item['name'];
             $order_items->size = $item['size'];
+            $order_items->color = $item['color'];
             $order_items->parfume = $item['parfume'];
             $order_items->chocolate = $item['chocolate'];
             $order_items->price = $item['price'];

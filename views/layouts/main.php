@@ -95,10 +95,10 @@ $currentAction = Yii::$app->controller->action->id;
       <div class="modal-body gold-form">
         <div class="row text-center mb-3">
           <div class="col-6 mx-auto">
-            <a href="<?= Url::to(["$currentController/$currentAction", 'language' => 'en'])?>"><img src="/img/langs/eng.png" alt="" width="30"><br>English</a>
+            <a href="<?= Url::to(["$currentController/$currentAction", 'language' => 'en', 'id' => Yii::$app->request->get('id')])?>"><img src="/img/langs/eng.png" alt="" width="30"><br>English</a>
           </div>
           <div class="col-6 mx-auto">
-            <a href="<?= Url::to(["$currentController/$currentAction" , 'language' => 'ru'])?>"><img src="/img/langs/ru.png" alt="" width="30"><br>Русский</a>
+            <a href="<?= Url::to(["$currentController/$currentAction" , 'language' => 'ru', 'id' => Yii::$app->request->get('id')])?>"><img src="/img/langs/ru.png" alt="" width="30"><br>Русский</a>
           </div>
         </div>
         <a style="cursor: pointer" class="my-3" data-dismiss="modal" aria-label="Close">Close</a>
@@ -131,7 +131,7 @@ $currentAction = Yii::$app->controller->action->id;
       <div class="modal-footer">
         <button data-dismiss="modal" aria-label="Close" class="btn btn-outline-gold">Continue shopping</button>
         <a href="<?= Url::to(['cart/view']);?>" class="btn btn-outline-success">Formalize the order</a>
-        <button class="btn btn-outline-danger clear-cart" onclick="return clearCart()">Clear the cart</button>
+        <button class="btn btn-outline-danger clear-cart">Clear the cart</button>
       </div>
     </div>
   </div>

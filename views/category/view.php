@@ -6,10 +6,10 @@ use yii\helpers\Url;
 ?>
 
 <section id="cat">
-	<h1 class="wow fadeIn"><?= $category->categoryT[$lang]->name?></h1>
+	<h1 class="wow fadeIn"><?= $category->$name?></h1>
 	<div class="line gold-bg my-3"></div>
 	<div class="col-lg-4 col-md-8 mx-auto wow fadeIn description" data-wow-delay="0.8s">
-		<p><?= $category->categoryT[$lang]->description?></p>
+		<p><?= $category->$description?></p>
 	</div>
 	<div class="container">
 		<?php if (!$products): ?>
@@ -20,9 +20,9 @@ use yii\helpers\Url;
 				<div class="col-lg-3 col-md-6 product wow fadeIn" data-wow-delay="0.6s">
 					<a href="/product-details.html">
 						<img src="img/product/<?= $product->img?>" alt="" class="w-100" />
-						<h2 class="name"><?= $product->productT[$lang]->name?></h2>
+						<h2 class="name"><?= $product->name?></h2>
 					</a>
-					<p class="price">$<?= $product['price']?></p>
+					<p class="price">from $<?= $product['price']?></p>
 				</div>
 			<?php endforeach;?>
 		</div>

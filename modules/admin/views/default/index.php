@@ -2,117 +2,103 @@
 
 use yii\base\Widget;
 use app\components\AdminTitle;
+use yii\helpers\Url;
+use app\modules\admin\models\ProductSearch;
 
 ?>
 
 <?= AdminTitle::widget(['title' => 'Dashboard', 'breadcrumbs' => ''])?>
 <!--BEGIN CONTENT-->
 <div class="page-content">
-    <div class="table-responsive">
-        <table class="table table-hover table-striped table-bordered table-advanced tablesorter">
-            <thead>
-            <tr>
-                <th width="9%">Record #</th>
-                <th>Username</th>
-                <th width="10%">Country</th>
-                <th width="10%">Gender</th>
-                <th width="7%">Order</th>
-                <th width="12%">Date</th>
-                <th width="10%">Price</th>
-                <th width="9%">Status</th>
-                <th width="18%">Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>1</td>
-                <td>Henry</td>
-                <td>United States</td>
-                <td>Male</td>
-                <td>32</td>
-                <td>20-05-2014</td>
-                <td>$240.50</td>
-                <td><span class="label label-sm label-success">Approved</span></td>
-                <td>
-                    <button type="button" class="btn btn-default btn-xs"><i class="fa fa-edit"></i>&nbsp;
-                        Edit
-                    </button>
-                    &nbsp;
-                    <button type="button" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i>&nbsp;
-                        Delete
-                    </button>
-                    <button type="button" class="btn btn-info btn-xs view"><i class="fa fa-eye"></i>&nbsp;
-                        View
-                    </button>
-                </td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>John</td>
-                <td>United States</td>
-                <td>Female</td>
-                <td>45</td>
-                <td>20-05-2014</td>
-                <td>$240.50</td>
-                <td><span class="label label-sm label-info">Pending</span></td>
-                <td>
-                    <button type="button" class="btn btn-default btn-xs"><i class="fa fa-edit"></i>&nbsp;
-                        Edit
-                    </button>
-                    &nbsp;
-                    <button type="button" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i>&nbsp;
-                        Delete
-                    </button>
-                    <button type="button" class="btn btn-info btn-xs view"><i class="fa fa-eye"></i>&nbsp;
-                        View
-                    </button>
-                </td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Larry</td>
-                <td>United States</td>
-                <td>Female</td>
-                <td>40</td>
-                <td>20-05-2014</td>
-                <td>$240.50</td>
-                <td><span class="label label-sm label-warning">Suspended</span></td>
-                <td>
-                    <button type="button" class="btn btn-default btn-xs"><i class="fa fa-edit"></i>&nbsp;
-                        Edit
-                    </button>
-                    &nbsp;
-                    <button type="button" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i>&nbsp;
-                        Delete
-                    </button>
-                    <button type="button" class="btn btn-info btn-xs view"><i class="fa fa-eye"></i>&nbsp;
-                        View
-                    </button>
-                </td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td>Lahm</td>
-                <td>United States</td>
-                <td>Female</td>
-                <td>15</td>
-                <td>20-05-2014</td>
-                <td>$240.50</td>
-                <td><span class="label label-sm label-danger">Blocked</span></td>
-                <td>
-                    <button type="button" class="btn btn-default btn-xs"><i class="fa fa-edit"></i>&nbsp;
-                        Edit
-                    </button>
-                    &nbsp;
-                    <button type="button" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i>&nbsp;
-                        Delete
-                    </button>
-                    <button type="button" class="btn btn-info btn-xs view"><i class="fa fa-eye"></i>&nbsp;
-                        View
-                    </button>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+
+    <div id="sum_box" class="row mbl">
+        <div class="col-sm-6 col-md-3">
+            <a href="<?= Url::to(['product/'])?>">
+                <div class="panel profit db mbm">
+                    <div class="panel-body"><p class="icon"><i class="icon fa fa-shopping-cart"></i></p><h4 class="value">Product</h4>
+
+                        <p class="description">Profit description</p>
+
+                        <div class="progress progress-sm mbn">
+                            <div role="progressbar" style="width: 100%" class="progress-bar progress-bar-success"></div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-sm-6 col-md-3">
+            <a href="<?= Url::to(['category/'])?>">
+                <div class="panel income db mbm">
+                    <div class="panel-body"><p class="icon"><i class="icon fa fa-bars"></i></p><h4 class="value">Categories</h4>
+
+                        <p class="description">Income detail</p>
+
+                        <div class="progress progress-sm mbn">
+                            <div role="progressbar" style="width: 100%" class="progress-bar progress-bar-info"></div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-sm-6 col-md-3">
+            <a href="<?= Url::to(['order/'])?>">
+                <div class="panel task db mbm">
+                    <div class="panel-body"><p class="icon"><i class="icon fa fa-money"></i></p><h4 class="value">Orders</h4>
+
+                        <p class="description">Task completed</p>
+
+                        <div class="progress progress-sm mbn">
+                            <div role="progressbar" style="width: 100%" class="progress-bar progress-bar-danger"></div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-sm-6 col-md-3">
+            <a href="<?= Url::to(['holidays/'])?>">
+                <div class="panel visit db mbm">
+                    <div class="panel-body"><p class="icon"><i class="icon fa fa-calendar"></i></p><h4 class="value">Holidays</h4>
+
+                        <p class="description">Visitor description</p>
+
+                        <div class="progress progress-sm mbn">
+                            <div role="progressbar" style="width: 100%" class="progress-bar progress-bar-warning"></div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
     </div>
+
+    <hr>
+
+    <h2>Helpful links</h2>
+    <div class="row links">
+        <div class="col-md-1 col-4">
+            <a target="_blank" href="https://www.google.com/maps">
+                <img src="/img/admin/google-map.png" alt="">
+                <span>Google Map</span>
+            </a>
+        </div>
+        <div class="col-md-1 col-4">
+            <a target="_blank" href="https://analytics.google.com/analytics/web/provision/?authuser=0#/provision">
+                <img src="/img/admin/analystic.png" alt="">
+                <span>Analystic</span>
+            </a>
+        </div>
+        <div class="col-md-1 col-4">
+            <a target="_blank" href="https://calendar.google.com/calendar">
+                <img src="/img/admin/calendar.png" alt="">
+                <span>Calendar</span>
+            </a>
+        </div>
+        <div class="col-md-1 col-4">
+            <a target="_blank" href="https://mail.google.com">
+                <img src="/img/admin/gmail.png" alt="">
+                <span>Gmail</span>
+            </a>
+        </div>
+    </div>
+
+    <hr>
 </div>

@@ -48,7 +48,7 @@ use yii\widgets\ActiveForm;
 			<tbody>
 			<?php foreach ($session['cart'] as $item):?>
 				<tr>
-					<td><img class="img-prod" src="web/img/product/<?= $item['img']?>" alt="<?= $item['name']?>"></td>
+					<td><img class="img-prod" src="<?= $item['img']?>" alt="<?= $item['name']?>"></td>
 					<td><a style="text-decoration: underline" href="<?= Url::to(['product/view', 'id' => $item['id']])?>"><?= $item['name']?></a></td>
 					<td><?= $item['size']?></td>
 					<td>$<?= $item['price']?></td>
@@ -112,7 +112,10 @@ use yii\widgets\ActiveForm;
 			</div>
 
 		<?php else:?>
-		<h2 class="not-found text-center">Cart is empty...</h2>
+		<div class="text-center py-5">
+			<h2 class="not-found text-center pb-2 pt-0">Cart is empty...</h2>
+			<a href="<?= Url::to(['/#popular-prods'])?>" class="btn btn-outline-dark">Explore Popular Products!</a>
+		</div>
 		<?php endif;?>
 		</div>
 	</section>

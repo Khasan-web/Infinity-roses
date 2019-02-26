@@ -13,6 +13,7 @@ class DefaultController extends AppAdminController
      */
     public function actionIndex()
     {
+        $this->setMeta('Dashboard');
         return $this->render('index');
     }
 }

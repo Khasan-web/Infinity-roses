@@ -21,11 +21,10 @@ use yii\helpers\Url;
 			<?php foreach ($products as $product): ?>
 				<div class="col-lg-3 col-md-6 product wow fadeIn" data-wow-delay="0.6s">
 					<a href="/product-details.html">
-						<img src="img/product/<?= $product->product->img?>" alt="" class="w-100" />
+						<img src="img/product/<?= $product->img?>" alt="" class="w-100" />
 						<h2 class="name"><?= $product->name?></h2>
 					</a>
-					<p class="price">$<?= $product->product->price?></p>
-					<button class="btn btn-outline-dark">Add to Cart!</button>
+					<p class="price">from $<?= $product->price?></p>
 				</div>
 			<?php endforeach;?>
 		</div>

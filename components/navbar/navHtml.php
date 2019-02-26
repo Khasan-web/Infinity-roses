@@ -2,6 +2,9 @@
 
 use yii\helpers\Url;
 
+$name = 'name_' . Yii::$app->language;
+$description = 'description_' . Yii::$app->language;
+
 ?>
 <!-- navbar -->
 <div class="brand text-center py-3" id="nav-brand">
@@ -106,16 +109,16 @@ use yii\helpers\Url;
       <?php foreach ($this->categories as $cat):?>
       <li class="nav-item drop-item" id="<?= $this->id?>">
         <a class="nav-link" href="<?= Url::to(['category/view', 'id' => $cat->id]);?>" role="button" id="luxuty-roses-item" aria-haspopup="true"
-          aria-expanded="false"><?= $cat->categoryT[$this->lang]->name?></a>
+          aria-expanded="false"><?= $cat->$name?></a>
         <div class="dropdown-menu" aria-labelledby="luxuty-roses-item">
           <div class="container">
             <div class="row mb-5 mt-4 content">
               <div class="col-lg-2 offset-lg-1 col-md-4">
                 <ul class="list-unstyled">
-                  <?php foreach ($this->products as $product): ?>
+                  <?php foreach ($cat->product as $product): ?>
                     <li>
                         <?php if ($product->category_id == $cat->id): ?>
-                          <a href="<?= Url::to(['product/view', 'id' => $product->id])?>" data-image="<?= $product['img']?>" class="product-item" ><?= $product->productT[$this->lang]->name;?></a>      
+                          <a href="<?= Url::to(['product/view', 'id' => $product->id])?>" data-image="<?= $product['img']?>" class="product-item" ><?= $product->name;?></a>      
                         <?php endif;?>
                     </li>
                   <? endforeach;?>
@@ -125,8 +128,8 @@ use yii\helpers\Url;
                 <img src="/img/product/" alt="" />
               </div>
               <div class="col-lg-3 col-md-4 px-0 drop-desc">
-                <h6><span><?= Yii::t('app', 'What are')?></span> <?= $cat->categoryT[$this->lang]->name?>?</h6>
-                <p class="description"><?= $cat->categoryT[$this->lang]->description?></p>
+                <h6><span><?= Yii::t('app', 'What are')?></span> <?= $cat->$name?>?</h6>
+                <p class="description"><?= $cat->$description?></p>
               </div>
             </div>
           </div>
