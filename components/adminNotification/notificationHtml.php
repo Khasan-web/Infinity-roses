@@ -14,7 +14,7 @@ use yii\helpers\Url;
                         <?php 
                             $date = strtotime($order['created_at']);
                             $d = date('d/m/Y', $date);
-                            $h = date('h:m', $date);
+                            $h = date('h:i', $date);
                         ?>
                         <li><a href="<?= Url::to(['order/view', 'id' => $order['id']])?>"><span class="label label-blue"><i class="fa fa-comment"></i></span><?= $order['name']?><span class="pull-right text-muted small"><?= $d?> | <?= $h?></span></a></li>
                     <?php endforeach;?>

@@ -9,12 +9,10 @@ use app\components\MenuWidget;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="product-form">
+<div class="product-form" data-id="<?= $model->id?>">
 
 
-    <?php $form = ActiveForm::begin(); ?>
-
-    <?php //echo $form->field($model, 'category_id')->textInput() ?>
+    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
     <div class="panel panel-blue">
         <div class="panel-heading">1. Basic info</div>
@@ -39,22 +37,80 @@ use app\components\MenuWidget;
         </div>
     </div>
 
+    <?php
+        $mainImage = $model->getImage();
+        $gallery = $model->getImages();
+    ?>
+
+    <?php if ($model->id):?>
     <div class="panel panel-orange">
-        <div class="panel-heading">2. Uploading images</div>
+        <div class="panel-heading">2. Uploading Main Image</div>
         <div class="panel-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="row preview-image">
+                        <?php if ($mainImage->name):?>
+                            <img src="<?= $mainImage->getUrl()?>" style="width: 100%">
+                        <?php endif;?>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <?= $form->field($model, 'image', ['labelOptions' => ['class' => 'btn btn-default', 'style' => 'display: block']])->fileInput(['class' => 'uploadImage', 'style' => 'width: 0.1px; height: 0.1px'])->label('<i class="fa fa-upload"></i> Upload image', ['']) ?>
+                    
+                    <p><strong>Name: </strong> <span class="name"> <?= $mainImage->name ? $mainImage->name . '.' . $mainImage->extension : '---'?></span></p>
 
-            <?= $form->field($model, 'img')->textInput(['maxlength' => true]) ?>
-
+                    <?php if ($mainImage->name):?>
+                        <p><strong>Size: </strong> <span class="size">  ---</span></p>
+                    <?php endif;?>
+                    <p><strong>Color: </strong> <span class="color"> <?= $mainImage->name ? $mainImage->name : '---'?></span></p>
+                    <hr>
+                    <div class="col-md-6" style="padding: 0">
+                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Accusantium quaerat rerum vero modi, laudantium consectetur?</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
+    <div class="panel panel-violet">
+        <div class="panel-heading">3. Uploading a gallery</div>
+        <div class="panel-body" style="margin: 0 15px">
+
+        <!-- Gallery from db -->
+        <div class="row text-center">
+            <?php if ($gallery[1]):?>
+                <h3 style="margin-top: 5px">Gallery</h3>
+                    <?php foreach ($gallery as $file):?>
+                        <div class="col-md-1" style="margin: 15px 0">
+                            <div class="removeImage">
+                                <i class="fa fa-times" data-image="<?= $file->urlAlias?>" onclick="confirm('Are you sure you want to delete this image?')"></i>
+                            </div>
+                            <img src="<?= $file->getUrl()?>" style="width: 100%">
+                            <p style="margin-top: 5px"><?= $file->name . '.' . $file->extension?></p>
+                        </div>
+                    <?php endforeach;?>
+            <?php endif;?>
+        </div>
+
+        <!-- New images in the existing gallery -->
+            <div class="row">
+                <?= $form->field($model, 'gallery[]', ['labelOptions' => ['class' => 'btn btn-default', 'style' => 'display: block']])->fileInput(['class' => 'uploadGallery', 'style' => 'width: 0.1px; height: 0.1px', 'multiple' => true, 'accept' => 'image/*'])->label('<i class="fa fa-upload"></i> Upload a gallery', ['']) ?>
+                <div class="row preview-images text-center" style="padding: 15px">
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <?php endif;?>
+
     <div class="panel panel-green">
-        <div class="panel-heading">3. Work with text</div>
+        <div class="panel-heading"><?= $mainImage->urlAlias == 'placeholder' ? '4' : '2'?>. Work with text</div>
         <div class="panel-body">
 
         <?= $form->field($model, 'keywords')->textInput(['maxlength' => true]) ?>
 
-        <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
+        <?= $form->field($model, 'description_en')->textarea(['rows' => 6]) ?>
 
         <?= $form->field($model, 'description_ru')->textarea(['rows' => 6]) ?>
 

@@ -97,9 +97,9 @@ $(function() {
 
 	$('li .product-item').mouseover(function() {
 		var parents = $(this).parents(),
-			parent = parents.find('.img-preview img').first();
+			parent = parents.closest('.content').find('.img-preview img');
 			
-		parent.attr('src', '/img/product/' + $(this).data('image'));
+		parent.attr('src', $(this).data('image'));
 	});
 
 	// product qty

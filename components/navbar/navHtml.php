@@ -116,16 +116,17 @@ $description = 'description_' . Yii::$app->language;
               <div class="col-lg-2 offset-lg-1 col-md-4">
                 <ul class="list-unstyled">
                   <?php foreach ($cat->product as $product): ?>
+                  <?php $image = $product->getImage()?>
                     <li>
                         <?php if ($product->category_id == $cat->id): ?>
-                          <a href="<?= Url::to(['product/view', 'id' => $product->id])?>" data-image="<?= $product['img']?>" class="product-item" ><?= $product->name;?></a>      
+                          <a href="<?= Url::to(['product/view', 'id' => $product->id])?>" data-image="<?= $image->getUrl()?>" class="product-item" ><?= $product->name;?></a>      
                         <?php endif;?>
                     </li>
                   <? endforeach;?>
                 </ul>
               </div>
               <div class="col-lg-4 col-md-4 img-preview mx-auto">
-                <img src="/img/product/" alt="" />
+                <img src="" alt="" />
               </div>
               <div class="col-lg-3 col-md-4 px-0 drop-desc">
                 <h6><span><?= Yii::t('app', 'What are')?></span> <?= $cat->$name?>?</h6>

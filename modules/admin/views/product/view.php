@@ -16,6 +16,20 @@ $this->params['breadcrumbs'][] = ['label' => 'View'];
 <?= AdminTitle::widget(['title' => Html::encode($this->title), 'breadcrumbs' => $this->params['breadcrumbs']])?>
 <div class="product-view page-content">
 
+    <?php if (Yii::$app->session->hasFlash('success')): ?>
+        <div class="alert alert-success alert-dismissable">
+            <button type="button" data-dismiss="alert" aria-hidden="true" class="close">×</button>
+            <?= Yii::$app->session->getFlash('success')?>
+        </div>
+    <?php endif;?>
+
+    <?php if (Yii::$app->session->hasFlash('error')): ?>
+        <div class="alert alert-danger alert-dismissable">
+            <button type="button" data-dismiss="alert" aria-hidden="true" class="close">×</button>
+            <?= Yii::$app->session->getFlash('success')?>
+        </div>
+	<?php endif;?>
+
     <p>
         <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-info']) ?>
         <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
@@ -26,6 +40,11 @@ $this->params['breadcrumbs'][] = ['label' => 'View'];
             ],
         ]) ?>
     </p>
+
+    <?php 
+        $image = $model->getImage();
+        $gallery = $model->getImages();
+    ?>
 
     <?= DetailView::widget([
         'model' => $model,
@@ -44,12 +63,12 @@ $this->params['breadcrumbs'][] = ['label' => 'View'];
                 'contentOptions' => ['style' => 'width: 70%'],
             ],
             'keywords',
-            'description:ntext',
+            'description_en:ntext',
             'description_ru:ntext',
             // 'img',
             [
                 'attribute' => 'img',
-                'value' => "<img width=\"80\" src=\"/img/product/{$model->img}\"></img>",
+                'value' => "<img src='{$image->getUrl('80x')}'></img>",
                 'format' => 'html',
             ],
             // 'hit',
@@ -60,5 +79,16 @@ $this->params['breadcrumbs'][] = ['label' => 'View'];
             ],
         ],
     ]) ?>
+
+    <hr>
+    <h3>Gallery</h3>
+
+    <?php
+    
+    foreach($gallery as $file){
+        echo "<img src='{$file->getUrl('80x')}'></img>";
+    }
+
+    ?>
 
 </div>

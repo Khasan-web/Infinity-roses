@@ -71,7 +71,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			<tbody>
 			<?php foreach ($items as $item):?>
 				<tr>
-					<td><a style="text-decoration: underline" href="<?= Url::to(['product/view', 'id' => $item['id']])?>"><?= $item['name']?></a></td>
+					<td><a style="text-decoration: underline" href="<?= Url::to(['product/view', 'id' => $item['product_id']])?>"><?= $item['name']?></a></td>
 					<td><?= $item['size']?></td>
 					<td>$<?= $item['price']?></td>
                     <td><?= $item['color']?></td>

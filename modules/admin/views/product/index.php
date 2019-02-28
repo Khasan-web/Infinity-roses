@@ -37,7 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
             ],
             'keywords',
-            //'description:ntext',
+            //'description_en:ntext',
             //'description_ru:ntext',
             //'img',
             // 'hit',

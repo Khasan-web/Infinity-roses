@@ -8,6 +8,7 @@ use app\modules\admin\models\ProductSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * ProductController implements the CRUD actions for Product model.
@@ -87,12 +88,38 @@ class ProductController extends AppAdminController
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            
+            $model->image = UploadedFile::getInstance($model, 'image');
+            if ($model->image) {
+                $model->upload();
+            }
+
+            $model->gallery = UploadedFile::getInstances($model, 'gallery');
+            if ($model->gallery) {
+                $model->uploadGallery();
+            }
+
+            Yii::$app->session->setFlash('success', 'The product was updated');
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update', [
             'model' => $model,
         ]);
+    }
+
+    public function actionRemoveImage($alias, $id) {
+        $product = Product::findOne($id);
+        if ($product) {
+            $images = $product->getImages();
+            foreach ($images as $img) {
+                if ($img->urlAlias == $alias) {
+                    $product->removeImage($img);
+                }
+            }
+            return true;
+        }
+
     }
 
     /**
@@ -104,6 +131,8 @@ class ProductController extends AppAdminController
      */
     public function actionDelete($id)
     {
+        $product = Product::findOne($id);
+        $product->removeImages();
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);

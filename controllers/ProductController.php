@@ -19,7 +19,8 @@ class ProductController extends AppController {
         if ($product == null) {
             throw new HttpException(404, 'This product does not exist');
         }
-        $this->setMeta("{$product->name} | Infinity roses", $product->keywords, $product->description);
+        $description = 'description_' . Yii::$app->language;
+        $this->setMeta("{$product->name} | Infinity roses", $product->keywords, $product->$description);
         return $this->render('view', compact('product', 'lang'));
 
     }

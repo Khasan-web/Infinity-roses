@@ -3,20 +3,21 @@
 use yii\helpers\Url;
 
 ?>
+<?php
+	$mainImage = $product->getImage();
+	$gallery = $product->getImages();
+
+	$description = 'description_' . Yii::$app->language;
+?>
 <section id="product-details">
 		<div class="container">
 			<div class="row">
 				<h2 class="mt-5 px-2 w-100 text-center show-on-mob"><?= $product->name?> <span class="subheader">Collection</span></h2>
 				<div class="col-lg-6 col-md-10 text-center">
-					<img src="img/product/OnlyRoses-Metropolis-Footed-Bowl.jpg" alt="" class="active-img" data-color="red">
+					<img src="<?= $mainImage->getUrl()?>" alt="<?= $product->name?>" class="active-img" data-color="<?= $mainImage->name?>">
 					<h2>About</h2>
 					<div class="col-lg-8 col-md-10 mx-auto">
-						<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Cupiditate voluptates non laudantium iusto facere
-							sapiente.</p>
-					</div>
-					<div class="col-lg-8 col-md-10 mx-auto">
-						<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Cupiditate voluptates non laudantium iusto facere
-							sapiente.</p>
+						<p><?= $product->$description?></p>
 					</div>
 				</div>
 				<div class="col-lg-6 col-md-10 info">
@@ -59,22 +60,12 @@ use yii\helpers\Url;
 					</div>
 					<hr>
 					<div class="row colors">
-						<div class="col-3 color">
-							<img src="img/product/OnlyRoses-Metropolis-Footed-Bowl.jpg" alt="" data-color="red">
-							<span>crimson</span>
-						</div>
-						<div class="col-3 color">
-							<img src="img/product/1.jpg" alt="" data-color="blue">
-							<span>blue</span>
-						</div>
-						<div class="col-3 color">
-							<img src="img/product/2.jpg" alt="" data-color="violet">
-							<span>violet</span>
-						</div>
-						<div class="col-3 color">
-							<img src="img/product/3.jpg" alt="" data-color="green">
-							<span>green</span>
-						</div>
+						<?php foreach ($gallery as $image):?>
+							<div class="col-3 color">
+								<img src="<?= $image->getUrl()?>" alt="" data-color="<?= $image->name?>">
+								<span><?= $image->name?></span>
+							</div>
+						<?php endforeach;?>
 					</div>
 				</div>
 			</div>

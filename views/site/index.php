@@ -45,37 +45,18 @@ use yii\helpers\Url;
           $delay = 0.6;
         ?>
         <?php foreach ($hits as $hit):?>
-        <?php $delay += 0.2?>
+        <?php 
+          $delay += 0.2;
+          $image = $hit->getImage();
+        ?>
           <div class="col-lg-3 col-md-6 product wow fadeIn" data-wow-delay="<?= $delay?>s">
             <a href="<?= Url::to(['product/view', 'id' => $hit->id])?>">
-              <img src="img/product/<?= $hit->img?>" alt="" class="w-100" />
+              <img src="<?= $image->getUrl()?>" alt="" class="w-100" />
               <h2 class="name"><?= $hit->name?></h2>
             </a>
             <p class="price"><?= $hit->category->$name?></p>
           </div>
         <?php endforeach;?>
-        <!-- <div class="col-lg-3 col-md-6 product wow fadeIn" data-wow-delay="0.8s">
-          <a href="/product-details.html">
-            <img src="img/product/OnlyRoses-Parthenon-Dome.jpg" alt="" class="w-100" />
-            <h2 class="name">Roses name</h2>
-          </a>
-          <p class="price">from $575.00</p>
-        </div>
-        <div class="col-lg-3 col-md-6 product wow fadeIn" data-wow-delay="1s">
-          <a href="/product-details.html">
-            <img src="img/product/OnlyRoses-FleurDuVinXmas-eComm_H.jpg" alt="" class="w-100" />
-            <h2 class="name">Roses name</h2>
-          </a>
-          <p class="price">from $575.00</p>
-        </div>
-        <div class="col-lg-3 col-md-6 product wow fadeIn" data-wow-delay="1.2s">
-          <a href="/product-details.html">
-            <img src="img/product/OnlyRoses-Infinite-Rose-Lady-Jan.jpg" alt="" class="w-100" />
-            <h2 class="name">Roses name</h2>
-          </a>
-          <p class="price">from $575.00</p>
-          
-        </div> -->
       </div>
     </div>
   </section>
@@ -121,26 +102,19 @@ use yii\helpers\Url;
       </div>
     </section>
   <section id="holidays">
-    <div class="holiday wow fadeIn" style="background-image: url(img/home/lladro-banner-desktop.jpg)">
-      <p class="date unselectable">14</p>
-      <div class="card-holiday col-lg-3 col-md-6 col-12">
-        <h2>Valentine's Day!</h2>
-        <p>
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laborum,
-          maiores.
-        </p>
-      </div>
+    <?php foreach ($events as $event):?>
+      <div class="holiday wow fadeIn" style="background-image: url(img/events/<?= $event->img?>)">
+      <?php
+        $date = strtotime($event->date_to);
+        $day = date('d', $date);
+      ?>
+        <p class="date unselectable"><?= $day?></p>
+        <div class="card-holiday col-lg-3 col-md-6 col-12">
+          <h2><?= $event->name?></h2>
+          <p><?= $event->$description?></p>
+        </div>
     </div>
-    <div class="holiday wow fadeIn" style="background-image: url(img/home/Verano-banner-section.jpg)">
-      <p class="date unselectable">21</p>
-      <div class="card-holiday col-lg-3 col-md-6 col-12">
-        <h2>Nowruz!</h2>
-        <p>
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laborum,
-          maiores.
-        </p>
-      </div>
-    </div>
+    <?php endforeach;?>
   </section>
   <section id="contact-us">
     <h1>CONTACT US</h1>

@@ -334,6 +334,74 @@ $(function () {
     // CALL FUNCTION RESPONSIVE TABS
     // fakewaffle.responsiveTabs(['xs', 'sm']);
 
+
+    // Show main image and its data
+
+    function readURL(input) {
+
+        if (input.files && input.files[0]) {
+          var reader = new FileReader(),
+              previewContainer = $('.preview-image');
+      
+          reader.onload = function(e) {
+            // previewContainer.html(previewContainer.html() + '<div class="col-md-1"><img src="' + e.target.result + '" style="width: 100%" alt=""></div>')
+            previewContainer.html('<img src="' + e.target.result + '" style="width: 100%"></img>');
+            $('.name').html(input.files[0].name);
+            $('.size').html(Math.floor(input.files[0].size / 1000) + 'KB');
+            var withoutExt = input.files[0].name.split('.').slice(0, -1).join('.');
+            $('.color').html(withoutExt);
+          }
+      
+          reader.readAsDataURL(input.files[0]);
+        }
+      }
+      
+      $(".uploadImage").change(function() {
+        readURL(this);
+      });
+
+
+    //  Show selected images
+
+    $('.uploadGallery').change(function() {
+        var files = this.files,
+            previewContainer = $('.preview-images');
+
+            previewContainer.html('');
+
+        for (let i = 0; i < files.length; i++) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                previewContainer.html($('.preview-images').html() + '<div class="col-md-1"><img src="' + e.target.result + '" style="width: 100%"><p style="margin-top: 5px">' + files[i].name + '</p></div>');
+            }
+            reader.readAsDataURL(this.files[i]);
+        }
+    });
+
+
+    // delete image from gallery in db
+
+    $('.removeImage').on('click', 'i', function() {
+        var alias = $(this).data('image'),
+            id = $('.product-form').data('id');
+        $.ajax({
+            url: '/admin/product/remove-image',
+            data: {
+                id: id,
+                alias: alias,
+            },
+            type: 'GET',
+            success: function (res) {
+                if (!res) alert('Error in getting the data');
+                location.reload();
+            },
+            error: function () {
+                alert('Error in sending the request');
+            }
+        });
+    });
+
+
 });
 
 

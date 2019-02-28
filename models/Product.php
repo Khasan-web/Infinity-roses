@@ -17,6 +17,15 @@ use Yii;
  */
 class Product extends \yii\db\ActiveRecord
 {
+    public function behaviors()
+    {
+        return [
+            'image' => [
+                'class' => 'rico\yii2images\behaviors\ImageBehave',
+            ]
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */

@@ -11,6 +11,7 @@ use app\models\LoginForm;
 use app\models\ContactForm;
 use app\components\Navbar;
 use app\models\Product;
+use app\models\Events;
 
 class SiteController extends AppController
 {
@@ -69,10 +70,12 @@ class SiteController extends AppController
             $lang = 1;
         }
         $name = 'name_' . Yii::$app->language;
+        $description = 'description_' . Yii::$app->language;
+        $events = Events::find()->all();
         // get hits
         $hits = Product::find()->where(['hit' => '1'])->with('category')->all();
         $this->setMeta("Home | Infinity-roses", "keys", "desc");
-        return $this->render('index', compact('hits', 'lang', 'name'));
+        return $this->render('index', compact('hits', 'lang', 'name', 'description', 'events'));
     }
 
     /**

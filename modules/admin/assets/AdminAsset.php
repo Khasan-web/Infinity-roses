@@ -13,7 +13,6 @@ class AdminAsset extends AssetBundle
         'css/admin/animate.css',
         'css/admin/pace.css',
         'css/admin/skins/all.css',
-        // 'vendors/jquery-news-ticker/jquery.news-ticker.css',
         'css/admin/themes/style1/orange-blue.css',
         'css/admin/style-responsive.css',
     ];
@@ -31,7 +30,6 @@ class AdminAsset extends AssetBundle
         'js/admin/jquery.menu.js',
         'js/admin/pace.min.js',
         'js/admin/holder.js',
-        // 'vendors/jquery-news-ticker/jquery.news-ticker.js',
         'vendors/calendar/zabuto_calendar.min.js',
         'js/admin/index.js',
         'js/admin/main.js',

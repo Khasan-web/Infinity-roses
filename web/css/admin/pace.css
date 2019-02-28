@@ -30,3 +30,11 @@
     display: block;
     text-align: center;
 }
+
+.removeImage {
+    text-align: right;
+}
+
+.removeImage i {
+    cursor: pointer;
+}
