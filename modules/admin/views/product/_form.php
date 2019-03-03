@@ -3,6 +3,8 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use app\components\MenuWidget;
+use mihaildev\ckeditor\CKEditor;
+use mihaildev\elfinder\ElFinder;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\admin\models\Product */
@@ -42,7 +44,6 @@ use app\components\MenuWidget;
         $gallery = $model->getImages();
     ?>
 
-    <?php if ($model->id):?>
     <div class="panel panel-orange">
         <div class="panel-heading">2. Uploading Main Image</div>
         <div class="panel-body">
@@ -77,17 +78,19 @@ use app\components\MenuWidget;
         <div class="panel-body" style="margin: 0 15px">
 
         <!-- Gallery from db -->
-        <div class="row text-center">
+        <div class="row text-center gallery">
             <?php if ($gallery[1]):?>
                 <h3 style="margin-top: 5px">Gallery</h3>
                     <?php foreach ($gallery as $file):?>
+
                         <div class="col-md-1" style="margin: 15px 0">
-                            <div class="removeImage">
-                                <i class="fa fa-times" data-image="<?= $file->urlAlias?>" onclick="confirm('Are you sure you want to delete this image?')"></i>
+                            <div class="removeImage" data-image="<?= $file->urlAlias?>">
+                                <i class="fa fa-times" onclick="confirm('Are you sure you want to delete this image?')"></i>
                             </div>
                             <img src="<?= $file->getUrl()?>" style="width: 100%">
                             <p style="margin-top: 5px"><?= $file->name . '.' . $file->extension?></p>
                         </div>
+
                     <?php endforeach;?>
             <?php endif;?>
         </div>
@@ -102,7 +105,6 @@ use app\components\MenuWidget;
 
         </div>
     </div>
-    <?php endif;?>
 
     <div class="panel panel-green">
         <div class="panel-heading"><?= $mainImage->urlAlias == 'placeholder' ? '4' : '2'?>. Work with text</div>
@@ -110,9 +112,17 @@ use app\components\MenuWidget;
 
         <?= $form->field($model, 'keywords')->textInput(['maxlength' => true]) ?>
 
-        <?= $form->field($model, 'description_en')->textarea(['rows' => 6]) ?>
+        <?php
+            echo $form->field($model, 'description_en')->widget(CKEditor::className(), [
+                'editorOptions' => ElFinder::ckeditorOptions('elfinder',[]),
+            ]);
+        ?>
 
-        <?= $form->field($model, 'description_ru')->textarea(['rows' => 6]) ?>
+        <?php
+            echo $form->field($model, 'description_ru')->widget(CKEditor::className(), [
+                'editorOptions' => ElFinder::ckeditorOptions('elfinder',[]),
+            ]);
+        ?>
 
         </div>
     </div>

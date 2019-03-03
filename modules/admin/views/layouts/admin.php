@@ -10,6 +10,10 @@ use app\modules\admin\assets\AdminAsset;
 use yii\helpers\Url;
 use app\components\Navbar;
 use app\components\AdminNotification;
+use app\models\User;
+
+$user = User::find()->one();
+$image = $user->getImage();
 
 AdminAsset::register($this);
 ?>
@@ -41,22 +45,20 @@ AdminAsset::register($this);
         <nav id="topbar" role="navigation" style="margin-bottom: 0;" data-step="3" data-intro="&lt;b&gt;Topbar&lt;/b&gt; has other styles with live demo. Go to &lt;b&gt;Layouts-&gt;Header&amp;Topbar&lt;/b&gt; and check it out." class="navbar navbar-default navbar-static-top">
             <div class="navbar-header">
                 <button type="button" data-toggle="collapse" data-target=".sidebar-collapse" class="navbar-toggle"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
-                <a id="logo" href="index.html" class="navbar-brand"><span class="fa fa-rocket"></span><span class="logo-text">Infinity roses</span><span style="display: none" class="logo-text-icon">µ</span></a></div>
+                <a id="logo" href="<?= Url::to(['/admin'])?>" class="navbar-brand"><span class="fa fa-rocket"></span><span class="logo-text">Infinity roses</span><span style="display: none" class="logo-text-icon">µ</span></a></div>
             <div class="topbar-main"><a id="menu-toggle" href="#" class="hidden-xs"><i class="fa fa-bars"></i></a>
                 <form id="topbar-search" action="" method="" class="hidden-sm hidden-xs">
                     <div class="input-icon right"><a href="#"><i class="fa fa-search"></i></a><input type="text" placeholder="Search here..." class="form-control"/></div>
                 </form>
                 <ul class="nav navbar navbar-top-links navbar-right mbn">
                     <?= AdminNotification::widget();?>
-                    <li class="dropdown topbar-user"><a data-hover="dropdown" href="#" class="dropdown-toggle"><img src="https://s3.amazonaws.com/uifaces/faces/twitter/kolage/48.jpg" alt="" class="img-responsive img-circle"/>&nbsp;<span class="hidden-xs">John Doe</span>&nbsp;<span class="caret"></span></a>
+                    <li class="dropdown topbar-user"><a data-hover="dropdown" href="#" class="dropdown-toggle"><img src="<?= $image->getUrl('45x45')?>" alt="" class="img-responsive img-circle"/>&nbsp;<span class="hidden-xs"><?= $user->username?></span>&nbsp;<span class="caret"></span></a>
                         <ul class="dropdown-menu dropdown-user pull-right">
-                            <li><a href="extra-profile.html"><i class="fa fa-user"></i>My Profile</a></li>
-                            <li><a href="page-calendar.html"><i class="fa fa-calendar"></i>My Calendar</a></li>
-                            <li><a href="email-inbox.html"><i class="fa fa-envelope"></i>My Inbox<span class="badge badge-danger">3</span></a></li>
-                            <li><a href="#"><i class="fa fa-tasks"></i>My Tasks<span class="badge badge-success">7</span></a></li>
+                            <li><a href="<?= Url::to(['profile'])?>"><i class="fa fa-user"></i>My Profile</a></li>
+                            <li><a target="_blank" href="https://calendar.google.com/calendar"><i class="fa fa-calendar"></i>Calendar</a></li>
+                            <li><a target="_blank" href="https://mail.google.com"><i class="fa fa-envelope"></i>Inbox</a></li>
                             <li class="divider"></li>
-                            <li><a href="extra-lock-screen.html"><i class="fa fa-lock"></i>Lock Screen</a></li>
-                            <li><a href="extra-signin.html"><i class="fa fa-key"></i>Log Out</a></li>
+                            <li><a href="<?= Url::to(['/site/logout'])?>"><i class="fa fa-key"></i>Log Out</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -69,11 +71,11 @@ AdminAsset::register($this);
             <div class="sidebar-collapse menu-scroll">
                 <ul id="side-menu" class="nav">
                     <li class="user-panel">
-                        <div class="thumb"><img src="https://s3.amazonaws.com/uifaces/faces/twitter/kolage/128.jpg" alt="" class="img-circle"/></div>
-                        <div class="info"><p>John Doe</p>
+                        <div class="thumb"><img src="<?= $image->getUrl('45x45')?>" alt="" class="img-circle"/></div>
+                        <div class="info"><p><?= $user->username?></p>
                             <ul class="list-inline list-unstyled">
-                                <li><a href="extra-profile.html" data-hover="tooltip" title="Profile"><i class="fa fa-user"></i></a></li>
-                                <li><a href="email-inbox.html" data-hover="tooltip" title="Mail"><i class="fa fa-envelope"></i></a></li>
+                                <li><a href="<?= Url::to(['profile'])?>"><i class="fa fa-user"></i></a></li>
+                                <li><a target="_blank" href="https://mail.google.com/" data-hover="tooltip" title="Mail"><i class="fa fa-envelope"></i></a></li>
                                 <li><a href="<?= Url::to(['/site/index'])?>" data-hover="tooltip"><i class="fa fa-home"></i></a></li>
                                 <li><a href="<?= Url::to(['/site/logout'])?>" data-hover="tooltip" title="Logout"><i class="fa fa-sign-out"></i></a></li>
                             </ul>
@@ -83,12 +85,12 @@ AdminAsset::register($this);
                     <li class="active"><a href="<?= Url::to(['/admin'])?>"><i class="fa fa-tachometer fa-fw">
                         <div class="icon-bg bg-orange"></div>
                     </i><span class="menu-title">Dashboard</span></a></li>
-                    <li><a href="#"><i class="fa fa-users">
-                        <div class="icon-bg bg-pink"></div>
-                    </i><span class="menu-title">Orders</span><span class="fa arrow"></span></a>
+                    <li><a href="#"><i class="fa fa-th-list fa-fw">
+                        <div class="icon-bg bg-violet"></div>
+                    </i><span class="menu-title">Products</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-                            <li><a href="<?= Url::to(['order/'])?>"><span class="submenu-title"><i class="fa fa-ellipsis-v" aria-hidden="true"></i> List of orders</span></a></li>
-                            <li><a href="<?= Url::to(['order/create'])?>"><span class="submenu-title"><i class="fa fa-plus" aria-hidden="true"></i> Create an order</span></a></li>
+                        <li><a href="<?= Url::to(['product/'])?>"><span class="submenu-title"><i class="fa fa-ellipsis-v" aria-hidden="true"></i> List of products</span></a></li>
+                            <li><a href="<?= Url::to(['product/create'])?>"><span class="submenu-title"><i class="fa fa-plus" aria-hidden="true"></i> Add a product</span></a></li>
                         </ul>
                     </li>
                     <li><a href="#"><i class="fa fa-dropbox fa-fw">
@@ -99,21 +101,20 @@ AdminAsset::register($this);
                             <li><a href="<?= Url::to(['category/create'])?>"><span class="submenu-title"><i class="fa fa-plus" aria-hidden="true"></i> Add an collection</span></a></li>
                         </ul>
                     </li>
-                    <li><a href="#"><i class="fa fa-th-list fa-fw">
-                        <div class="icon-bg bg-violet"></div>
-                    </i><span class="menu-title">Products</span><span class="fa arrow"></span></a>
+                    <li><a href="#"><i class="fa fa-users">
+                        <div class="icon-bg bg-pink"></div>
+                    </i><span class="menu-title">Orders</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-                        <li><a href="<?= Url::to(['product/'])?>"><span class="submenu-title"><i class="fa fa-ellipsis-v" aria-hidden="true"></i> List of products</span></a></li>
-                            <li><a href="<?= Url::to(['product/create'])?>"><span class="submenu-title"><i class="fa fa-plus" aria-hidden="true"></i> Add a product</span></a></li>
+                            <li><a href="<?= Url::to(['order/'])?>"><span class="submenu-title"><i class="fa fa-ellipsis-v" aria-hidden="true"></i> List of orders</span></a></li>
+                            <li><a href="<?= Url::to(['order/create'])?>"><span class="submenu-title"><i class="fa fa-plus" aria-hidden="true"></i> Create an order</span></a></li>
                         </ul>
                     </li>
-                    <li><a href="#"><i class="fa fa-envelope-o">
-                        <div class="icon-bg bg-primary"></div>
-                    </i><span class="menu-title">Email</span><span class="fa arrow"></span></a>
+                    <li><a href="#"><i class="fa fa-calendar fa-fw">
+                        <div class="icon-bg bg-violet"></div>
+                    </i><span class="menu-title">Events</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-                            <li><a href="email-inbox.html"><i class="fa fa-inbox"></i><span class="submenu-title">Inbox</span></a></li>
-                            <li><a href="email-compose-mail.html"><i class="fa fa-pencil"></i><span class="submenu-title">Compose Mail</span></a></li>
-                            <li><a href="email-view-mail.html"><i class="fa fa-eye"></i><span class="submenu-title">View Mail</span></a></li>
+                        <li><a href="<?= Url::to(['events/'])?>"><span class="submenu-title"><i class="fa fa-ellipsis-v" aria-hidden="true"></i> List of events</span></a></li>
+                            <li><a href="<?= Url::to(['events/create'])?>"><span class="submenu-title"><i class="fa fa-plus" aria-hidden="true"></i> Add an event</span></a></li>
                         </ul>
                     </li>
                 </ul>

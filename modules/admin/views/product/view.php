@@ -63,8 +63,14 @@ $this->params['breadcrumbs'][] = ['label' => 'View'];
                 'contentOptions' => ['style' => 'width: 70%'],
             ],
             'keywords',
-            'description_en:ntext',
-            'description_ru:ntext',
+            // 'description_en:html',
+            [
+                'attribute' => 'description_en',
+                'value' => $model->description_en,
+                'format' => 'html',
+                'contentOptions' => ['class' => 'description'],
+            ],
+            'description_ru:html',
             // 'img',
             [
                 'attribute' => 'img',

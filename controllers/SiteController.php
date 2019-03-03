@@ -40,6 +40,7 @@ class SiteController extends AppController
             ],
         ];
     }
+    
 
     /**
      * {@inheritdoc}

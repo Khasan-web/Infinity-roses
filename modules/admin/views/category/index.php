@@ -37,6 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'class' => 'yii\grid\ActionColumn',
                 'template' => '{view} {update} {delete}',
                 'headerOptions' => ['style' => 'width: 20%'],
+                'contentOptions' => ['style' => 'text-align: center'],
                 'buttons' => [
                     'view' => function ($url) {
                         return Html::a(

@@ -67,6 +67,7 @@ class CategoryController extends AppAdminController
         $model = new Category();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', 'The category was created');
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -87,6 +88,7 @@ class CategoryController extends AppAdminController
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', 'The category was updated');
             return $this->redirect(['view', 'id' => $model->id]);
         }
 

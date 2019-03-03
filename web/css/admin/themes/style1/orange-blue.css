@@ -3637,7 +3637,7 @@ body.sidebar-icons #wrapper #page-wrapper {
 .legendColorBox div div {
   margin-right: 0;
 }
-.ui-state-default {
+/* .ui-state-default {
   border: 0;
   background: #e74c3c;
   color: #ffffff;
@@ -3663,7 +3663,7 @@ body.sidebar-icons #wrapper #page-wrapper {
   border: 0;
   background: #e74c3c;
   color: #ffffff;
-}
+} */
 .ui-slider .ui-slider-handle {
   position: absolute;
   z-index: 2;

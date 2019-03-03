@@ -38,3 +38,26 @@
 .removeImage i {
     cursor: pointer;
 }
+
+.remove-DetailView {
+    position: absolute;
+    margin-top: 7px!important;
+    margin-left: -20px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.description img {
+    width: 350px!important;
+    height: auto!important;
+}
+
+.admin-profile img {
+    width: 100%;
+    border-radius: 50%;
+}
+
+.admin-profile .info-cart {
+    left: 50%;
+    transform: translate(-50%, 5%);
+}

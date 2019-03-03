@@ -16,7 +16,7 @@ use yii\helpers\Url;
 				<div class="col-lg-6 col-md-10 text-center">
 					<img src="<?= $mainImage->getUrl()?>" alt="<?= $product->name?>" class="active-img" data-color="<?= $mainImage->name?>">
 					<h2>About</h2>
-					<div class="col-lg-8 col-md-10 mx-auto">
+					<div class="col-lg-8 col-md-10 mx-auto description">
 						<p><?= $product->$description?></p>
 					</div>
 				</div>

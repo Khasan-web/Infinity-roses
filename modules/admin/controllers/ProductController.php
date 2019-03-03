@@ -68,6 +68,16 @@ class ProductController extends AppAdminController
         $model = new Product();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            
+            $model->image = UploadedFile::getInstance($model, 'image');
+            if ($model->image) {
+                $model->upload();
+            }
+            unset($model->image);
+
+            $model->gallery = UploadedFile::getInstances($model, 'gallery');
+            $model->uploadGallery();
+
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -93,11 +103,10 @@ class ProductController extends AppAdminController
             if ($model->image) {
                 $model->upload();
             }
+            unset($model->image);
 
             $model->gallery = UploadedFile::getInstances($model, 'gallery');
-            if ($model->gallery) {
-                $model->uploadGallery();
-            }
+            $model->uploadGallery();
 
             Yii::$app->session->setFlash('success', 'The product was updated');
             return $this->redirect(['view', 'id' => $model->id]);
@@ -118,6 +127,8 @@ class ProductController extends AppAdminController
                 }
             }
             return true;
+        } else {
+            return false;
         }
 
     }

@@ -8,13 +8,20 @@ use yii\helpers\Url;
 /* @var $this yii\web\View */
 /* @var $model app\modules\admin\models\Order */
 
-$this->title = $model->name;
+$this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Orders'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = '№' . $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
-<?= AdminTitle::widget(['title' => $this->title, 'breadcrumbs' => $this->params['breadcrumbs']])?>
+<?= AdminTitle::widget(['title' => 'Order №' . $this->title, 'breadcrumbs' => $this->params['breadcrumbs']])?>
 <div class="order-view page-content">
+
+    <?php if (Yii::$app->session->hasFlash('success')): ?>
+        <div class="alert alert-success alert-dismissable">
+            <button type="button" data-dismiss="alert" aria-hidden="true" class="close">×</button>
+            <?= Yii::$app->session->getFlash('success')?>
+        </div>
+    <?php endif;?>
 
     <p>
         <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-info']) ?>

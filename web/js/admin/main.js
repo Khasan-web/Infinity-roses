@@ -382,7 +382,7 @@ $(function () {
     // delete image from gallery in db
 
     $('.removeImage').on('click', 'i', function() {
-        var alias = $(this).data('image'),
+        var alias = $(this).parent().data('image'),
             id = $('.product-form').data('id');
         $.ajax({
             url: '/admin/product/remove-image',
@@ -393,14 +393,12 @@ $(function () {
             type: 'GET',
             success: function (res) {
                 if (!res) alert('Error in getting the data');
-                location.reload();
             },
             error: function () {
                 alert('Error in sending the request');
             }
         });
     });
-
 
 });
 

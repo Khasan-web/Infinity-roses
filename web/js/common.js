@@ -488,5 +488,17 @@ $(function() {
 	});
 
 	// END DEL ITEM
+
+
+	// close notification
+
+	setTimeout(() => {
+		$('.notifications').css('right', '0');
+	}, 3000);
+
+	$('.notifications').on('click', '.close', function () {
+		var notification = $(this).parent();
+		notification.css('right', '-100%');
+	});
 	
 });

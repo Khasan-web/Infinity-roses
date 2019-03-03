@@ -6,6 +6,18 @@ use yii\db\ActiveRecord;
 
 class User extends ActiveRecord implements \yii\web\IdentityInterface
 {
+    
+    public $image;
+    public $newPassword;
+
+    public function behaviors()
+    {
+        return [
+            'image' => [
+                'class' => 'rico\yii2images\behaviors\ImageBehave',
+            ]
+        ];
+    }
 
     public static function tableName() {
         return 'user';
@@ -78,4 +90,25 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
         $this->auth_key = \Yii::$app->security->generateRandomString();
     }
 
+    public function rules()
+    {
+        return [
+            ['username', 'required'],
+            ['newPassword', 'safe'],
+            ['image', 'file', 'extensions' => 'png, jpg, jpeg'],
+        ];
+    }
+
+    public function upload() {
+        if ($this->validate()) {
+            $path = 'upload/store/' . $this->image->basename . '.' . $this->image->extension;
+            $this->image->saveAs($path);
+            $this->attachImage($path, true, $this->image->basename);
+            @unlink($path);
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
 }

@@ -67,6 +67,7 @@ class OrderController extends Controller
         $model = new Order();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', 'The order was created');
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -87,6 +88,7 @@ class OrderController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', 'The order was updated');
             return $this->redirect(['view', 'id' => $model->id]);
         }
 

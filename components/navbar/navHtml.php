@@ -7,6 +7,7 @@ $description = 'description_' . Yii::$app->language;
 
 ?>
 <!-- navbar -->
+<div class="gradient"></div>
 <div class="brand text-center py-3" id="nav-brand">
   <a href=""><img src="/img/main-logo.svg" class="wow fadeIn" width="120px" alt=""></a>
 </div>

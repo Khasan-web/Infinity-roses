@@ -15,7 +15,7 @@ use app\modules\admin\models\ProductSearch;
         <div class="col-sm-6 col-md-3">
             <a href="<?= Url::to(['product/'])?>">
                 <div class="panel profit db mbm">
-                    <div class="panel-body"><p class="icon"><i class="icon fa fa-shopping-cart"></i></p><h4 class="value">Product</h4>
+                    <div class="panel-body"><p class="icon"><i class="icon fa fa-shopping-cart"></i></p><h4 class="value">Products</h4>
 
                         <p class="description">Profit description</p>
 
@@ -55,9 +55,9 @@ use app\modules\admin\models\ProductSearch;
             </a>
         </div>
         <div class="col-sm-6 col-md-3">
-            <a href="<?= Url::to(['holidays/'])?>">
+            <a href="<?= Url::to(['events/'])?>">
                 <div class="panel visit db mbm">
-                    <div class="panel-body"><p class="icon"><i class="icon fa fa-calendar"></i></p><h4 class="value">Holidays</h4>
+                    <div class="panel-body"><p class="icon"><i class="icon fa fa-calendar"></i></p><h4 class="value">Events</h4>
 
                         <p class="description">Visitor description</p>
 

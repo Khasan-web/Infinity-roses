@@ -137,7 +137,6 @@ $currentAction = Yii::$app->controller->action->id;
   </div>
 </div>
 
-
   <!-- footer -->
   <footer>
     <div class="container">

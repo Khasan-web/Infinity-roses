@@ -1,8 +1,32 @@
 <?php
 
 use yii\helpers\Url;
+use yii\helpers\StringHelper;
 
 ?>
+
+<!-- show the last added events -->
+
+<?php
+  $date = date('d');
+?>
+  <div class="notifications">
+    <?php $i = 0?>
+    <?php foreach ($events as $event):?>
+      <?php
+        $eventDay = date('d', strtotime($event->date_from));
+        $eventEnd = date('d', strtotime($event->date_to));
+      ?>
+      <?php if ($date > $eventDay || $date < $eventEnd && $i <= 0):?>
+          <div class="notification col-md-3 col-sm-12">
+            <div class="close"><i class="fa fa-times"></i></div>
+            <h3><?= $event->name?></h3>
+            <p><?= StringHelper::byteSubstr($event->$description, 0, 150 - 1)?></p>
+            <a href="#" class="btn btn-outline-gold">Explore</a>
+          </div>
+      <?php $i++; endif;?>
+    <?php endforeach;?>
+</div>
 
 <div class="bg-image wow fadeIn" style="background-image: url('img/home/main.jpg')" data-wow-delay="0.4s"></div>
 
@@ -103,15 +127,17 @@ use yii\helpers\Url;
     </section>
   <section id="holidays">
     <?php foreach ($events as $event):?>
-      <div class="holiday wow fadeIn" style="background-image: url(img/events/<?= $event->img?>)">
-      <?php
-        $date = strtotime($event->date_to);
-        $day = date('d', $date);
-      ?>
+    <?php $image = $event->getImage()?>
+      <a href="<?= Url::to(["events/{$event->id}"])?>">
+        <div class="holiday wow fadeIn" style="background-image: url(<?= $image->getUrl()?>)">
+        <?php
+          $date = strtotime($event->date_to);
+          $day = date('d', $date);
+        ?>
         <p class="date unselectable"><?= $day?></p>
         <div class="card-holiday col-lg-3 col-md-6 col-12">
           <h2><?= $event->name?></h2>
-          <p><?= $event->$description?></p>
+          <p><?= StringHelper::byteSubstr($event->$description, 0, 100 - 1)?></p>
         </div>
     </div>
     <?php endforeach;?>

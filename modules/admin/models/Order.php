@@ -2,6 +2,9 @@
 
 namespace app\modules\admin\models;
 
+use yii\behaviors\TimestampBehavior;
+use \yii\db\ActiveRecord;
+use yii\db\Expression;
 use Yii;
 
 /**
@@ -18,7 +21,7 @@ use Yii;
  * @property string $phone
  * @property string $address
  */
-class Order extends \yii\db\ActiveRecord
+class Order extends ActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -44,6 +47,19 @@ class Order extends \yii\db\ActiveRecord
             [['sum'], 'number'],
             [['status'], 'string'],
             [['name', 'email', 'phone', 'address'], 'string', 'max' => 255],
+        ];
+    }
+
+    public function behaviors() {
+        return [
+            [
+                'class' => TimestampBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at']
+                ],
+                'value' => new Expression('NOW()'),
+            ],
         ];
     }
 

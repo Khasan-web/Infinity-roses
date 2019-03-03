@@ -94,9 +94,21 @@ $config = [
                 'search/<q:\w+>' => 'category/search',
                 'category/<id:\d+>' => 'category/view',
                 'product/<id:\d+>' => 'product/view',
+                'events/<id:\d+>' => 'events/view',
                 'cart' => 'cart/view',
             ],
         ],
+    ],
+    'controllerMap' => [
+        'elfinder' => [
+			'class' => 'mihaildev\elfinder\PathController',
+			'access' => ['@'],
+			'root' => [
+                'baseUrl'=>'/web',
+				'path' => 'upload/global',
+				'name' => 'Global'
+			],
+		]
     ],
     'params' => $params,
 ];
