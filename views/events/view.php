@@ -14,7 +14,7 @@ use yii\helpers\Html;
 			<p><?= $event->date_from . ' | ' . $event->date_to?></p>
 		</div>
 	</div>
-	<section id="info">
+	<section id="info" style="padding-bottom: 0">
 		<div class="container">
 			<div class="col-md-10 mx-auto">
 				<p><?= $event->$description?></p>

@@ -2,17 +2,13 @@
 
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
-use app\components\GiftFinder;
-use app\models\GiftFinderForm;
 use yii\helpers\Html;
 
 ?>
 
-<form action="<?= Url::to(['product/gift-finder'])?>">
-<li class="nav-item drop-item" role="button" id="gift-finder-item" aria-haspopup="true" aria-expanded="false">
-    <a class="nav-link" href="<?= Url::to(['site/contact'])?>"><?= Yii::t('app', 'Gift Finder')?></a>
-    <div class="dropdown-menu" id="finder" aria-labelledby="gift-finder-item">
-        <div class="container">
+<section id="finder-page">
+    <h1>Gift Finder</h1>
+    <div class="container">
         <div class="row mx-auto my-4">
             <div class="col-md-2 col-3">
             <h3>For:</h3>
@@ -84,7 +80,8 @@ use yii\helpers\Html;
         <div class="my-4 text-center">
             <button class="btn btn-outline-gold" type="submit">Find Roses!</button>
         </div>
-        </div>
+
+        <hr>
+
     </div>
-</li>
-</form>
+</section>

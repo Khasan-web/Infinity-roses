@@ -54,7 +54,7 @@ AdminAsset::register($this);
                     <?= AdminNotification::widget();?>
                     <li class="dropdown topbar-user"><a data-hover="dropdown" href="#" class="dropdown-toggle"><img src="<?= $image->getUrl('45x45')?>" alt="" class="img-responsive img-circle"/>&nbsp;<span class="hidden-xs"><?= $user->username?></span>&nbsp;<span class="caret"></span></a>
                         <ul class="dropdown-menu dropdown-user pull-right">
-                            <li><a href="<?= Url::to(['profile'])?>"><i class="fa fa-user"></i>My Profile</a></li>
+                            <li><a href="<?= Url::to(['default/profile'])?>"><i class="fa fa-user"></i>My Profile</a></li>
                             <li><a target="_blank" href="https://calendar.google.com/calendar"><i class="fa fa-calendar"></i>Calendar</a></li>
                             <li><a target="_blank" href="https://mail.google.com"><i class="fa fa-envelope"></i>Inbox</a></li>
                             <li class="divider"></li>

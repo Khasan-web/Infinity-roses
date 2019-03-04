@@ -40,26 +40,6 @@ use yii\helpers\StringHelper;
       </p>
     </div>
   </section>
-  <section id="about-us">
-    <div class="about-bg wow fadeIn">
-      <div class="content offset-lg-2 offset-md-2 pl-3 wow fadeIn" data-wow-delay="0.2s">
-        <p class="subheader text-white">ABOUT</p>
-        <h1 class="gold">INFINITY-ROSES</h1>
-        <div class="col-lg-3 col-md-6 col-10 pl-0">
-          <p>
-            Lorem ipsum, dolor sit amet quia vel placeat, consectetur
-            adipisicing elit. Asperiores voluptatem est voluptatum.
-          </p>
-          <p>
-            Lorem ipsum dolor sit, amet adipisicing Distinctio, dolor.
-            consectetur adipisicing elit.
-          </p>
-          <p>Lorem ipsum dolor sit amet consectetur</p>
-        </div>
-        <a href="<?= Url::to(['site/about'])?>" class="btn btn-outline-white mt-4">Get more!</a>
-      </div>
-    </div>
-  </section>
   <section id="popular-prods">
     <p class="subheader text-black wow fadeIn" data-wow-delay="0.8s">MOST CHOICE</p>
     <h1 class="wow fadeIn">POPULAR ROSES</h1>
@@ -81,6 +61,26 @@ use yii\helpers\StringHelper;
             <p class="price"><?= $hit->category->$name?></p>
           </div>
         <?php endforeach;?>
+      </div>
+    </div>
+  </section>
+  <section id="about-us">
+    <div class="about-bg wow fadeIn">
+      <div class="content offset-lg-2 offset-md-2 pl-3 wow fadeIn" data-wow-delay="0.2s">
+        <p class="subheader text-white">ABOUT</p>
+        <h1 class="gold">INFINITY-ROSES</h1>
+        <div class="col-lg-3 col-md-6 col-10 pl-0">
+          <p>
+            Lorem ipsum, dolor sit amet quia vel placeat, consectetur
+            adipisicing elit. Asperiores voluptatem est voluptatum.
+          </p>
+          <p>
+            Lorem ipsum dolor sit, amet adipisicing Distinctio, dolor.
+            consectetur adipisicing elit.
+          </p>
+          <p>Lorem ipsum dolor sit amet consectetur</p>
+        </div>
+        <a href="<?= Url::to(['site/about'])?>" class="btn btn-outline-white mt-4">Get more!</a>
       </div>
     </div>
   </section>

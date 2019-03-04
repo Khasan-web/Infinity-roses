@@ -4,11 +4,10 @@ namespace app\models;
 
 use yii\base\Model;
 
-class GiftFinderForm extends Model
-{
-    public $event;
-    public $fresh;
-    public $infinity;
+class GiftFinderForm extends Model {
+
+    public $price_min;
+    public $price_max;
 
     public function rules()
     {

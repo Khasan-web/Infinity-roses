@@ -18,10 +18,6 @@ class GiftFinder extends Widget {
     public function run () {
         $this->html = $this->catToTemplate();
         $this->model = new GiftFinderForm();
-        if ($this->model->load(Yii::$app->request->post())) {
-            debug($this->model);
-            die;
-        }
         return $this->html;
     }
 

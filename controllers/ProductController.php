@@ -5,6 +5,8 @@ namespace app\controllers;
 use Yii;
 use app\models\Product;
 use yii\web\HttpException;
+use app\models\GiftFinderForm;
+use yii\helpers\StringHelper;
 
 class ProductController extends AppController {
 
@@ -23,6 +25,20 @@ class ProductController extends AppController {
         $this->setMeta("{$product->name} | Infinity roses", $product->keywords, $product->$description);
         return $this->render('view', compact('product', 'lang'));
 
+    }
+
+    public function actionGiftFinder() {
+        $model = new GiftFinderForm();
+        if (Yii::$app->request->get()) {
+            $price_arr = StringHelper::explode(Yii::$app->request->get('price', ','));
+            $model->price_min = $price_arr[0];
+            $model->price_max = $price_arr[1];
+        }
+        $products = Product::find()
+        ->andWhere(['>', 'price', $model->price_min])
+        ->andWhere(['<', 'price', $model->price_max])
+        ->all();
+        return $this->render('finder', compact('model', 'products'));
     }
 
 }
