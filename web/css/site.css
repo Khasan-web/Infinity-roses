@@ -84,6 +84,21 @@ body {
     padding-top: 100px;
 }
 
+.qty-indicators {
+    line-height: 33px;
+}
+
+.qty-indicators input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+.qty-indicators .input-qty {
+    width: 60px!important;
+    text-align: center;
+}
+
 #info img {
     max-width: 100%;
     height: auto!important;

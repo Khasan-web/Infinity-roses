@@ -18,9 +18,6 @@ class Navbar extends Widget {
 
     public function init() {
         parent::init();
-        // if (!$name || !$products || !$description) {
-        //     $this->goHome();
-        // }
         if (Yii::$app->language == 'en') {
             $this->lang = 0;
           } else if (Yii::$app->language == 'ru') {

@@ -1,12 +1,9 @@
 <?php
-
 use yii\helpers\Url;
-
 ?>
 <?php
 	$mainImage = $product->getImage();
 	$gallery = $product->getImages();
-
 	$description = 'description_' . Yii::$app->language;
 ?>
 <section id="product-details">

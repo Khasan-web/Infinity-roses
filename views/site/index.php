@@ -22,7 +22,7 @@ use yii\helpers\StringHelper;
             <div class="close"><i class="fa fa-times"></i></div>
             <h3><?= $event->name?></h3>
             <p><?= StringHelper::byteSubstr($event->$description, 0, 150 - 1)?></p>
-            <a href="#" class="btn btn-outline-gold">Explore</a>
+            <a href="<?= Url::to(['events/view', 'id' => $event->id])?>" class="btn btn-outline-gold">Explore</a>
           </div>
       <?php $i++; endif;?>
     <?php endforeach;?>

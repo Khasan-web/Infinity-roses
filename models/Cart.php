@@ -1,10 +1,7 @@
 <?php
-
 namespace app\models;
-
 use Yii;
 use yii\db\ActiveRecord;
-
 class Cart extends ActiveRecord {
     
     public function addToCart($product, $size, $color, $accessories) {
@@ -47,9 +44,7 @@ class Cart extends ActiveRecord {
         }
     $_SESSION['cart.qty'] = isset($_SESSION['cart.qty']) ? $_SESSION['cart.qty'] + 1 : 1;
     $_SESSION['cart.sum'] = isset($_SESSION['cart.sum']) ? $_SESSION['cart.sum'] + $product->price : $product->price;
-
     }
-
     public function delItem($id) {
         $productIndex;
         for ($i = 0; $i < count($_SESSION['cart']); $i++) {
@@ -62,13 +57,9 @@ class Cart extends ActiveRecord {
         }
         $qtyMinus = $_SESSION['cart'][$productIndex]['qty'];
         $sumMinus = $_SESSION['cart'][$productIndex]['qty'] * $_SESSION['cart'][$productIndex]['price'];
-
         $_SESSION['cart.qty'] -= $qtyMinus;
         $_SESSION['cart.sum'] -= $sumMinus;
         unset($_SESSION['cart'][$productIndex]);
     }
-
-
 }
-
 ?>
