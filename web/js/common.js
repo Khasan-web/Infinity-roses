@@ -7,9 +7,13 @@ $(document).ready(function() {
 });
 
 new WOW().init();
-$('#dp5').slider()
+$('#gift-finder').slider()
 .on('slide', function(ev){
-	$('.tooltip').css('opacity', '1');
+	$(this).parent().find('.tooltip').css('opacity', '1');
+});
+$('#gift-finder-page').slider()
+.on('slide', function(ev){
+	$(this).parent().find('.tooltip').css('opacity', '1');
 });
 $('.slider').css('width', '100%');
 

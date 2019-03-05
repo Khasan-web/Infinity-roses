@@ -1135,7 +1135,7 @@ hr {
 /* End Left Sidebar Collapsed */
 .page-content {
   padding: 20px 20px 50px 20px;
-  min-height: 700px;
+  min-height: 100vh;
 }
 #footer {
   position: fixed;

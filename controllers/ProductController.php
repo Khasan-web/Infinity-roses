@@ -30,14 +30,14 @@ class ProductController extends AppController {
     public function actionGiftFinder() {
         $model = new GiftFinderForm();
         if (Yii::$app->request->get()) {
-            $price_arr = StringHelper::explode(Yii::$app->request->get('price', ','));
+            $price_arr = StringHelper::explode(Yii::$app->request->get('price'), ',', $trim = true);
             $model->price_min = $price_arr[0];
             $model->price_max = $price_arr[1];
+            $products = Product::find()
+            ->andWhere(['>', 'price', $model->price_min])
+            ->andWhere(['<', 'price', $model->price_max])
+            ->all();
         }
-        $products = Product::find()
-        ->andWhere(['>', 'price', $model->price_min])
-        ->andWhere(['<', 'price', $model->price_max])
-        ->all();
         return $this->render('finder', compact('model', 'products'));
     }
 

@@ -74,25 +74,25 @@ use app\modules\admin\models\ProductSearch;
 
     <h2>Helpful links</h2>
     <div class="row links">
-        <div class="col-md-1 col-4">
+        <div class="col-md-1 col-sm-3 col-xs-3">
             <a target="_blank" href="https://www.google.com/maps">
                 <img src="/img/admin/google-map.png" alt="">
                 <span>Google Map</span>
             </a>
         </div>
-        <div class="col-md-1 col-4">
+        <div class="col-md-1 col-sm-3 col-xs-3">
             <a target="_blank" href="https://analytics.google.com/analytics/web/provision/?authuser=0#/provision">
                 <img src="/img/admin/analystic.png" alt="">
                 <span>Analystic</span>
             </a>
         </div>
-        <div class="col-md-1 col-4">
+        <div class="col-md-1 col-sm-3 col-xs-3">
             <a target="_blank" href="https://calendar.google.com/calendar">
                 <img src="/img/admin/calendar.png" alt="">
                 <span>Calendar</span>
             </a>
         </div>
-        <div class="col-md-1 col-4">
+        <div class="col-md-1 col-sm-3 col-xs-3">
             <a target="_blank" href="https://mail.google.com">
                 <img src="/img/admin/gmail.png" alt="">
                 <span>Gmail</span>

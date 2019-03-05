@@ -70,7 +70,7 @@ use yii\helpers\Html;
             <h3>Price:</h3>
             </div>
             <div class="col-md-9 col-12 mx-auto p-0">
-            <input type="text" name="price" data-slider-tooltip="show" data-slider-min="0" data-slider-max="10000" data-slider-step="5" data-slider-value="[0,10000]" class="custom-control-input" id="dp5">
+            <input type="text" name="price" data-slider-tooltip="show" data-slider-min="0" data-slider-max="10000" data-slider-step="5" data-slider-value="[0,10000]" class="custom-control-input" id="gift-finder">
             <div class="row">
                 <div class="col-6 text-left pl-1">
                 <span class="price min">123</span>
