@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 use app\components\AdminTitle;
 use yii\helpers\Url;
+use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\admin\models\Order */
@@ -58,7 +59,7 @@ $this->params['breadcrumbs'][] = '№' . $this->title;
             'address',
         ],
     ]) ?>
-
+    
     <hr>
 
     <?php $items = $model->orderItems;?>
@@ -78,7 +79,7 @@ $this->params['breadcrumbs'][] = '№' . $this->title;
 			<tbody>
 			<?php foreach ($items as $item):?>
 				<tr>
-					<td><a style="text-decoration: underline" href="<?= Url::to(['product/view', 'id' => $item['product_id']])?>"><?= $item['name']?></a></td>
+					<td><a target="_blank" style="text-decoration: underline" href="<?= Url::to(['product/view', 'id' => $item['product_id']])?>"><?= $item['name']?></a></td>
 					<td><?= $item['size']?></td>
 					<td>$<?= $item['price']?></td>
                     <td><?= $item['color']?></td>

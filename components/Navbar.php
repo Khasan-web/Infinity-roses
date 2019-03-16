@@ -47,7 +47,7 @@ class Navbar extends Widget {
 
     protected function catToTemplate() {
         ob_start();
-        include '/navbar/navHtml.php';
+        include 'navbar/navHtml.php';
         return ob_get_clean();
     }
 

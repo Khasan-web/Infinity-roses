@@ -1,4 +1,12 @@
+var ru;
+if (window.location.href.indexOf("ru") > -1) {
+    ru = 'ru/';
+} else {
+    ru = '';
+}
+
 $(function () {
+
     //BEGIN MENU SIDEBAR
     $('#sidebar').css('min-height', '100%');
     $('#side-menu').metisMenu();
@@ -398,6 +406,87 @@ $(function () {
                 alert('Error in sending the request');
             }
         });
+    });
+
+    
+    // add a new size
+    
+    added_sizes = [];
+
+    $('#add-new-size').click(function() {
+        var new_size = $(this).parent().find('#size').val(),
+            new_price = $(this).parent().find('#price').val(),
+            ol = $('.added-sizes');
+
+        if (new_size && new_price) {
+            ol.html(ol.html() + "<li data-arr-id='" + added_sizes.length + "'><i class='fa fa-times remove-new'></i>" + new_size + " | " + new_price + "</li>");
+            new_size_arr = {
+                size: new_size,
+                price: new_price
+            };
+            added_sizes.push(new_size_arr);
+        }
+        $(this).parent().find('#size').val('');
+        $(this).parent().find('#price').val('');
+        return false;
+    });
+
+    $('.added-sizes').on('click', '.remove-new', function() {
+        var size = $(this).parent(),
+            itemToRemove = size.data('arr-id');
+        added_sizes.splice($.inArray(size, added_sizes),1);
+        size.remove();
+    });
+
+    $('.save-product').click(function() {
+        var id = $(this).data('product-id');
+        $.ajax({
+            url: '/' + ru + 'admin/product/create',
+            data: {
+                sizes: added_sizes
+            },
+            type: 'GET',
+            success: function(res) {
+                if (!res) alert('Sorry, Error in respond. Please try again');
+                console.log(res);
+            }
+        });
+        $.ajax({
+            url: '/' + ru + 'admin/product/update',
+            data: {
+                sizes: added_sizes,
+                id: id,
+            },
+            type: 'GET',
+            success: function(res) {
+                if (!res) alert('Sorry, Error in respond. Please try again');
+
+            }
+        });
+
+    });
+
+
+    // remove a size
+
+    $('.remove-size').on('click', function(){
+        if (confirm('Delete this size?')) {
+            var id = $(this).parent().data('id'),
+            product_id = $('.added-sizes').data('page-id');
+            $.ajax({
+                url: '/' + ru + 'admin/product/remove-size',
+                data: {
+                    id: id,
+                    product_id: product_id,
+                },
+                type: 'GET',
+                success: function(res) {
+                    if (!res) alert('Sorry, Error in respond. Please try again');
+                    $('.added-sizes').html(res);
+                    console.log(res);
+                }
+            });
+        }
     });
 
 });

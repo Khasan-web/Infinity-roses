@@ -40,8 +40,14 @@ $this->params['breadcrumbs'][] = ['label' => 'View'];
             'id',
             'name_en',
             'name_ru',
-            'description_en:ntext',
-            'description_ru:ntext',
+            // 'description_en:html',
+            [
+                'attribute' => 'description_en',
+                'value' => $model->description_en,
+                'format' => 'html',
+                'contentOptions' => ['class' => 'description'],
+            ],
+            'description_ru:html',
             'keywords',
         ],
     ]) ?>

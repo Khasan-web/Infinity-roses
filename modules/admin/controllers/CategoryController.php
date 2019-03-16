@@ -8,6 +8,7 @@ use app\modules\admin\models\CategorySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * CategoryController implements the CRUD actions for Category model.
@@ -66,7 +67,19 @@ class CategoryController extends AppAdminController
     {
         $model = new Category();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            
+            $model->image = UploadedFile::getInstance($model, 'image');
+            if ($model->image) {
+                $model->upload();
+            }
+            unset($model->image);
+
+            if ($model->secondary) {
+                $model->keywords = 'secondary';
+            }
+
+            $model->save();
             Yii::$app->session->setFlash('success', 'The category was created');
             return $this->redirect(['view', 'id' => $model->id]);
         }
@@ -87,7 +100,19 @@ class CategoryController extends AppAdminController
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+
+            $model->image = UploadedFile::getInstance($model, 'image');
+            if ($model->image) {
+                $model->upload();
+            }
+            unset($model->image);
+
+            if ($model->secondary) {
+                $model->keywords = 'secondary';
+            }
+
+            $model->save();
             Yii::$app->session->setFlash('success', 'The category was updated');
             return $this->redirect(['view', 'id' => $model->id]);
         }

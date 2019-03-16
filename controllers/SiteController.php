@@ -74,8 +74,13 @@ class SiteController extends AppController
         $description = 'description_' . Yii::$app->language;
         $events = Events::find()->all();
         // get hits
-        $hits = Product::find()->where(['hit' => '1'])->with('category')->all();
-        $this->setMeta("Home | Infinity-roses", "keys", "desc");
+        if (Yii::$app->cache->get('hits')) {
+            $hits = Yii::$app->cache->get('hits');
+        } else {
+            $hits = Product::find()->where(['hit' => '1'])->with('category')->all();
+            Yii::$app->cache->set('hits', $hits, 300);
+        }
+        $this->setMeta("Home", "keys", "desc");
         return $this->render('index', compact('hits', 'lang', 'name', 'description', 'events'));
     }
 
@@ -96,7 +101,7 @@ class SiteController extends AppController
         }
 
         $model->password = '';
-        $this->setMeta("Login | Infinity-roses", "keys", "desc");
+        $this->setMeta("Login", "keys", "desc");
         return $this->render('login', [
             'model' => $model,
         ]);
@@ -127,7 +132,7 @@ class SiteController extends AppController
 
             return $this->refresh();
         }
-        $this->setMeta("Contact | Infinity-roses", "keys", "desc");
+        $this->setMeta("Contact", "keys", "desc");
         return $this->render('contact', [
             'model' => $model,
         ]);
@@ -140,12 +145,12 @@ class SiteController extends AppController
      */
     public function actionAbout()
     {
-        $this->setMeta("About Us | Infinity-roses", "keys", "desc");
+        $this->setMeta("About Us", "keys", "desc");
         return $this->render('about');
     }
 
     public function actionCategory() {
-        $this->setMeta("CatName | Infinity-roses", "keys", "desc");
+        $this->setMeta("CatName", "keys", "desc");
         return $this->render('category', compact('bgNav'));
     }
 }

@@ -10,6 +10,7 @@ use app\modules\admin\assets\AdminAsset;
 use yii\helpers\Url;
 use app\components\Navbar;
 use app\components\AdminNotification;
+use app\components\AdminNavbar;
 use app\models\User;
 
 $user = User::find()->one();
@@ -26,10 +27,7 @@ AdminAsset::register($this);
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <?php $this->registerCsrfMetaTags() ?>
-    <link rel="shortcut icon" href="images/icons/favicon.ico">
-    <link rel="apple-touch-icon" href="images/icons/favicon.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="images/icons/favicon-72x72.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="images/icons/favicon-114x114.png">
+    <link rel="icon" href="/img/favicon/admin-icon.png" />
     <!--Loading bootstrap css-->
     <link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,700">
     <link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Oswald:400,700,300">
@@ -82,41 +80,7 @@ AdminAsset::register($this);
                         </div>
                         <div class="clearfix"></div>
                     </li>
-                    <li class="active"><a href="<?= Url::to(['/admin'])?>"><i class="fa fa-tachometer fa-fw">
-                        <div class="icon-bg bg-orange"></div>
-                    </i><span class="menu-title">Dashboard</span></a></li>
-                    <li><a href="#"><i class="fa fa-th-list fa-fw">
-                        <div class="icon-bg bg-violet"></div>
-                    </i><span class="menu-title">Products</span><span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                        <li><a href="<?= Url::to(['product/'])?>"><span class="submenu-title"><i class="fa fa-ellipsis-v" aria-hidden="true"></i> List of products</span></a></li>
-                            <li><a href="<?= Url::to(['product/create'])?>"><span class="submenu-title"><i class="fa fa-plus" aria-hidden="true"></i> Add a product</span></a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#"><i class="fa fa-dropbox fa-fw">
-                        <div class="icon-bg bg-green"></div>
-                    </i><span class="menu-title">Categories</span><span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li><a href="<?= Url::to(['category/'])?>"><span class="submenu-title"><i class="fa fa-ellipsis-v" aria-hidden="true"></i> List of collections</span></a></li>
-                            <li><a href="<?= Url::to(['category/create'])?>"><span class="submenu-title"><i class="fa fa-plus" aria-hidden="true"></i> Add an collection</span></a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#"><i class="fa fa-users">
-                        <div class="icon-bg bg-pink"></div>
-                    </i><span class="menu-title">Orders</span><span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li><a href="<?= Url::to(['order/'])?>"><span class="submenu-title"><i class="fa fa-ellipsis-v" aria-hidden="true"></i> List of orders</span></a></li>
-                            <li><a href="<?= Url::to(['order/create'])?>"><span class="submenu-title"><i class="fa fa-plus" aria-hidden="true"></i> Create an order</span></a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#"><i class="fa fa-calendar fa-fw">
-                        <div class="icon-bg bg-violet"></div>
-                    </i><span class="menu-title">Events</span><span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                        <li><a href="<?= Url::to(['events/'])?>"><span class="submenu-title"><i class="fa fa-ellipsis-v" aria-hidden="true"></i> List of events</span></a></li>
-                            <li><a href="<?= Url::to(['events/create'])?>"><span class="submenu-title"><i class="fa fa-plus" aria-hidden="true"></i> Add an event</span></a></li>
-                        </ul>
-                    </li>
+                    <?= AdminNavbar::widget();?>
                 </ul>
             </div>
         </nav>

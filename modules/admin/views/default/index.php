@@ -6,11 +6,9 @@ use yii\helpers\Url;
 use app\modules\admin\models\ProductSearch;
 
 ?>
-
 <?= AdminTitle::widget(['title' => 'Dashboard', 'breadcrumbs' => ''])?>
 <!--BEGIN CONTENT-->
 <div class="page-content">
-
     <div id="sum_box" class="row mbl">
         <div class="col-sm-6 col-md-3">
             <a href="<?= Url::to(['product/'])?>">

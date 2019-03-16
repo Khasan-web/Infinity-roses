@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
+use app\models\Price;
 
 /**
  * ProductController implements the CRUD actions for Product model.
@@ -53,8 +54,9 @@ class ProductController extends AppAdminController
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
         ]);
     }
 
@@ -66,6 +68,24 @@ class ProductController extends AppAdminController
     public function actionCreate()
     {
         $model = new Product();
+        $products = Product::find()->all();
+        $last_id = 1;
+        foreach ($products as $product) {
+            if ($last_id < $product->id) {
+                $last_id = $product->id;
+            }
+        }
+
+        if (Yii::$app->request->isAjax) {
+            $addedSizes = Yii::$app->request->get('sizes');
+            foreach ($addedSizes as $size) {
+                $addSizesModel = new Price();
+                $addSizesModel->size = $size['size'];
+                $addSizesModel->price = $size['price'];
+                $addSizesModel->product_id = $last_id + 1;
+                $addSizesModel->save();
+            }
+        }
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             
@@ -93,12 +113,25 @@ class ProductController extends AppAdminController
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
+    public function actionUpdate()
     {
+        $id = Yii::$app->request->get('id');
         $model = $this->findModel($id);
+        $pricesModel = Price::find()->where(['product_id' => $id])->all();
+        
+        if (Yii::$app->request->isAjax) {
+            $addedSizes = Yii::$app->request->get('sizes');
+            foreach ($addedSizes as $size) {
+                $addSizesModel = new Price();
+                $addSizesModel->size = $size['size'];
+                $addSizesModel->price = $size['price'];
+                $addSizesModel->product_id = $id;
+                $addSizesModel->save();
+            }
+        }
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            
+
             $model->image = UploadedFile::getInstance($model, 'image');
             if ($model->image) {
                 $model->upload();
@@ -110,11 +143,24 @@ class ProductController extends AppAdminController
 
             Yii::$app->session->setFlash('success', 'The product was updated');
             return $this->redirect(['view', 'id' => $model->id]);
+
         }
 
         return $this->render('update', [
             'model' => $model,
+            'pricesModel' => $pricesModel,
         ]);
+    }
+
+    public function actionRemoveSize() {
+        $id = Yii::$app->request->get('id');
+        $product_id = Yii::$app->request->get('product_id');
+        $size = Price::findOne($id);
+        $size->delete();
+        $pricesModel = Price::find()->where(['product_id' => $product_id])->all();
+
+        $this->layout = false;
+        return $this->render('sizes', compact('pricesModel'));
     }
 
     public function actionRemoveImage($alias, $id) {

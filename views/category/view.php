@@ -4,14 +4,19 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 
 ?>
+<?php
+	$mainImage = $category->getImage();
+	$desc_arr = explode('</p>', $category->$description);
+?>
 
-<section id="cat">
-	<h1 class="wow fadeIn"><?= $category->$name?></h1>
-	<div class="line gold-bg my-3"></div>
-	<div class="col-lg-4 col-md-8 mx-auto wow fadeIn description" data-wow-delay="0.8s">
-		<p><?= $category->$description?></p>
+<section id="cat" class="pt-0">
+	<div class="event-img" style="background-image: url(<?= $mainImage->getUrl()?>); position: relative">	
+		<div class="basic-info category-info">
+			<h2><?= $category->$name?></h2>
+			<p><?= $desc_arr[0]?></p>
+		</div>
 	</div>
-	<div class="container">
+	<div class="container" style="margin-top: 150px">
 		<?php if (!$products): ?>
 			<h2 class="not-found"><?= Yii::t('app', 'There are not products in this category...');?></h2>
 		<?php else:?>
@@ -28,5 +33,17 @@ use yii\helpers\Url;
 			<?php endforeach;?>
 		</div>
 		<?php endif;?>
+		<h4>More about <?= $category->$name?></h4>
+		<div class="col-md-10 mx-auto">
+			<?php 
+			$i = 0;
+			$desc_arr_count = count($desc_arr);
+			for ($i; $i < $desc_arr_count; $i++) {
+				if ($i != 0) {
+					echo "<p>$desc_arr[$i]</p>";
+				}
+			}
+			?>
+		</div>
 	</div>
 </section>

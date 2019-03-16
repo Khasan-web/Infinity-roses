@@ -3,13 +3,13 @@
 <table class="table">
     <thead>
     <tr>
-        <th>Photo</th>
-        <th>Name</th>
-        <th>Size</th>
-        <th>Price</th>
-        <th>Quantity</th>
-        <th>Parfume</th>
-        <th>Chocolate</th>
+        <th><?= Yii::t('app', 'Photo')?></th>
+        <th><?= Yii::t('app', 'Product name')?></th>
+        <th><?= Yii::t('app', 'Size')?></th>
+        <th><?= Yii::t('app', 'Price')?></th>
+        <th><?= Yii::t('app', 'Quantity')?></th>
+        <th><?= Yii::t('app', 'Parfume')?></th>
+        <th><?= Yii::t('app', 'Chocolate')?></th>
         <th><i class="fas fa-times"></i></th>
     </tr>
     </thead>
@@ -29,17 +29,17 @@
         </tr>
     <?php endforeach;?>
     <tr>
-        <td colspan="7">Common sum: </td>
+        <td colspan="7"><?= Yii::t('app', 'Common sum:')?></td>
         <td>$<?= $session['cart.sum']?></td>
     </tr>
     <tr>
-        <td colspan="7">Common quantity: </td>
+        <td colspan="7"><?= Yii::t('app', 'Common quantity:')?></td>
         <td><?= $session['cart.qty']?></td>
     </tr>
     </tbody>
 </table>
 
 <?php else:?>
-<h2 class="not-found text-center">Cart is empty...</h2>
+<h2 class="not-found text-center"><?= Yii::t('app', 'Cart is empty')?>...</h2>
 
 <?php endif;?>

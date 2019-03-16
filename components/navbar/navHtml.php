@@ -37,35 +37,40 @@ $description = 'description_' . Yii::$app->language;
       <?= GiftFinder::widget()?>
       <?php $i = 0;?>
       <?php foreach ($this->categories as $cat):?>
-      <li class="nav-item drop-item" id="<?= $this->id?>">
-        <a class="nav-link" href="<?= Url::to(['category/view', 'id' => $cat->id]);?>" role="button" id="luxuty-roses-item" aria-haspopup="true"
-          aria-expanded="false"><?= $cat->$name?></a>
-        <div class="dropdown-menu" aria-labelledby="luxuty-roses-item">
-          <div class="container">
-            <div class="row mb-5 mt-4 content">
-              <div class="col-lg-2 offset-lg-1 col-md-4">
-                <ul class="list-unstyled">
-                  <?php foreach ($cat->product as $product): ?>
-                  <?php $image = $product->getImage()?>
-                    <li>
-                        <?php if ($product->category_id == $cat->id): ?>
-                          <?= Html::a($product->name, Url::to(['product/view', 'id' => $product->id]), $options = ['class' => 'product-item', 'data-image' => $image->getUrl()])?>
-                        <?php endif;?>
-                    </li>
-                  <? endforeach;?>
-                </ul>
-              </div>
-              <div class="col-lg-4 col-md-4 img-preview mx-auto">
-                  <img src="<?= $image->getUrl()?>" alt="" />
-              </div>
-              <div class="col-lg-3 col-md-4 px-0 drop-desc">
-                <h6><span><?= Yii::t('app', 'What are')?></span> <?= $cat->$name?>?</h6>
-                <p class="description"><?= $cat->$description?></p>
+        <?php if ($cat->keywords != 'secondary'):?>
+          <li class="nav-item drop-item" id="<?= $this->id?>">
+            <a class="nav-link" href="<?= Url::to(['category/view', 'id' => $cat->id]);?>" role="button" id="luxuty-roses-item" aria-haspopup="true"
+              aria-expanded="false"><?= $cat->$name?></a>
+            <div class="dropdown-menu" aria-labelledby="luxuty-roses-item">
+              <div class="container">
+                <div class="row mb-5 mt-4 content">
+                  <div class="col-lg-2 offset-lg-1 col-md-4">
+                    <ul class="list-unstyled">
+                      <?php foreach ($cat->product as $product): ?>
+                      <?php $image = $product->getImage()?>
+                        <li>
+                            <?php if ($product->category_id == $cat->id): ?>
+                              <?= Html::a($product->name, Url::to(['product/view', 'id' => $product->id]), $options = ['class' => 'product-item', 'data-image' => $image->getUrl()])?>
+                            <?php endif;?>
+                        </li>
+                      <? endforeach;?>
+                    </ul>
+                  </div>
+                  <div class="col-lg-4 col-md-4 img-preview mx-auto">
+                      <img src="<?= $image->getUrl()?>" alt="" />
+                  </div>
+                  <div class="col-lg-3 col-md-4 px-0 drop-desc">
+                    <h6><span><?= Yii::t('app', 'What are')?></span> <?= $cat->$name?>?</h6>
+                    <?php
+                    	$desc_arr = explode('</p>', $cat->$description);
+                    ?>
+                    <p><?= $desc_arr[0]?></p>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-      </li>
+          </li>
+        <?php endif;?>
       <?php $i++; endforeach;?>
       <li class="nav-item">
         <a class="nav-link" href="<?= Url::to(['site/contact'])?>"><?= Yii::t('app', 'Contact Us');?></a>

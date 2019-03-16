@@ -16,6 +16,19 @@ use Yii;
  */
 class Category extends \yii\db\ActiveRecord
 {
+
+    public $image;
+    public $secondary;
+
+    public function behaviors()
+    {
+        return [
+            'image' => [
+                'class' => 'rico\yii2images\behaviors\ImageBehave',
+            ]
+        ];
+    }
+    
     /**
      * {@inheritdoc}
      */
@@ -33,6 +46,8 @@ class Category extends \yii\db\ActiveRecord
             [['name_en', 'name_ru', 'description_en', 'description_ru', 'keywords'], 'required'],
             [['description_en', 'description_ru'], 'string'],
             [['name_en', 'name_ru', 'keywords'], 'string', 'max' => 255],
+            [['image'], 'file', 'extensions' => 'png, jpg, jpeg'],
+            ['secondary', 'safe'],
         ];
     }
 
@@ -48,6 +63,20 @@ class Category extends \yii\db\ActiveRecord
             'description_en' => Yii::t('app', 'Description En'),
             'description_ru' => Yii::t('app', 'Description Ru'),
             'keywords' => Yii::t('app', 'Keywords'),
+            'image' => Yii::t('app', 'Image'),
         ];
     }
+
+    public function upload() {
+        if ($this->validate()) {
+            $path = 'upload/store/' . $this->image->basename . '.' . $this->image->extension;
+            $this->image->saveAs($path);
+            $this->attachImage($path, true);
+            @unlink($path);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }

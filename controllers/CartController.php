@@ -21,20 +21,28 @@ class CartController extends AppController {
             if ($order->save()) {
                 $this->saveOrderItem($session['cart'], $order->id);
                 Yii::$app->session->setFlash('success', 'Order successfuly accepted, manager will contact with you soon');
-                Yii::$app->mailer->compose('order', compact('session'))
-                ->setFrom(['info@infinityroses.uz' => 'Infinity roses'])
-                ->setTo($order->email)
-                ->setSubject("Order from $order->name | Infinity roses")
-                ->send();
+                if ($order->email) {
+                    Yii::$app->mailer->compose('order', compact('session'))
+                    ->setFrom(['info@infinityroses.uz' => 'Infinity roses'])
+                    ->setTo($order->email)
+                    ->setSubject("Order from $order->name | Infinity roses")
+                    ->send();
+                }
+                // Send to admin
+                // Yii::$app->mailer->compose('order', compact('session'))
+                // ->setFrom(['info@infinityroses.uz' => 'Infinity roses'])
+                // ->setTo($order->email)
+                // ->setSubject("Order from $order->name | Infinity roses")
+                // ->send();
                 $session->remove('cart');
                 $session->remove('cart.qty');
                 $session->remove('cart.sum');
                 return $this->refresh();
             } else {
-                Yii::$app->session->setFlash('success', 'Error in order formalization');
+                Yii::$app->session->setFlash('error', Yii::t('app', 'Please fill out all required fileds in form'));
             }
         }
-        $this->setMeta('Cart | Infinity Roses');
+        $this->setMeta('Cart');
         return $this->render('view', compact('session', 'order'));
     }
 

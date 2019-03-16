@@ -38,6 +38,10 @@ class Product extends \yii\db\ActiveRecord
         return $this->hasOne(Category::className(), ['id' => 'category_id']);
     }
 
+    public function getPrices() {
+        return $this->hasMany(Price::className(), ['product_id' => 'id']);
+    }
+
     /**
      * {@inheritdoc}
      */

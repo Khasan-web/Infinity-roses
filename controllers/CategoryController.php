@@ -25,18 +25,35 @@ class CategoryController extends AppController {
         }
         $name = 'name_' . Yii::$app->language;
         $description  = 'description_' . Yii::$app->language;
-        $this->setMeta("{$category->$name} | Infinity roses", $category->keywords, $category->$description);
+        $this->setMeta($category->$name, $category->keywords, $category->$description);
         return $this->render('view', compact('category', 'products', 'lang', 'name', 'description'));
     }
 
     public function actionSearch() {
         $q = trim(Yii::$app->request->get('q'));
-        $this->setMeta("{$q} | Infitiy roses");
+        $this->setMeta($q);
         if (!$q) {
             return $this->render('search');
         }
-        $products = Product::find()->where(['like', 'name', $q])->all();
+        $products = Product::find()
+        ->where(['like', 'name', $q])
+        ->orWhere(['like', 'description_en', $q])
+        ->orWhere(['like', 'description_ru', $q])
+        ->orWhere(['like', 'keywords', $q])
+        ->all();
         return $this->render('search', compact('products', 'q'));
+    }
+
+    public function actionGetProducts() {
+        $q = trim(Yii::$app->request->get('q'));
+        $products = Product::find()
+        ->where(['like', 'name', $q])
+        ->orWhere(['like', 'description_en', $q])
+        ->orWhere(['like', 'description_ru', $q])
+        ->orWhere(['like', 'keywords', $q])
+        ->all();
+        $this->layout = false;
+        return $this->render('search-li', compact('products'));
     }
     
 }

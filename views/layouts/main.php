@@ -58,7 +58,7 @@ $currentAction = Yii::$app->controller->action->id;
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="search">
-          Search in Infinity-roses
+          <?= Yii::t('app', 'Search in Infinity roses')?>
         </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
@@ -67,22 +67,17 @@ $currentAction = Yii::$app->controller->action->id;
       <div class="modal-body gold-form">
         <form action="/category/search" method="get">
           <div class="btn-group w-100">
-            <input type="text" name="q" class="form-control mb-0" placeholder="What do you want to find?">
+            <input type="search" autocomplete="off" name="q" class="form-control mb-0 search" placeholder="<?= Yii::t('app', 'What do you want to find?')?>">
             <button type="submit" class="btn btn-outline-gold">
-              Find!
+              <?= Yii::t('app', 'Find')?>!
             </button>
           </div>
         </form>
         <ul class="list-unstyled auto-complete mt-3 ml-3">
-          <li>Lorem ipsum dolor sit.</li>
-          <li>Lorem ipsum dolor sit.</li>
-          <li>Lorem ipsum dolor sit.</li>
-          <li>Lorem ipsum dolor sit.</li>
-          <li>Lorem ipsum dolor sit.</li>
         </ul>
       </div>
       <div class="modal-footer">
-        <p class="mx-auto">or use <a href="">Gift finder</a></p>
+        <p class="mx-auto"><?= Yii::t('app', 'or use <a href="/product/gift-finder">Gift finder</a>')?></p>
       </div>
     </div>
   </div>
@@ -101,7 +96,7 @@ $currentAction = Yii::$app->controller->action->id;
             <a href="<?= Url::to(["$currentController/$currentAction" , 'language' => 'ru', 'id' => Yii::$app->request->get('id')])?>"><img src="/img/langs/ru.png" alt="" width="30"><br>Русский</a>
           </div>
         </div>
-        <a style="cursor: pointer" class="my-3" data-dismiss="modal" aria-label="Close">Close</a>
+        <a style="cursor: pointer" class="my-3" data-dismiss="modal" aria-label="Close"><?= Yii::t('app', 'Close')?></a>
       </div>
     </div>
   </div>
@@ -113,13 +108,13 @@ $currentAction = Yii::$app->controller->action->id;
 <?= $content?>
 
 <!-- cart modal -->
-<div class="modal fade cart-style" id="cart-modal" tabindex="-1" role="dialog" aria-labelledby="cart-modal"
+<div class="modal fade cart-style cart" id="cart-modal" tabindex="-1" role="dialog" aria-labelledby="cart-modal"
   aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">
-          Your Cart
+          <?= Yii::t('app', 'Your Cart')?> | Infinity Roses
         </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
@@ -129,9 +124,9 @@ $currentAction = Yii::$app->controller->action->id;
 
       </div>
       <div class="modal-footer">
-        <button data-dismiss="modal" aria-label="Close" class="btn btn-outline-gold">Continue shopping</button>
-        <a href="<?= Url::to(['cart/view']);?>" class="btn btn-outline-success">Formalize the order</a>
-        <button class="btn btn-outline-danger clear-cart">Clear the cart</button>
+        <button data-dismiss="modal" aria-label="Close" class="btn btn-outline-gold"><?= Yii::t('app', 'Continue shopping')?></button>
+        <a href="<?= Url::to(['cart/view']);?>" class="btn btn-outline-success"><?= Yii::t('app', 'Formalize the order')?></a>
+        <button class="btn btn-outline-danger clear-cart"><?= Yii::t('app', 'Clear the cart')?></button>
       </div>
     </div>
   </div>
@@ -142,29 +137,26 @@ $currentAction = Yii::$app->controller->action->id;
     <div class="container">
       <div class="row">
         <div class="col-lg-3 col-md-6 py-4">
-          <h2>Location:</h2>
+          <h4><?= Yii::t('app', 'Location')?>:</h4>
           <p>9631 Brighton Way Beverly Hills Los Angeles, CA - 90210</p>
         </div>
         <div class="col-lg-3 col-md-6 py-4">
-          <h2>Contacts:</h2>
+          <h4><?= Yii::t('app', 'Contacts')?>:</h4>
           <p>
             +9989 99 111 11 11 <br />
             +9989 90 111 11 11
           </p>
         </div>
         <div class="col-lg-3 col-md-6 py-4">
-          <h2>Follow Us:</h2>
+          <h4><?= Yii::t('app', 'Follow Us')?>:</h4>
           <a href="#"> <i class="fab fa-facebook-square"></i> </a>
           <a href="#"> <i class="fas fa-camera-retro"></i> </a>
           <a href="#"> <i class="fab fa-skype"></i> </a>
           <a href="#"> <i class="fab fa-pinterest-square"></i> </a>
-          <p>
-            Follow us and be aware <br />
-            of all news
-          </p>
+          <p><?= Yii::t('app', 'Follow us and be aware <br/>of all news')?></p>
         </div>
         <div class="col-lg-3 col-md-6 py-4">
-          <h2>Customers service:</h2>
+          <h4><?= Yii::t('app', 'Customers service')?>:</h4>
           <a href="#">Retrieve My Cart</a> <br />
           <a href="#">Terms Of Use</a> <br />
           <a href="#">Privacy</a> <br />

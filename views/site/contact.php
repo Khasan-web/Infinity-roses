@@ -10,8 +10,8 @@ use yii\bootstrap\ActiveForm;
 <section id="contact">
 		<section class="intro">
 			<div class="col-lg-3 col-md-5 col-10 welcome-cart">
-				<h1 class="gold">CONTACTS</h1>
-				<p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Minima sint, quibusdam</p>
+				<h1 class="gold "><?= Yii::t('app', 'Contacts')?></h1>
+				<p><?= Yii::t('app', 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Minima sint, quibusdam')?></p>
 			</div>
 		</section>
 		<section class="contact-info container">
@@ -21,37 +21,37 @@ use yii\bootstrap\ActiveForm;
 					 width="100%" height="400" frameborder="0" style="border:0" allowfullscreen></iframe>
 				</div>
 				<div class="col-md-5 col-11 mx-auto location-info">
-					<h3>Our location:</h3>
+					<h4><?= Yii::t('app', 'Location')?>:</h4>
 					<p>9631 Brighton Way Beverly Hills <br>
 						Los Angeles, CA - 90210</p>
-					<h3>Contacts:</h3>
+					<h4><?= Yii::t('app', 'Contacts')?>:</h4>
 					<p>+9989 99 111 11 11 <br>
 						+9989 90 111 11 11</p>
-					<h3>Email:</h3>
+					<h4>Email:</h4>
 					<p>info@infinity-roses.uz</p>
 				</div>
 			</div>
 		</section>
 		<section id="get-in-touch">
 			<img src="img/white-logo.svg" alt="" class="bg-logo unselectable">
-			<h1 class="gold text-center">GET IN TOUCH</h1>
+			<h1 class="gold text-center "><?= Yii::t('app', 'Get in touch')?></h1>
 			<div class="col-lg-5 col-md-8 mx-auto gold-form">
 				<form action="" class="mt-5">
 					<div class="row">
 						<div class="col-md-6">
-							<input type="text" placeholder="Full Name" class="form-control">
+							<input type="text" placeholder="<?= Yii::t('app', 'Full Name')?>" class="form-control">
 						</div>
 						<div class="col-md-6">
-							<input type="text" placeholder="Phone Number" class="form-control">
+							<input type="text" placeholder="<?= Yii::t('app', 'Phone Number')?>" class="form-control">
 						</div>
 						<div class="col-md-12">
-							<input type="text" placeholder="Email" class="form-control">
+							<input type="text" placeholder="Email - <?= Yii::t('app', 'not important')?>" class="form-control">
 						</div>
 						<div class="col-md-12">
-							<textarea type="text" placeholder="Message" class="form-control"></textarea>
+							<textarea type="text" placeholder="<?= Yii::t('app', 'Message')?>" class="form-control"></textarea>
 						</div>
 					</div>
-					<button type="submit" class="btn btn-outline-gold">Send the message!</button>
+					<button type="submit" class="btn btn-outline-gold"><?= Yii::t('app', 'Send the message')?>!</button>
 				</form>
 			</div>
 		</section>

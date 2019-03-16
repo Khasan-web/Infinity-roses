@@ -6,6 +6,13 @@ $(document).ready(function() {
 	});
 });
 
+var ru;
+if (window.location.href.indexOf("ru") > -1) {
+	ru = 'ru/';
+} else {
+	ru = '';
+}
+
 new WOW().init();
 $('#gift-finder').slider()
 .on('slide', function(ev){
@@ -122,8 +129,9 @@ $(function() {
 		paresedQty = parseInt(qty.val());
 		qty.val(paresedQty + 1);
 		for (var i = 0; i < selectedFlowers.length; i++) {
-			if (selectedFlowers[i][0] == flowerId) {
-				selectedFlowers[i][4] = qty.val();
+			if (selectedFlowers[i].id == flowerId) {
+				selectedFlowers[i].qty = qty.val();
+				selectedFlowers[i].sum = selectedFlowers[i].qty * selectedFlowers[i].price;
 			}
 		}
 
@@ -143,6 +151,7 @@ $(function() {
 		for (var i = 0; i < selectedFlowers.length; i++) {
 			if (selectedFlowers[i][0] == flowerId) {
 				selectedFlowers[i][4] = qty.val();
+				selectedFlowers[i].sum = selectedFlowers[i].qty * selectedFlowers[i].price;
 			}
 		}
 
@@ -243,12 +252,13 @@ $(function() {
 			flowerData.name   	   = flower.data('name');
 			flowerData.price  	   = flower.data('price');
 			flowerData.img	   	   = flower.attr('src');
-			flowerData.flowerQty   = 1;
+			flowerData.qty   	   = 1;
+			flowerData.sum;
 
 		selectedFlowers.push(flowerData);
 
 		var list = $('.flowers-list');
-		list.prepend('<div class="row added-flower mt-4" data-id="' + flowerData.id + '"><div class="col-4"><img src="' + flowerData.img + '" alt="' + flowerData.name + '"></div><div class="col-8 text-left"><p>' + flowerData.name + '</p><div class="qty-indicators unselectable d-inline-block"><i class="fas fa-plus more"></i><h4 class="qty d-inline">' + flowerData.flowerQty + '</h4><i class="fas fa-minus less"></i></div><p class="d-inline-block mr-4 ml-3">$' + flowerData.price + '.00</p><i class="fas fa-trash-alt remove text-danger" data-id="' + flowerData.id + '"></i><select style="border-radius: 0" class="custom-select" id="' + flowerData.id + '"><option disabled selected class="hidden-option">Choose One</option><option value="AL1">Alabama1</option><option value="AL2">Alabama2</option><option value="AL3">Alabama3</option></select></div></div>');
+		list.prepend('<div class="row added-flower mt-4" data-id="' + flowerData.id + '"><div class="col-4"><img src="' + flowerData.img + '" alt="' + flowerData.name + '"></div><div class="col-8 text-left"><p class="d-inline-block mr-3">' + flowerData.name + '</p><i class="fas fa-trash-alt remove text-danger" data-id="' + flowerData.id + '"></i><div class="qty-indicators unselectable d-inline-block"><i class="fas fa-plus more"></i><input type="number" class="form-control form-control-sm d-inline" style="width: 50px"><i class="fas fa-minus less"></i></div><p class="d-inline-block">$' + flowerData.price + '.00</p><select style="border-radius: 0" class="custom-select" id="' + flowerData.id + '"><option disabled selected class="hidden-option">Choose One</option><option value="AL1">Alabama1</option><option value="AL2">Alabama2</option><option value="AL3">Alabama3</option></select></div></div>');
 		// colors will be added in .flower elements and got like an array, after by for or foreach will be implemented in DOM
 		getTotalQty();
 
@@ -257,7 +267,6 @@ $(function() {
 
 		allowNextStep();
 	});
-
 	$('.flowers-list').on('change', 'select', function() { 
 		var id = $(this).parents().closest('.added-flower').data('id');
 		for (var i = 0; i < selectedFlowers.length; i++) {
@@ -320,10 +329,30 @@ $(function() {
 
 	// product | dependence of price from size
 
-	var size;
+	var sizeInfo = {};
 
 	$('.size').on('change', 'select', function () {
-		size = $(this).val();
+		var selectedOption = $(this).children('option:selected'),
+			size = selectedOption.val(),
+			price = selectedOption.data('price');
+			
+			sizeInfo = {
+				selected_size: size,
+				price: price
+			}
+			console.log(sizeInfo.selected_size);
+
+			if (window.location.href.indexOf("ru") > -1) {
+				sum = 'сум';
+			} else {
+				sum = 'sum';
+			}
+			if (price > 1000000) {
+				price = price / 1000000 + 'M' + ' ' + sum;
+			} else {
+				price = price / 1000 + 'K' + ' ' + sum;
+			}
+		$('.product__price').text(price);
 	});
 
 
@@ -332,7 +361,10 @@ $(function() {
 	var selectedColor,
 		color = {};
 
-	$('.colors').on('click', 'img', function() {
+	color.color = $('.active-img').data('color');
+	color.img = $('.active-img').attr('src');
+
+	$('.colors').on('click', 'img[data-color]', function() {
 		var activeImg = $('.active-img'),
 			img 	  = $(this),
 			name	  = $(this).next(),
@@ -403,8 +435,14 @@ $(function() {
 	// AJAX ADD TO CART
 
 	function showCart(cart) {
-		$('#cart-modal .modal-body').html(cart);
-		$('#cart-modal').modal();
+		var cartTable = $('#cart').find('table');
+		if (cartTable.length) {
+			cartTable.remove();
+			$('#cart').find('.table-container').html(cart);
+		} else {
+			$('#cart-modal .modal-body').html(cart);
+			$('#cart-modal').modal();
+		}
 	}
 
 	$('.add-to-cart').click(function(e) {
@@ -413,24 +451,28 @@ $(function() {
 		var addAjaxData = {
 			'accessories': accessories,
 			'color': color,
-			'size': size,
+			'size': sizeInfo,
 		}
-		$.ajax({
-			url: '/cart/add',
-			type: 'GET',
-			data: {
-				id: id,
-				data: addAjaxData,
-			},
-			success: function (res) {
-				if (!res) alert('Error!');
-				showCart(res);
-				// console.log(res);
-			},
-			error: function (xhr) {
-				alert(xhr.status);
-			}
-		});
+		console.log(addAjaxData.color);
+		if (!$.isEmptyObject(addAjaxData.accessories) && !$.isEmptyObject(addAjaxData.color) && !$.isEmptyObject(addAjaxData.size)) {
+			$.ajax({
+				url: '/' + ru + 'cart/add',
+				type: 'GET',
+				data: {
+					id: id,
+					data: addAjaxData,
+				},
+				success: function (res) {
+					if (!res) alert('Error!');
+					showCart(res);
+				},
+				error: function (xhr) {
+					alert(xhr.status);
+				}
+			});
+		} else {
+			alert('Please complete the form');
+		}
 	});
 
 	// END AJAX ADD TO CART
@@ -439,7 +481,7 @@ $(function() {
 
 	function clearCart() {
 		$.ajax({
-			url: '/cart/clear',
+			url: '/' + ru + 'cart/clear',
 			type: 'GET',
 			success: function(res) {
 				if (!res) alert('Clear Error!');
@@ -460,11 +502,6 @@ $(function() {
 	// GET CART
 
 	function getCart() {
-		if (window.location.href.indexOf("ru") > -1) {
-			ru = 'ru/';
-		} else {
-			ru = '';
-		}
 		$.ajax({
 			url: '/' + ru + 'cart/show-cart',
 			type: 'GET',
@@ -488,10 +525,10 @@ $(function() {
 	
 	// DELET ITEM
 
-	$('#cart-modal').on('click', '.del-item', function () {
+	$('.cart').on('click', '.del-item', function () {
 		var id = $(this).data('id');
 		$.ajax({
-			url: '/cart/del-item',
+			url: '/' + ru + 'cart/del-item',
 			type: 'GET',
 			data: {id: id},
 			success: function(res) {
@@ -516,6 +553,77 @@ $(function() {
 	$('.notifications').on('click', '.close', function () {
 		var notification = $(this).parent();
 		notification.css('right', '-100%');
+	});
+
+
+	// auto options in search
+
+	$('.search').on('keyup', function () {
+		var q = $(this).val();
+		q = q.trim();
+		$.ajax({
+			url: '/' + ru + 'category/get-products',
+			data: {q: q},
+			type: 'GET',
+			success: function (res) {
+				if (!res) alert('Error!');
+				$('.auto-complete').html(res);
+				if (!q) {
+					$('.auto-complete').html("");
+				}
+			},
+			error: function () {
+				alert ('Error');
+			}
+		});
+	});
+
+	$('.closed').on('click', function () {
+		var img = $(this).attr('src');
+		$('.active-img').fadeOut(250, function(){
+			$('.active-img').attr('src', img);
+			$('.active-img').fadeIn(250);
+		});
+		return false;
+	});
+
+	// Get images from selected position
+	$('.product__position').on('click', 'img', function () {
+		var img = $(this).attr('src');
+		$('.active-img').fadeOut(250, function(){
+			$('.active-img').attr('src', img);
+			$('.active-img').fadeIn(250);
+		});
+		var id = $('.product__position').data('product-id'),
+			position = $(this).data('position');
+
+		$.ajax({
+			url: '/' + ru + 'product/get-images',
+			cache: true,
+			data: {
+				id: id,
+				position: position,
+			},
+			type: 'GET',
+			success: function (res) {
+				if (res) {
+					$('.colors').fadeOut(150, function () {
+						$('.colors').html(res);
+						var $images = $('.colors img');
+
+						setTimeout(() => {
+							$('.colors').fadeIn(150);
+						}, 200);
+					});
+				} else {
+					$('.colors').html('<p>Images not found</p>');
+				}
+			},
+			error: function () {
+				alert('Sorry, Query Error');
+			}
+		});
+		
 	});
 	
 });

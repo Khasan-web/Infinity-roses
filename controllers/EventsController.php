@@ -11,8 +11,11 @@ class EventsController extends AppController {
 
     public function actionView($id) {
         $event = Events::findOne($id);
+        if (empty($event)) {
+            throw new HttpException(404, 'The Event Not Found');
+        }
         $description = 'description_' . Yii::$app->language;
-        $this->setMeta($event->name . ' | Infinity roses');
+        $this->setMeta($event->name);
         return $this->render('view', compact('event', 'description'));
     }
 

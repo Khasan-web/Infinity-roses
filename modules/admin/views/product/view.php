@@ -77,6 +77,19 @@ $this->params['breadcrumbs'][] = ['label' => 'View'];
                 'value' => "<img src='{$image->getUrl('80x')}'></img>",
                 'format' => 'html',
             ],
+            [
+                'attribute' => 'prices',
+                'value' => function ($model) {
+                    $i = 1;
+                    $strToReturn;
+                    foreach ($model->prices as $price) {
+                        $strToReturn .= $i . '. ' . $price->size . '<br>';
+                        $i++;
+                    }
+                    return $strToReturn;
+                },
+                'format' => 'html',
+            ],
             // 'hit',
             [
                 'attribute' => 'hit',
