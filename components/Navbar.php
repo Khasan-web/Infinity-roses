@@ -5,6 +5,7 @@ namespace app\components;
 use Yii;
 use yii\base\Widget;
 use app\models\Category;
+use app\models\Product;
 
 class Navbar extends Widget {
 
@@ -18,6 +19,8 @@ class Navbar extends Widget {
 
     public function init() {
         parent::init();
+        $this->products = Product::find()->with('prices')->all();
+        $this->categories = Category::find()->with('product')->all();
         if (Yii::$app->language == 'en') {
             $this->lang = 0;
           } else if (Yii::$app->language == 'ru') {
@@ -32,12 +35,11 @@ class Navbar extends Widget {
             if ($nav) return $nav;
         }
 
-        $this->categories = Category::find()->with('product')->all();
         $this->navHtml = $this->catToTemplate();
 
         // set cache
         if (Yii::$app->user->isGuest) {
-            Yii::$app->cache->set('nav', $this->navHtml, 3600);
+            Yii::$app->cache->set('nav', $this->navHtml, 60);
         } else {
             Yii::$app->cache->delete('nav');
         }

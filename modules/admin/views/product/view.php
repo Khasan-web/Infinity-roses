@@ -50,31 +50,43 @@ $this->params['breadcrumbs'][] = ['label' => 'View'];
         'model' => $model,
         'attributes' => [
             'id',
-            // 'category_id',
             [
                 'attribute' => 'category_id',
                 'value' => $model->category->name_en
             ],
             'name',
-            // 'price',
-            [
-                'attribute' => 'price',
-                'value' => '$' . $model->price,
-                'contentOptions' => ['style' => 'width: 70%'],
-            ],
             'keywords',
-            // 'description_en:html',
             [
                 'attribute' => 'description_en',
                 'value' => $model->description_en,
                 'format' => 'html',
-                'contentOptions' => ['class' => 'description'],
+                'contentOptions' => ['class' => 'description', 'style' => 'width: 70%'],
             ],
             'description_ru:html',
-            // 'img',
             [
                 'attribute' => 'img',
                 'value' => "<img src='{$image->getUrl('80x')}'></img>",
+                'format' => 'html',
+            ],
+            [
+                'attribute' => 'accessories',
+                'value' => !$model->accessories ? '<span class="text-danger"><i class="fa fa-times"></i></span>' : '<span class="text-success"><i class="fa fa-check"></i></span>',
+                'format' => 'html',
+            ],
+            [
+                'attribute' => 'vase',
+                'value' => function ($model) {
+                    if ($model->vase) {
+                        $images = $model->getImages();
+                        foreach ($images as $image) {
+                            if ($image->name == 'vase') {
+                                return "<img src='{$image->getUrl('80x')}'></img><span>$model->vase sum</span>";
+                            }
+                        }
+                    } else {
+                        return '<span class="text-danger"><i class="fa fa-times"></i></span>';
+                    }
+                },
                 'format' => 'html',
             ],
             [
@@ -83,14 +95,15 @@ $this->params['breadcrumbs'][] = ['label' => 'View'];
                     $i = 1;
                     $strToReturn;
                     foreach ($model->prices as $price) {
-                        $strToReturn .= $i . '. ' . $price->size . '<br>';
+                        $width_height = $price->width && $price->height ? "<br> - H: $price->height sm <br> - W: $price->width sm<br>" : '';
+                        $strToReturn .= "$i $price->size - <i>$price->price</i> sum $width_height <br>";
                         $i++;
                     }
                     return $strToReturn;
                 },
+                'label' => 'Sizes',
                 'format' => 'html',
             ],
-            // 'hit',
             [
                 'attribute' => 'hit',
                 'value' => !$model->hit ? '<span class="text-danger"><i class="fa fa-times"></i></span>' : '<span class="text-success"><i class="fa fa-check"></i></span>',
@@ -104,8 +117,10 @@ $this->params['breadcrumbs'][] = ['label' => 'View'];
 
     <?php
     
-    foreach($gallery as $file){
-        echo "<img src='{$file->getUrl('80x')}'></img>";
+    foreach($gallery as $image){
+        if ($image->name != 'vase') {
+            echo "<img src='{$image->getUrl('80x')}'></img>";
+        }
     }
 
     ?>

@@ -7,7 +7,8 @@ use app\components\AdminTitle;
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\admin\models\OrderSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-
+$active_orders;
+$checked_orders;
 $this->title = Yii::t('app', 'Orders');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -16,6 +17,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a(Yii::t('app', 'Create Order'), ['create'], ['class' => 'btn btn-success']) ?>
+        <span class="label label-sm label-warning"><?= $active?> Active</span>
+        <span class="label label-sm label-success"><?= $checked?> Checked</span>
     </p>
 
     <?= GridView::widget([
@@ -32,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'sum',
                 'value' => function ($data) {
-                    return '$' . $data->sum;
+                    return $data->sum  . ' ' . Yii::t('app', 'sum');
                 }
             ],
             // 'status',

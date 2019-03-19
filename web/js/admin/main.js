@@ -372,40 +372,67 @@ $(function () {
     //  Show selected images
 
     $('.uploadGallery').change(function() {
-        var files = this.files,
-            previewContainer = $('.preview-images');
-
-            previewContainer.html('');
-
-        for (let i = 0; i < files.length; i++) {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                previewContainer.html($('.preview-images').html() + '<div class="col-md-1"><img src="' + e.target.result + '" style="width: 100%"><p style="margin-top: 5px">' + files[i].name + '</p></div>');
-            }
-            reader.readAsDataURL(this.files[i]);
-        }
+        var files = this.files;
+        readmultifiles(files);
     });
 
+    function readmultifiles(files) {
+        var reader = new FileReader();  
+        function readFile(index) {
+          if( index >= files.length ) return;
+          var file = files[index];
+          reader.onload = function(e) {
+            // get file content  
+            var bin = e.target.result,
+                splitName = file.name.split('_'),
+                name = splitName[0],
+                position = splitName[1],
+                size;
+
+            if (splitName.length > 2) {
+                size = splitName[2].split('.').slice(0, -1).join('.');
+            } else {
+                size = '';
+            }
+
+            position = position == undefined ? '' : 'Pos. №' + position;
+
+            size = size == undefined ? '' : size;
+
+            $('.preview-images').html($('.preview-images').html() + '<div class="col-md-1 col-sm-2"><img src="' + bin + '" style="width: 100%"><p style="margin-top: 5px; margin-bottom: 0">' + name + '</p><p style="margin: 0">' + position + '</p><p style="margin: 0">' + size + '</p></div>');
+            // do sth with bin
+            readFile(index+1)
+          }
+        //   reader.readAsBinaryString(file);
+          reader.readAsDataURL(file);
+        }
+        readFile(0);
+      }
 
     // delete image from gallery in db
 
-    $('.removeImage').on('click', 'i', function() {
+    $('.gallery').on('click', '.removeImage i', function() {
         var alias = $(this).parent().data('image'),
-            id = $('.product-form').data('id');
-        $.ajax({
-            url: '/admin/product/remove-image',
-            data: {
-                id: id,
-                alias: alias,
-            },
-            type: 'GET',
-            success: function (res) {
-                if (!res) alert('Error in getting the data');
-            },
-            error: function () {
-                alert('Error in sending the request');
-            }
-        });
+            id = $('.product-form').data('id'),
+            clickedIcon = $(this);
+        if (confirm('Are you sure you want to delete this image?')) {
+            $.ajax({
+                url: '/' + ru + 'admin/product/remove-image',
+                data: {
+                    id: id,
+                    alias: alias,
+                },
+                type: 'GET',
+                success: function (res) {
+                    if (!res) alert('Error in getting the data');
+                    var columnToRemove = clickedIcon.closest('.col-md-1');
+                    columnToRemove.remove();
+                },
+                error: function () {
+                    alert('Error in sending the request');
+                }
+            });
+        }
     });
 
     
@@ -415,19 +442,36 @@ $(function () {
 
     $('#add-new-size').click(function() {
         var new_size = $(this).parent().find('#size').val(),
+            new_width = $(this).parent().find('#width').val(),
+            new_height = $(this).parent().find('#height').val(),
             new_price = $(this).parent().find('#price').val(),
-            ol = $('.added-sizes');
+            ol = $('.added-sizes'),
+            width_height;
+
+        if (new_width && new_height) {
+            width_height = " (" + new_height + 'cm H x ' + new_width + 'cm W' + ")";
+        } else {
+            width_height = '';
+        }
 
         if (new_size && new_price) {
-            ol.html(ol.html() + "<li data-arr-id='" + added_sizes.length + "'><i class='fa fa-times remove-new'></i>" + new_size + " | " + new_price + "</li>");
-            new_size_arr = {
-                size: new_size,
-                price: new_price
-            };
+            ol.html(ol.html() + "<li data-arr-id='" + added_sizes.length + "'><i class='fa fa-times remove-new' style='margin: 5px'></i>" + new_size + width_height + " | " + new_price + " sum</li>");
+            if (width_height) {
+                new_size_arr = {
+                    size: new_size,
+                    width: new_width,
+                    height: new_height,
+                    price: new_price
+                };
+            } else {
+                new_size_arr = {
+                    size: new_size,
+                    price: new_price
+                };
+            }
             added_sizes.push(new_size_arr);
         }
-        $(this).parent().find('#size').val('');
-        $(this).parent().find('#price').val('');
+        $(this).parent().find('input').val('');
         return false;
     });
 
@@ -440,30 +484,34 @@ $(function () {
 
     $('.save-product').click(function() {
         var id = $(this).data('product-id');
-        $.ajax({
-            url: '/' + ru + 'admin/product/create',
-            data: {
-                sizes: added_sizes
-            },
-            type: 'GET',
-            success: function(res) {
-                if (!res) alert('Sorry, Error in respond. Please try again');
-                console.log(res);
-            }
-        });
-        $.ajax({
-            url: '/' + ru + 'admin/product/update',
-            data: {
-                sizes: added_sizes,
-                id: id,
-            },
-            type: 'GET',
-            success: function(res) {
-                if (!res) alert('Sorry, Error in respond. Please try again');
-
-            }
-        });
-
+        if (window.location.href.indexOf('create') > -1) {
+            $.ajax({
+                url: '/' + ru + 'admin/product/create',
+                data: {
+                    sizes: added_sizes
+                },
+                type: 'GET',
+                success: function(res) {
+                    if (!res) alert('Sorry, Error in respond. Please try again');
+                    console.log(res);
+                }
+            });
+        }
+        
+        if (window.location.href.indexOf('update') > -1) {
+            $.ajax({
+                url: '/' + ru + 'admin/product/update',
+                data: {
+                    sizes: added_sizes,
+                    id: id,
+                },
+                type: 'GET',
+                success: function(res) {
+                    if (!res) alert('Sorry, Error in respond. Please try again');
+    
+                }
+            });
+        }
     });
 
 

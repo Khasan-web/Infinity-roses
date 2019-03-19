@@ -9,6 +9,8 @@ use Yii;
  *
  * @property int $id
  * @property string $size
+ * @property int $width
+ * @property int $height
  * @property int $price
  * @property int $product_id
  */
@@ -29,7 +31,7 @@ class Price extends \yii\db\ActiveRecord
     {
         return [
             [['size', 'price', 'product_id'], 'required'],
-            [['price', 'product_id'], 'integer'],
+            [['price', 'product_id', 'width', 'height'], 'integer'],
             [['size'], 'string', 'max' => 255],
         ];
     }
@@ -42,6 +44,8 @@ class Price extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'size' => 'Size',
+            'width' => 'Width',
+            'height' => 'Height',
             'price' => 'Price',
             'product_id' => 'Product ID',
         ];

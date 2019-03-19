@@ -3,8 +3,8 @@ use yii\helpers\Url;
 ?>
 <?php
 	$mainImage = $product->getImage();
-	$gallery = $product->getImages();
-	$description = 'description_' . Yii::$app->language;
+    $gallery = $product->getImages();
+    $description = 'description_' . Yii::$app->language;
 ?>
 <section id="product-details">
     <div class="container">
@@ -14,36 +14,20 @@ use yii\helpers\Url;
             </h2>
             <div class="col-lg-6 col-md-10">
                 <?php
-                    $color_split = str_split($mainImage->name);
-                    $color_name = '';
-                    $image_position = '';
-                    foreach ($color_split as $char) {
-                        $char = strtolower($char);
-                        if (preg_match('/[a-z]+/', $char)) {
-                            $color_name .= $char;
-                        }
-                        if (preg_match('/[0-9]/', $char)) {
-                            $image_position = $char;
-                        }
-                    }
+                    $img_info = explode('_' , $mainImage->name);
+                    $main_color_name = $img_info[0];
+                    $main_image_position = $img_info[1];
                 ?>
-                <img src="<?= $mainImage->getUrl()?>" alt="<?= $color_name?>" data-position="1" class="active-img"
-                    data-color="<?= $color_name?>">
+                <img src="<?= $mainImage->getUrl()?>" alt="<?= $main_color_name?>" data-position="<?= $main_image_position?>" class="active-img"
+                    data-color="<?= $main_color_name?>">
                 <div class="row product__position" data-product-id="<?= $product->id?>">
                     <?php foreach ($gallery as $image):?>
                     <?php
-                        $color_split = str_split($image->name);
+                        $img_info = explode('_', $image->name);
                         $color_name = '';
                         $image_position = '';
-                        foreach ($color_split as $char) {
-                            $char = strtolower($char);
-                            if (preg_match('/[a-z]+/', $char)) {
-                                $color_name .= $char;
-                            }
-                            if (preg_match('/[0-9]/', $char)) {
-                                $image_position = $char;
-                            }
-                        }
+                        $color_name = $img_info[0];
+                        $image_position = $img_info[1];
                     ?>
                     <?php if ($image_position == 1 && $color_name == 'red'):?>
                     <div class="col-3">
@@ -72,17 +56,17 @@ use yii\helpers\Url;
                 </div>
             </div>
             <div class="col-lg-6 col-md-10 info">
-                <h2 class="hide-on-mob"><?= $product->name?> <span
-                        class="subheader"><?= $product->category->$name?></span></h2>
-                <div class="row my-4">
+                <h2 class="hide-on-mob mb-4 d-inline-block"><?= $product->name?></h2>
+                <span class="subheader ml-2"><?= $product->category->$name?></span>
+                <?php if ($product->accessories):?>
+                <div class="row">
                     <p class="mx-3">
                         <?= Yii::t('app', 'Firstly bla bla bla Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate eius ducimus molestias est, temporibus quia.')?>
                     </p>
                     <div class="col-md-6">
-                        <button
-                            class="btn btn-outline-dark w-100 toggle-parfume mb-1"><?= Yii::t('app', 'Parfume')?></button>
+                        <button class="btn btn-outline-dark w-100 toggle-parfume mb-1"><?= Yii::t('app', 'Parfume')?></button>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 mb-4">
                         <button
                             class="btn btn-outline-dark w-100 toggle-chocolate mb-1"><?= Yii::t('app', 'Chocolate')?></button>
                     </div>
@@ -99,20 +83,37 @@ use yii\helpers\Url;
                     <div data-id="3"><img src="img/product/chocalte.png" alt=""></div>
                     <div data-id="4"><img src="img/product/chocalte.png" alt=""></div>
                 </div>
+                <?php else:?>
+                <hr>
+                <?php endif;?>
+                <?php
+                    $price = array();
+                    $prices = $product->prices;
+                    foreach ($prices as $key => $size)
+                    {
+                        $price[$key] = $size['price'];
+                    }
+                    array_multisort($price, SORT_ASC, $prices);
+                ?>
                 <div class="row mb-4 info-panel">
                     <div class="col-lg-4 col-md-4 col-4">
-                        <h3 class="mb-0 product__price"></h3>
+                        <h3 class="mb-0 product__price"><?= Yii::t('app', 'Price')?></h3>
                     </div>
                     <div class="col-lg-4 col-md-4 col-8 size">
                         <select class="custom-select d-inline">
-                            <option value="0" selected disabled><?= Yii::t('app', 'Choose Size')?></option>
-                            <?php foreach ($product->prices as $size):?>
-                                <option data-price="<?= $size->price?>" value="<?= $size->size?>"><?= $size->size?></option>
+                            <?php $i = 0; foreach ($prices as $size):?>
+                            <?php if ($i = 0):?>
+                            <option selected data-price="<?= $size->price?>" data-width="<?= $size->width?>" data-height="<?= $size->height?>" value="<?= $size->size?>"><?= $size->size?></option>
+                            <?php endif;?>
+                            <option data-price="<?= $size->price?>" data-width="<?= $size->width?>" data-height="<?= $size->height?>" value="<?= $size->size?>"><?= $size->size?></option>
                             <?php endforeach;?>
                         </select>
+                        <?php if ($prices[0]->width):?>
+                            <span class="width_height">H: <span class="height">--</span><?= Yii::t('app', 'cm');?> | W: <span class="width">--</span><?= Yii::t('app', 'cm');?></span>
+                        <?php endif;?>
                     </div>
                     <div class="col-lg-4 col-md-4 col-12 my-4 my-lg-0 text-center">
-                        <button class="btn btn-dark add-to-cart"
+                        <button class="btn btn-dark add-to-cart btn-block"
                             data-id="<?= $product->id?>"><?= Yii::t('app', 'Add to cart!')?></button>
                     </div>
                 </div>
@@ -120,28 +121,46 @@ use yii\helpers\Url;
                 <div class="row colors">
                     <?php foreach ($gallery as $image):?>
                     <?php
-                        $color_split = str_split($image->name);
+                        $img_info = explode('_', $image->name);
                         $color_name = '';
                         $image_position = '';
-                        foreach ($color_split as $char) {
-                            $char = strtolower($char);
-                            if (preg_match('/[a-z]+/', $char)) {
-                                $color_name .= $char;
-                            }
-                            if (preg_match('/[0-9]/', $char)) {
-                                $image_position = $char;
+                        $color_name = $img_info[0];
+                        $image_position = $img_info[1];
+                        $size = $img_info[2];
+                    ?>
+                    <div class="col-3 color">
+                        <img 
+                        src="<?= $image->getUrl()?>" 
+                        alt="<?= $color_name?>" 
+                        data-position="<?= $image_position?>"
+                        data-color="<?= $color_name?>" 
+                        data-size="<?= $size?>">
+                        <span><?= $color_name?></span>
+                    </div>
+                    <?php endforeach;?>
+                </div>
+                <?php if ($product->vase):?>
+                    <hr>
+                    <?php
+                        foreach ($gallery as $image) {
+                            if ($image->name == 'vase') {
+                                $vase = $image;
                             }
                         }
                     ?>
-                    <?php if ($image_position == 1):?>
-                    <div class="col-3 color">
-                        <img src="<?= $image->getUrl()?>" alt="<?= $color_name?>" data-position="1"
-                            data-color="<?= $color_name?>">
-                        <span><?= $color_name?></span>
+                    <div class="row dark-elements">
+                        <div class="col-md-2 col-3">
+                            <img src="<?= $vase->getUrl('80x')?>" style="width: 80px" alt="">
+                        </div>
+                        <div class="col-6 pt-3">
+                            <div class="custom-control d-inline custom-checkbox mx-2">
+                                <input type="checkbox" value="false" class="custom-control-input vase">
+                                <label class="custom-control-label" for="customSwitches">Vase</label>
+                            </div>
+                            <span class="mt-1 mx-1 d-block"><?= $product->vase?> sum</span>
+                        </div>
                     </div>
-                    <?php endif;?>
-                    <?php endforeach;?>
-                </div>
+                <?php endif;?>
             </div>
         </div>
     </div>

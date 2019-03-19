@@ -45,7 +45,7 @@ $this->params['breadcrumbs'][] = '№' . $this->title;
             // 'sum',
             [
                 'attribute' => 'sum',
-                'value' => '$' .$model->sum,
+                'value' => $model->sum . ' ' . Yii::t('app', 'sum'),
             ],
             // 'status',
             [
@@ -72,7 +72,8 @@ $this->params['breadcrumbs'][] = '№' . $this->title;
                 <th>Color</th>
 				<th>Quantity</th>
 				<th>Parfume</th>
-				<th>Chocolate</th>
+                <th>Chocolate</th>
+                <th>Vase</th>
 				<th>Sum</th>
 			</tr>
 			</thead>
@@ -81,12 +82,19 @@ $this->params['breadcrumbs'][] = '№' . $this->title;
 				<tr>
 					<td><a target="_blank" style="text-decoration: underline" href="<?= Url::to(['product/view', 'id' => $item['product_id']])?>"><?= $item['name']?></a></td>
 					<td><?= $item['size']?></td>
-					<td>$<?= $item['price']?></td>
+					<td><?= $item['price'] . ' ' . sum?></td>
                     <td><?= $item['color']?></td>
 					<td><?= $item['qty_item']?></td>
 					<td><?= $item['parfume']?></td>
-					<td><?= $item['chocolate']?></td>
-					<td>$<?= $item['sum_item']?></td>
+                    <td><?= $item['chocolate']?></td>
+                    <td><?php
+                        if ($item['vase'] == true) {
+                            echo 'Yes';
+                        } else {
+                            echo '--';
+                        }
+                    ?></td>
+					<td><?= $item['sum_item'] . ' ' . sum?></td>
 				</tr>
 			<?php endforeach;?>
 			</tbody>

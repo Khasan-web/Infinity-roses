@@ -37,11 +37,17 @@ class OrderController extends Controller
     {
         $searchModel = new OrderSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+        $orders = Order::find()->all();
+        $checked = 0;
+        $active = 0;
+        foreach ($orders as $order) {
+            if ($order->status == 1) {
+                $checked++;
+            } else {
+                $active++;
+            }
+        }
+        return $this->render('index', compact('searchModel', 'dataProvider', 'checked', 'active'));
     }
 
     /**

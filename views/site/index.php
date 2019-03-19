@@ -9,7 +9,7 @@ use yii\helpers\StringHelper;
 <?php
   $date = date('d');
 ?>
-  <!-- <div class="notifications">
+  <div class="notifications">
     <?php $i = 0?>
     <?php foreach ($events as $event):?>
       <?php
@@ -25,7 +25,7 @@ use yii\helpers\StringHelper;
           </div>
       <?php $i++; endif;?>
     <?php endforeach;?>
-</div> -->
+</div>
 
 <div class="bg-image wow fadeIn" style="background-image: url('img/home/main.jpg')" data-wow-delay="0.4s"></div>
 
@@ -42,7 +42,7 @@ use yii\helpers\StringHelper;
   <?php if ($hits):?>
     <section id="popular-prods">
       <p class="subheader text-black wow fadeIn" data-wow-delay="0.8s"><?= Yii::t('app', 'MOST CHOICE')?></p>
-      <h1 class="wow fadeIn"><?= Yii::t('app', 'Popular roses')?></h1>
+      <h1 class="wow fadeIn"><?= Yii::t('app', 'Our favorites')?></h1>
       <div class="container">
         <div class="row mt-5">
             <?php $delay = 0.6;?>
@@ -91,7 +91,7 @@ use yii\helpers\StringHelper;
       </div>
     </div>
   </section>
-  <section id="gift-finder">
+  <!-- <section id="gift-finder">
       <p class="subheader text-black text-center wow fadeIn" data-wow-delay="0.8s"><?= Yii::t('app', 'BENEFIT TOOL')?></p>
       <h1 class="wow fadeIn"><?= Yii::t('app', 'Set creator')?></h1>
       <i class="fas fa-plus bg-icon"></i>
@@ -102,7 +102,7 @@ use yii\helpers\StringHelper;
           <button class="btn btn-outline-dark mt-4">Creat my own set!</button>
         </div>
       </div>
-    </section>
+    </section> -->
   <section id="holidays">
   <?php if ($events):?>
     <?php foreach ($events as $event):?>

@@ -69,17 +69,17 @@ class CategoryController extends AppAdminController
 
         if ($model->load(Yii::$app->request->post())) {
             
+            if ($model->secondary) {
+                $model->keywords = 'secondary';
+            }
+            $model->save();
+
             $model->image = UploadedFile::getInstance($model, 'image');
             if ($model->image) {
                 $model->upload();
             }
             unset($model->image);
 
-            if ($model->secondary) {
-                $model->keywords = 'secondary';
-            }
-
-            $model->save();
             Yii::$app->session->setFlash('success', 'The category was created');
             return $this->redirect(['view', 'id' => $model->id]);
         }
@@ -102,17 +102,20 @@ class CategoryController extends AppAdminController
 
         if ($model->load(Yii::$app->request->post())) {
 
+            if ($model->secondary) {
+                $model->keywords = 'secondary';
+            }
+            $model->save();
+            
             $model->image = UploadedFile::getInstance($model, 'image');
+            if ($model->image && $model->getImage()) {
+                $model->removeImage($model->getImage());
+            }
             if ($model->image) {
                 $model->upload();
             }
             unset($model->image);
-
-            if ($model->secondary) {
-                $model->keywords = 'secondary';
-            }
-
-            $model->save();
+            
             Yii::$app->session->setFlash('success', 'The category was updated');
             return $this->redirect(['view', 'id' => $model->id]);
         }

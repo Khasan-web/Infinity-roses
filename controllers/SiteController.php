@@ -74,12 +74,7 @@ class SiteController extends AppController
         $description = 'description_' . Yii::$app->language;
         $events = Events::find()->all();
         // get hits
-        if (Yii::$app->cache->get('hits')) {
-            $hits = Yii::$app->cache->get('hits');
-        } else {
-            $hits = Product::find()->where(['hit' => '1'])->with('category')->all();
-            Yii::$app->cache->set('hits', $hits, 300);
-        }
+        $hits = Product::find()->where(['hit' => '1'])->with('category')->limit(4)->all();
         $this->setMeta("Home", "keys", "desc");
         return $this->render('index', compact('hits', 'lang', 'name', 'description', 'events'));
     }

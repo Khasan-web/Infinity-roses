@@ -45,9 +45,9 @@ AdminAsset::register($this);
                 <button type="button" data-toggle="collapse" data-target=".sidebar-collapse" class="navbar-toggle"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
                 <a id="logo" href="<?= Url::to(['/admin'])?>" class="navbar-brand"><span class="fa fa-rocket"></span><span class="logo-text">Infinity roses</span><span style="display: none" class="logo-text-icon">µ</span></a></div>
             <div class="topbar-main"><a id="menu-toggle" href="#" class="hidden-xs"><i class="fa fa-bars"></i></a>
-                <form id="topbar-search" action="" method="" class="hidden-sm hidden-xs">
-                    <div class="input-icon right"><a href="#"><i class="fa fa-search"></i></a><input type="text" placeholder="Search here..." class="form-control"/></div>
-                </form>
+                <div style="background: #243342; display: inline-block; height: 100%; line-height: 50px; color: #fff; padding: 0 10px">
+                    <p><?= date('d M Y | l')?></p>
+                </div>
                 <ul class="nav navbar navbar-top-links navbar-right mbn">
                     <?= AdminNotification::widget();?>
                     <li class="dropdown topbar-user"><a data-hover="dropdown" href="#" class="dropdown-toggle"><img src="<?= $image->getUrl('45x45')?>" alt="" class="img-responsive img-circle"/>&nbsp;<span class="hidden-xs"><?= $user->username?></span>&nbsp;<span class="caret"></span></a>

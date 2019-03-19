@@ -28,12 +28,23 @@ use yii\helpers\Url;
 						<img src="<?= $image->getUrl()?>" alt="" class="w-100" />
 						<h2 class="name"><?= $product->name?></h2>
 					</a>
-					<p class="price">from $<?= $product['price']?></p>
+					<?php
+						// lowest price
+						$lowest_price;
+						$i = 0;
+						foreach ($product->prices as $price) {
+							if ($i == 0) {
+								$lowest_price = $price->price;
+							}
+							$price->price < $lowest_price ? $lowest_price = $price->price : $lowest_price;
+						}
+					?>
+					<p class="price">from $<?= $lowest_price?></p>
 				</div>
 			<?php endforeach;?>
 		</div>
 		<?php endif;?>
-		<h4>More about <?= $category->$name?></h4>
+		<h4><?= $category->$name?>, <?= Yii::t('app', 'more')?> </h4>
 		<div class="col-md-10 mx-auto">
 			<?php 
 			$i = 0;

@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use yii\widgets\MaskedInput;
 
 ?>
 
@@ -22,13 +23,12 @@ use yii\bootstrap\ActiveForm;
 				</div>
 				<div class="col-md-5 col-11 mx-auto location-info">
 					<h4><?= Yii::t('app', 'Location')?>:</h4>
-					<p>9631 Brighton Way Beverly Hills <br>
-						Los Angeles, CA - 90210</p>
+					<p>Taras Shevchenko street 40 Tashkent</p>
 					<h4><?= Yii::t('app', 'Contacts')?>:</h4>
 					<p>+9989 99 111 11 11 <br>
 						+9989 90 111 11 11</p>
 					<h4>Email:</h4>
-					<p>info@infinity-roses.uz</p>
+					<p>info@infinityroses.uz</p>
 				</div>
 			</div>
 		</section>
@@ -36,30 +36,34 @@ use yii\bootstrap\ActiveForm;
 			<img src="img/white-logo.svg" alt="" class="bg-logo unselectable">
 			<h1 class="gold text-center "><?= Yii::t('app', 'Get in touch')?></h1>
 			<div class="col-lg-5 col-md-8 mx-auto gold-form">
-				<form action="" class="mt-5">
-					<div class="row">
-						<div class="col-md-6">
-							<input type="text" placeholder="<?= Yii::t('app', 'Full Name')?>" class="form-control">
-						</div>
-						<div class="col-md-6">
-							<input type="text" placeholder="<?= Yii::t('app', 'Phone Number')?>" class="form-control">
-						</div>
-						<div class="col-md-12">
-							<input type="text" placeholder="Email - <?= Yii::t('app', 'not important')?>" class="form-control">
-						</div>
-						<div class="col-md-12">
-							<textarea type="text" placeholder="<?= Yii::t('app', 'Message')?>" class="form-control"></textarea>
-						</div>
+			<?php $form = ActiveForm::begin([
+				'options' => [
+					'class' => 'mt-5',
+				],
+			]);?>
+				<div class="row">
+					<div class="col-md-6">
+						<?= $form->field($model, 'name')->textInput(['placeholder' => Yii::t('app', 'Full Name')])->label(false);?>
 					</div>
-					<button type="submit" class="btn btn-outline-gold"><?= Yii::t('app', 'Send the message')?>!</button>
-				</form>
+					<div class="col-md-6">
+						<?= $form->field($model, 'phone')->textInput(['placeholder' => Yii::t('app', 'Phone Number')])->label(false);?>
+					</div>
+					<div class="col-md-12">
+						<?= $form->field($model, 'email')->textInput(['placeholder' => 'Email - ' . Yii::t('app', 'not important')])->label(false);?>
+					</div>
+					<div class="col-md-12">
+						<?= $form->field($model, 'message')->textarea(['placeholder' => Yii::t('app', 'Message')])->label(false);?>
+					</div>
+				</div>
+				<?= Html::submitButton(Yii::t('app', 'Send the message') . '!', ['class' => 'btn btn-outline-gold'])?>
+			<?php ActiveForm::end();?>
 			</div>
 		</section>
 		<section id="social-media">
-			<a href="#">
+			<a href="https://www.facebook.com/infinityroses.uz/">
 				<i class="fab fa-facebook-square"></i>
 			</a>
-			<a href="#">
+			<a href="https://www.instagram.com/infinityroses.uz/">
 				<i class="fas fa-camera-retro"></i>
 			</a>
 			<a href="#">

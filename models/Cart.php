@@ -4,7 +4,7 @@ use Yii;
 use yii\db\ActiveRecord;
 class Cart extends ActiveRecord {
     
-    public function addToCart($product, $size, $color, $accessories) {
+    public function addToCart($product, $size, $color, $accessories, $vase = false) {
         $i = count($_SESSION['cart']);
         if ($i != 0) {
             for ($id = 0; $id <= $i; $id++) {
@@ -13,7 +13,8 @@ class Cart extends ActiveRecord {
                     $_SESSION['cart'][$id]['size'] == $size['selected_size'] && 
                     $_SESSION['cart'][$id]['parfume'] == $accessories['parfume'] && 
                     $_SESSION['cart'][$id]['chocolate'] == $accessories['chocolate'] && 
-                    $_SESSION['cart'][$id]['color'] == $color['color']) 
+                    $_SESSION['cart'][$id]['color'] == $color['color'] &&
+                    $_SESSION['cart'][$id]['vase'] == $vase) 
                 {
 
                     $_SESSION['cart'][$id]['qty'] += 1;
@@ -31,6 +32,7 @@ class Cart extends ActiveRecord {
                         'color' => $color['color'],
                         'parfume' => $accessories['parfume'], // if accessories will not be important set them in condition
                         'chocolate' => $accessories['chocolate'],
+                        'vase' => $vase,
                     ];
                     break;
                 }
@@ -46,6 +48,7 @@ class Cart extends ActiveRecord {
                 'color' => $color['color'],
                 'parfume' => $accessories['parfume'], // if accessories will not be important set them in condition
                 'chocolate' => $accessories['chocolate'],
+                'vase' => $vase,
             ];
         }
     $_SESSION['cart.qty'] = isset($_SESSION['cart.qty']) ? $_SESSION['cart.qty'] + 1 : 1;

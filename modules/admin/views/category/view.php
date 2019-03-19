@@ -33,21 +33,30 @@ $this->params['breadcrumbs'][] = ['label' => 'View'];
             ],
         ]) ?>
     </p>
-
+    <?php $image = $model->getImage();?>
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
             'id',
             'name_en',
             'name_ru',
-            // 'description_en:html',
             [
                 'attribute' => 'description_en',
                 'value' => $model->description_en,
                 'format' => 'html',
-                'contentOptions' => ['class' => 'description'],
+                'contentOptions' => ['class' => 'description', 'style' => 'width: 70%'],
             ],
-            'description_ru:html',
+            [
+                'attribute' => 'description_ru',
+                'value' => $model->description_ru,
+                'format' => 'html',
+                'contentOptions' => ['class' => 'description', 'style' => 'width: 70%'],
+            ],
+            [
+                'attribute' => 'image',
+                'value' => '<img src=' . $image->getUrl('150x') . '></img>',
+                'format' => 'html',
+            ],
             'keywords',
         ],
     ]) ?>

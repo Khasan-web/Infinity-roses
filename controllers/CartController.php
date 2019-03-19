@@ -23,9 +23,9 @@ class CartController extends AppController {
                 Yii::$app->session->setFlash('success', 'Order successfuly accepted, manager will contact with you soon');
                 if ($order->email) {
                     Yii::$app->mailer->compose('order', compact('session'))
-                    ->setFrom(['info@infinityroses.uz' => 'Infinity roses'])
+                    ->setFrom([Yii::$app->params['adminEmail'] => 'Infinity roses'])
                     ->setTo($order->email)
-                    ->setSubject("Order from $order->name | Infinity roses")
+                    ->setSubject("List of products | Infinity roses")
                     ->send();
                 }
                 // Send to admin
@@ -56,7 +56,7 @@ class CartController extends AppController {
         $session = Yii::$app->session;
         $session->open();
         $cart = new Cart();
-        $cart->addToCart($product, $data['size'], $data['color'], $data['accessories']);
+        $cart->addToCart($product, $data['size'], $data['color'], $data['accessories'], $data['vase']);
         // name of accessories will be added after they will be in the db
 
         $this->layout = false;
@@ -101,6 +101,7 @@ class CartController extends AppController {
             $order_items->parfume = $item['parfume'];
             $order_items->chocolate = $item['chocolate'];
             $order_items->price = $item['price'];
+            $order_items->vase = $item['vase'] == 'true' ? '1' : '0';
             $order_items->qty_item = $item['qty'];
             $order_items->sum_item = $item['price'] * $item['qty'];
             $order_items->save();

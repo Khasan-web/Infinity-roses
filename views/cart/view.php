@@ -42,6 +42,7 @@ use yii\widgets\MaskedInput;
                     <th><?= Yii::t('app', 'Quantity')?></th>
                     <th><?= Yii::t('app', 'Parfume')?></th>
                     <th><?= Yii::t('app', 'Chocolate')?></th>
+                    <th><?= Yii::t('app', 'Vase')?></th>
                     <th><?= Yii::t('app', 'Sum')?></th>
                     <th><i class="fas fa-times"></i></th>
                 </tr>
@@ -53,19 +54,26 @@ use yii\widgets\MaskedInput;
                     <td><a target="_blank" style="text-decoration: underline"
                             href="<?= Url::to(['product/view', 'id' => $item['id']])?>"><?= $item['name']?></a></td>
                     <td><?= $item['size']?></td>
-                    <td>$<?= $item['price']?></td>
+                    <td><?= $item['price'] / 1000 >= 1000 ? $item['price'] / 1000000 . 'M' : $item['price'] / 1000 . 'K';?> <?= Yii::t('app', 'sum')?></td>
                     <td><?= $item['qty']?></td>
                     <td>
                         <?= $item['parfume']?>
                     </td>
                     <td><?= $item['chocolate']?></td>
-                    <td>$<?= $item['qty'] * $item['price']?></td>
+                    <td><?php
+                        if ($item['vase'] == 'true') {
+                            echo 'Yes';
+                        } else {
+                            echo '--';
+                        }
+                    ?></td>
+                    <td><?= $item['qty'] * $item['price'] / 1000 >= 1000 ? $item['qty'] * $item['price'] / 1000000 . 'M' : $item['qty'] * $item['price'] / 1000 . 'K';?> <?= Yii::t('app', 'sum')?></td>
                     <td><i class="fas fa-times del-item" data-id="<?= $item['id']?>"></i></td>
                 </tr>
                 <?php endforeach;?>
                 <tr>
                     <td colspan="8"><?= Yii::t('app', 'Common sum:')?></td>
-                    <td>$<?= $session['cart.sum']?></td>
+                    <td><?= $session['cart.sum'] / 1000 >= 1000 ? $session['cart.sum'] / 1000000 . 'M' : $session['cart.sum'] / 1000 . 'K';?> <?= Yii::t('app', 'sum')?></td>
                 </tr>
                 <tr>
                     <td colspan="8"><?= Yii::t('app', 'Common quantity:')?></td>
@@ -94,15 +102,14 @@ use yii\widgets\MaskedInput;
                         </div>
                     </div>
                     <div class="text-center">
-                        <?= Html::submitButton(Yii::t('app', 'Order'), ['class' => 'btn btn-dark btn-block btn-lg'])?>
+                        <button type="submit" class="btn btn-dark btn-block btn-lg"><?= Yii::t('app', 'Order')?>!</button>
                     </div>
                     <?php ActiveForm::end()?>
                 </div>
                 <div class="col-lg-4 col-md-6 text-left mt-4">
                     <h4><?= Yii::t('app', 'Delivery')?></h4>
-                    <p><?= Yii::t('app', 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque soluta nihil ut sapiente. Dolorem, facilis
-							accusantium est repellendus illum culpa! <a href="" style="text-decoration: underline">terms and conditions</a>')?>
-                    </p>
+                    <p><?= Yii::t('app', 'Infinity Roses provide free delivery within just 40-60 minutes in Tashkent city. If you are in another city, we will inform you about the time and price of delivery by phone.')?></p>
+                    <p><?= Yii::t('app', 'You agree to the')?> <a href="" style="text-decoration: underline"><?= Yii::t('app', 'terms and conditions')?></a></p>
                 </div>
                 <div class="col-lg-2 col-md-5 mx-auto mt-4">
                     <img src="img/gold-logo.svg" alt="">
@@ -113,7 +120,7 @@ use yii\widgets\MaskedInput;
         <?php else:?>
         <div class="text-center py-5">
             <h2 class="not-found text-center pb-2 pt-0"><?= Yii::t('app', 'Cart is empty')?>...</h2>
-            <a href="<?= Url::to(['/#popular-prods'])?>" class="btn btn-outline-dark">Explore Popular Products!</a>
+            <a href="<?= Url::to(['/#popular-prods'])?>" class="btn btn-outline-dark"><?= Yii::t('app', 'See our favorites')?>!</a>
         </div>
         <?php endif;?>
     </div>

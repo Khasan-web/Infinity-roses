@@ -10,12 +10,10 @@ use app\modules\admin\models\Price;
  *
  * @property int $id
  * @property int $category_id
- * @property string $name
- * @property int $price
  * @property string $keywords
- * @property string $description_en
- * @property string $description_ru
  * @property string $img
+ * @property string $accessories
+ * @property string $vase
  * @property string $hit
  */
 class Product extends \yii\db\ActiveRecord
@@ -55,11 +53,11 @@ class Product extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['category_id', 'name', 'price', 'description_en', 'description_ru'], 'required'],
-            [['category_id', 'price'], 'integer'],
+            [['category_id', 'name', 'description_en', 'description_ru'], 'required'],
+            [['category_id'], 'integer'],
+            [['accessories', 'vase'], 'safe'],
             [['description_en', 'description_ru', 'hit'], 'string'],
             [['name', 'keywords'], 'string', 'max' => 255],
-            // [['img'], 'string', 'max' => 500],
             [['image'], 'file', 'extensions' => 'png, jpg, jpeg'],
             [['gallery'], 'file', 'extensions' => 'png, jpg, jpeg', 'maxFiles' => 12],
         ];
@@ -71,15 +69,16 @@ class Product extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'Product №'),
-            'category_id' => Yii::t('app', 'Category'),
-            'name' => Yii::t('app', 'Name'),
-            'price' => Yii::t('app', 'Price'),
-            'keywords' => Yii::t('app', 'Keywords'),
-            'description_en' => Yii::t('app', 'Description En'),
-            'description_ru' => Yii::t('app', 'Description Ru'),
-            'image' => Yii::t('app', 'Image'),
-            'hit' => Yii::t('app', 'Hit'),
+            'id' => 'Product №',
+            'category_id' => 'Category',
+            'name' => 'Name',
+            'keywords' => 'Keywords',
+            'description_en' => 'Description En',
+            'description_ru' => 'Description Ru',
+            'image' => 'Image',
+            'accessories' => 'Accessories',
+            'vase' => 'Vase',
+            'hit' => 'Hit',
         ];
     }
 

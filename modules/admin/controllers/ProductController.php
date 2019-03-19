@@ -81,6 +81,10 @@ class ProductController extends AppAdminController
             foreach ($addedSizes as $size) {
                 $addSizesModel = new Price();
                 $addSizesModel->size = $size['size'];
+                if ($size['width'] && $size['height']) {
+                    $addSizesModel->width = $size['width'];
+                    $addSizesModel->height = $size['height'];
+                }
                 $addSizesModel->price = $size['price'];
                 $addSizesModel->product_id = $last_id + 1;
                 $addSizesModel->save();
@@ -124,6 +128,10 @@ class ProductController extends AppAdminController
             foreach ($addedSizes as $size) {
                 $addSizesModel = new Price();
                 $addSizesModel->size = $size['size'];
+                if ($size['width'] && $size['height']) {
+                    $addSizesModel->width = $size['width'];
+                    $addSizesModel->height = $size['height'];
+                }
                 $addSizesModel->price = $size['price'];
                 $addSizesModel->product_id = $id;
                 $addSizesModel->save();
@@ -158,6 +166,7 @@ class ProductController extends AppAdminController
         $size = Price::findOne($id);
         $size->delete();
         $pricesModel = Price::find()->where(['product_id' => $product_id])->all();
+        
 
         $this->layout = false;
         return $this->render('sizes', compact('pricesModel'));

@@ -50,7 +50,7 @@ $currentAction = Yii::$app->controller->action->id;
 <?php $this->beginBody() ?>
 <div id="loader"><img src="/img/loading.gif" alt="" width="150" /></div>
 
-<?= Navbar::widget(['categories' => $categories, 'products' => $products])?>
+<?= Navbar::widget()?>
 
 <!-- Modal search -->
 <div class="modal fade" id="search" tabindex="-1" role="dialog" aria-labelledby="search" aria-hidden="true">
@@ -124,9 +124,30 @@ $currentAction = Yii::$app->controller->action->id;
 
       </div>
       <div class="modal-footer">
-        <button data-dismiss="modal" aria-label="Close" class="btn btn-outline-gold"><?= Yii::t('app', 'Continue shopping')?></button>
         <a href="<?= Url::to(['cart/view']);?>" class="btn btn-outline-success"><?= Yii::t('app', 'Formalize the order')?></a>
-        <button class="btn btn-outline-danger clear-cart"><?= Yii::t('app', 'Clear the cart')?></button>
+        <button data-dismiss="modal" aria-label="Close" class="btn btn-outline-gold"><?= Yii::t('app', 'Continue shopping')?></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="alert-modal" tabindex="-1" role="dialog" aria-labelledby="alert-modal"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          Infinity Roses
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body gold-form py-2">
+        <p class="mb-0"></p>
+      </div>
+      <div class="modal-footer">
+        <button data-dismiss="modal" aria-label="Close" class="btn ok btn-outline-success">Yes</button>
       </div>
     </div>
   </div>
@@ -138,7 +159,7 @@ $currentAction = Yii::$app->controller->action->id;
       <div class="row">
         <div class="col-lg-3 col-md-6 py-4">
           <h4><?= Yii::t('app', 'Location')?>:</h4>
-          <p>9631 Brighton Way Beverly Hills Los Angeles, CA - 90210</p>
+          <p>Taras Shevchenko street 40 Tashkent</p>
         </div>
         <div class="col-lg-3 col-md-6 py-4">
           <h4><?= Yii::t('app', 'Contacts')?>:</h4>
@@ -147,12 +168,12 @@ $currentAction = Yii::$app->controller->action->id;
             +9989 90 111 11 11
           </p>
         </div>
-        <div class="col-lg-3 col-md-6 py-4">
+        <div class="col-lg-3 col-md-6 py-4 socials">
           <h4><?= Yii::t('app', 'Follow Us')?>:</h4>
-          <a href="#"> <i class="fab fa-facebook-square"></i> </a>
-          <a href="#"> <i class="fas fa-camera-retro"></i> </a>
-          <a href="#"> <i class="fab fa-skype"></i> </a>
-          <a href="#"> <i class="fab fa-pinterest-square"></i> </a>
+          <a target="_blank" href="https://www.facebook.com/infinityroses.uz/"><i class="fab fa-facebook-square"></i> </a>
+          <a target="_blank" href="https://www.instagram.com/infinityroses.uz/"><i class="fas fa-camera-retro"></i> </a>
+          <a target="_blank" href="#"><i class="fab fa-skype"></i> </a>
+          <a target="_blank" href="#"><i class="fab fa-pinterest-square"></i> </a>
           <p><?= Yii::t('app', 'Follow us and be aware <br/>of all news')?></p>
         </div>
         <div class="col-lg-3 col-md-6 py-4">
@@ -165,7 +186,7 @@ $currentAction = Yii::$app->controller->action->id;
         </div>
       </div>
       <hr />
-      <p class="text-center mb-0">www.infinity-roses.uz</p>
+      <p class="text-center mb-0">www.infinityroses.uz</p>
     </div>
   </footer>
   

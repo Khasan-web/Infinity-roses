@@ -28,13 +28,11 @@ use mihaildev\elfinder\ElFinder;
 
             <?= $form->field($model, 'secondary')->checkbox() ?>
 
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione, praesentium?</p>
-
         </div>
     </div>
 
     <div class="panel panel-orange">
-        <div class="panel-heading">4. Uploading Main Image</div>
+        <div class="panel-heading">2. Uploading Main Image</div>
         <div class="panel-body">
             <div class="row">
                 <div class="col-md-3">
@@ -57,6 +55,8 @@ use mihaildev\elfinder\ElFinder;
         <div class="panel-heading">3. Work with text</div>
         <div class="panel-body">
 
+            <?= $form->field($model, 'keywords')->textInput(['maxlength' => true]) ?>
+
             <?php
                 echo $form->field($model, 'description_en')->widget(CKEditor::className(), [
                     'editorOptions' => ElFinder::ckeditorOptions('elfinder',[]),
@@ -68,8 +68,6 @@ use mihaildev\elfinder\ElFinder;
                     'editorOptions' => ElFinder::ckeditorOptions('elfinder',[]),
                 ]);
             ?>
-
-            <?= $form->field($model, 'keywords')->textInput(['maxlength' => true]) ?>
 
         </div>
     </div>

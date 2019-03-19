@@ -3,6 +3,7 @@
 namespace app\modules\admin\models;
 
 use Yii;
+use yii\helpers\Url;
 
 /**
  * This is the model class for table "category".
@@ -47,7 +48,8 @@ class Category extends \yii\db\ActiveRecord
             [['description_en', 'description_ru'], 'string'],
             [['name_en', 'name_ru', 'keywords'], 'string', 'max' => 255],
             [['image'], 'file', 'extensions' => 'png, jpg, jpeg'],
-            ['secondary', 'safe'],
+            // attr secondary hide this category in navbar
+            ['secondary', 'safe']
         ];
     }
 

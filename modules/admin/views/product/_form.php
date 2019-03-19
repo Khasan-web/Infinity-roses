@@ -30,11 +30,14 @@ use mihaildev\elfinder\ElFinder;
 
             <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-            <?= $form->field($model, 'price')->textInput() ?>
-
             <?php //echo $form->field($model, 'hit')->dropDownList([ '0', '1', ], ['prompt' => '']) ?>
 
             <?= $form->field($model, 'hit')->checkbox()?>
+
+            <?= $form->field($model, 'accessories')->checkbox()?>
+
+            <?= $form->field($model, 'vase')->textInput()->label('Price of a vase')?>
+            <p>if you set the price, the product will be a bouquet and it will have a vase selection function</p>
 
         </div>
     </div>
@@ -56,11 +59,17 @@ use mihaildev\elfinder\ElFinder;
                     <input type="text" id="size" placeholder="size" class="form-control">
                 </div>
                 <div class="form-group">
+                    <input type="number" id="height" placeholder="height cm" class="form-control">
+                </div>
+                <div class="form-group">
+                    <input type="number" id="width" placeholder="width cm" class="form-control">
+                </div>
+                <div class="form-group">
                     <input type="text" id="price" placeholder="price" class="form-control">
                 </div>
                 <button class="btn btn-info" id="add-new-size" onclick="return false">Add new size</button>
             </div>
-
+            <p style="margin-top: 15px;">If this product is bouquet, then width and height are not important to set</p>
         </div>
     </div>
 
@@ -107,18 +116,28 @@ use mihaildev\elfinder\ElFinder;
 
             <!-- Gallery from db -->
             <div class="row text-center gallery">
-                <?php if ($gallery[1]):?>
+                <?php if ($gallery[0]):?>
                 <h3 style="margin-top: 5px">Gallery</h3>
-                <?php foreach ($gallery as $file):?>
-
-                <div class="col-md-1" style="margin: 15px 0">
-                    <div class="removeImage" data-image="<?= $file->urlAlias?>">
-                        <i class="fa fa-times" onclick="confirm('Are you sure you want to delete this image?')"></i>
+                <?php foreach ($gallery as $image):?>
+                <?php if ($image->urlAlias != 'placeHolder'):?>
+                <div class="col-md-1 col-sm-2" style="margin: 15px 0">
+                    <div class="removeImage" data-image="<?= $image->urlAlias?>">
+                        <i class="fa fa-times"></i>
                     </div>
-                    <img src="<?= $file->getUrl()?>" style="width: 100%">
-                    <p style="margin-top: 5px"><?= $file->name . '.' . $file->extension?></p>
+                        <img src="<?= $image->getUrl('80x')?>" style="width: 100%">
+                    <?php
+                        $name_explode = explode('_', $image->name);
+                        $name = $name_explode[0];
+                        $position = $name_explode[1];
+                        $size = explode('.', $name_explode[2])[0];
+                    ?>
+                    <p style="margin-top: 5px; margin-bottom: 0;"><?= $name?></p>
+                    <?php  if ($position) {
+                        echo "<p style='margin: 0'>Pos. №$position</p>";
+                    }?>
+                    <p style="margin: 0"><?= $size?></p>
                 </div>
-
+                <?php endif;?>
                 <?php endforeach;?>
                 <?php endif;?>
             </div>
@@ -139,11 +158,13 @@ use mihaildev\elfinder\ElFinder;
         <div class="panel-body">
 
             <?= $form->field($model, 'keywords')->textInput(['maxlength' => true]) ?>
-            <p>In the keywords you can add any information you want, there may also be keys to formulate some parts of any product. <br> <i>Keys can be added in any part of a keywords</i></p>
+            <p>In the keywords you can add any information you want, there may also be keys to formulate belonging of product to some gift finder categories. <br> <i>Keys can be added in any part of a keywords and there are</i></p>
             
             <ol>
-                <li>Accessories - this key make a product available to has parfume and chocolate</li>
-                <li>Bouquet - this key shows that a product is bouquet and it can has a vase</li>
+                <li>Holiday</li>
+                <li>Her</li>
+                <li>Him</li>
+                <li>Home</li>
             </ol>
 
             <hr>

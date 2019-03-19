@@ -11,10 +11,9 @@ use yii\base\Model;
 class ContactForm extends Model
 {
     public $name;
+    public $phone;
     public $email;
-    public $subject;
-    public $body;
-    public $verifyCode;
+    public $message;
 
 
     /**
@@ -23,22 +22,9 @@ class ContactForm extends Model
     public function rules()
     {
         return [
-            // name, email, subject and body are required
-            [['name', 'email', 'subject', 'body'], 'required'],
+            [['name', 'phone', 'message'], 'required'],
             // email has to be a valid email address
             ['email', 'email'],
-            // verifyCode needs to be entered correctly
-            ['verifyCode', 'captcha'],
-        ];
-    }
-
-    /**
-     * @return array customized attribute labels
-     */
-    public function attributeLabels()
-    {
-        return [
-            'verifyCode' => 'Verification Code',
         ];
     }
 
@@ -50,11 +36,15 @@ class ContactForm extends Model
     public function contact($email)
     {
         if ($this->validate()) {
-            Yii::$app->mailer->compose()
+            Yii::$app->mailer->compose('contact', [
+                'name' => $this->name,
+                'email' => $this->email,
+                'message' => $this->message,
+                ])
                 ->setTo($email)
                 ->setFrom([$this->email => $this->name])
-                ->setSubject($this->subject)
-                ->setTextBody($this->body)
+                ->setSubject('Mail from contact form | Infinity roses')
+                ->setTextBody($this->message)
                 ->send();
 
             return true;

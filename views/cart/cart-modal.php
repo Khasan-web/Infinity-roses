@@ -8,8 +8,9 @@
         <th><?= Yii::t('app', 'Size')?></th>
         <th><?= Yii::t('app', 'Price')?></th>
         <th><?= Yii::t('app', 'Quantity')?></th>
-        <th><?= Yii::t('app', 'Parfume')?></th>
-        <th><?= Yii::t('app', 'Chocolate')?></th>
+        <th><?php //echo Yii::t('app', 'Parfume')?></th>
+        <th><?php //echo Yii::t('app', 'Chocolate')?></th>
+        <th><?= Yii::t('app', 'Vase')?></th>
         <th><i class="fas fa-times"></i></th>
     </tr>
     </thead>
@@ -19,18 +20,23 @@
             <td><img class="img-prod" src="<?= $item['img']?>" alt="<?= $item['name']?>"></td>
             <td><?= $item['name']?></td>
             <td><?= $item['size']?></td>
-            <td>$<?= $item['price']?></td>
+            <td><?= $item['price'] / 1000 >= 1000 ? $item['price'] / 1000000 . 'M' : $item['price'] / 1000 . 'K';?> <?= Yii::t('app', 'sum')?></td>
             <td><?= $item['qty']?></td>
-            <td>
-                <?= $item['parfume']?>
-            </td>
-            <td><?= $item['chocolate']?></td>
+            <td><?php //echo $item['parfume'] ? $item['parfume'] : '--'?></td>
+            <td><?php //echo $item['chocolate'] ? $item['chocolate'] : '--'?></td>
+            <td><?php
+                if ($item['vase'] == 'true') {
+                    echo 'Yes';
+                } else {
+                    echo '--';
+                }
+            ?></td>
             <td><i class="fas fa-times del-item" data-id="<?= $item['id']?>"></i></td>
         </tr>
     <?php endforeach;?>
     <tr>
         <td colspan="7"><?= Yii::t('app', 'Common sum:')?></td>
-        <td>$<?= $session['cart.sum']?></td>
+        <td><?= $session['cart.sum'] / 1000 >= 1000 ? $session['cart.sum'] / 1000000 . 'M' : $session['cart.sum'] / 1000 . 'K';?> <?= Yii::t('app', 'sum')?></td>
     </tr>
     <tr>
         <td colspan="7"><?= Yii::t('app', 'Common quantity:')?></td>

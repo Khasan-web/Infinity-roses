@@ -5,21 +5,6 @@ namespace app\models;
 use yii\db\ActiveRecord;
 use Yii;
 
-/**
- * This is the model class for table "order_items".
- *
- * @property int $id
- * @property int $order_id
- * @property int $product_id
- * @property string $name
- * @property string $size
- * @property string $color
- * @property int $parfume
- * @property int $chocolate
- * @property double $price
- * @property int $qty_item
- * @property double $sum_item
- */
 class OrderItems extends ActiveRecord
 {
     /**
@@ -42,6 +27,7 @@ class OrderItems extends ActiveRecord
         return [
             [['order_id', 'product_id', 'color', 'name', 'price', 'qty_item', 'sum_item'], 'required'],
             [['order_id', 'product_id', 'parfume', 'chocolate', 'qty_item'], 'integer'],
+            ['vase', 'safe'],
             [['size'], 'string'],
             [['price', 'sum_item'], 'number'],
             [['name'], 'string', 'max' => 255],

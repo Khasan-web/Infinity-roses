@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use app\components\AdminTitle;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\admin\models\ProductSearch */
@@ -27,20 +28,15 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'category_id',
-            'name',
-            // 'price',
             [
-                'attribute' => 'price',
+                'attribute' => 'category_id',
                 'value' => function ($data) {
-                    return '$' . $data->price;
+                    return "<a href='" . Url::to(['category/view', 'id' => $data->category->id]) . "'>" . $data->category->name_en ."</a>";
                 },
+                'format' => 'html',
             ],
+            'name',
             'keywords',
-            //'description_en:ntext',
-            //'description_ru:ntext',
-            //'img',
-            // 'hit',
             [
                 'attribute' => 'hit',
                 'value' => function ($data) {
