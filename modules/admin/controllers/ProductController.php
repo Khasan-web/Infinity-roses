@@ -197,10 +197,9 @@ class ProductController extends AppAdminController
      */
     public function actionDelete($id)
     {
-        $product = Product::findOne($id);
-        $product->removeImages();
-        $this->findModel($id)->delete();
-
+        $model = $this->findModel($id);
+        $model->delete();
+        $model->removeImages();
         return $this->redirect(['index']);
     }
 

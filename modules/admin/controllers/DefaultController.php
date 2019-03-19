@@ -27,6 +27,9 @@ class DefaultController extends AppAdminController
             $password = Yii::$app->security->generatePasswordHash($user->newPassword);
             $user->password = $password;
             $user->save();
+            if ($user->getImage()->urlAlias != 'placeHolder') {
+                $user->removeImages();
+            }
             $user->image = UploadedFile::getInstance($user, 'image');
             if ($user->image) {
                 $user->upload();

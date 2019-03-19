@@ -112,8 +112,9 @@ class OrderController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
+        $model = $this->findModel($id);
+        $model->delete();
+        $model->removeImages();
         return $this->redirect(['index']);
     }
 
