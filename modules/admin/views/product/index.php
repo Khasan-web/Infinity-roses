@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use app\components\AdminTitle;
 use yii\helpers\Url;
+use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\admin\models\ProductSearch */
@@ -21,13 +22,17 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a(Yii::t('app', 'Create Product'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?= GridView::widget([
+    <div class="table-responsive">
+        <?php
+    Pjax::begin();
+    echo GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
+            'name',
             [
                 'attribute' => 'category_id',
                 'value' => function ($data) {
@@ -35,7 +40,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
                 'format' => 'html',
             ],
-            'name',
             'keywords',
             [
                 'attribute' => 'hit',
@@ -43,6 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     return !$data->hit ? '<span class="text-danger"><i class="fa fa-times"></i></span>' : '<span class="text-success"><i class="fa fa-check"></i></span>';
                 },
                 'format' => 'html',
+                'label' => 'Hit 1 | 0'
             ],
 
             [
@@ -82,5 +87,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]
             ],
         ],
-    ]); ?>
+    ]); 
+    Pjax::end();?>
+    </div>
 </div>

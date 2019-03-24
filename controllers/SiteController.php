@@ -74,7 +74,13 @@ class SiteController extends AppController
         $description = 'description_' . Yii::$app->language;
         $events = Events::find()->all();
         // get hits
-        $hits = Product::find()->where(['hit' => '1'])->with('category')->limit(4)->all();
+        $hits_cache = Yii::$app->cache->get('hits');
+        if ($hits_cache) {
+            $hits = $hits_cache;
+        } else {
+            $hits = Product::find()->where(['hit' => '1'])->with('category')->limit(4)->all();
+            Yii::$app->cache->set('hit', $hits, 100);
+        }
         $this->setMeta("Home", "keys", "desc");
         return $this->render('index', compact('hits', 'lang', 'name', 'description', 'events'));
     }
@@ -144,8 +150,8 @@ class SiteController extends AppController
         return $this->render('about');
     }
 
-    public function actionCategory() {
-        $this->setMeta("CatName", "keys", "desc");
-        return $this->render('category', compact('bgNav'));
+    public function actionTermsConditions() {
+        $this->setMeta("Terms and conditions");
+        return $this->render('terms-conditions');
     }
 }

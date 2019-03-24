@@ -28,6 +28,20 @@ body {
     color: #B89C64;
 }
 
+#terms-conditons {
+    background-color: #fff;
+    padding: 100px 0;
+}
+#terms-conditons p {
+    font-weight: 300;
+}
+#terms-conditons h4 {
+    margin-top: 50px;
+}
+#terms-conditons h5 {
+    margin-top: 20px;
+}
+
 .gold-form textarea:focus {
     background: transparent;
     color: #B89C64;
@@ -36,7 +50,51 @@ body {
 .width_height {
     padding: 6px;
     font-weight: 300;
-    text-decoration: underline;
+}
+
+nav .nav-item {
+    padding: 0!important;
+    padding-right: .5rem!important;
+    padding-left: .5rem!important;
+}
+nav .nav-link {
+    -webkit-transition: .2s;
+    -o-transition: .2s;
+    transition: .2s;
+}
+
+#map {
+    position: relative;
+}
+
+.map__info-block {
+    position: absolute;
+    background-color: white; 
+    margin: 10px; 
+    padding: 1px; 
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px; 
+    border-radius: 2px;
+    top: 20%;
+    font: 400 15px Roboto, Arial, sans-serif;
+    width: 376.2px;
+    padding: 9px 4px 9px 11px;
+}
+
+.map__info-block .description {
+    color: #5B5B5B;
+    font-size: 12px;
+    margin-top: 6px;
+}
+
+.map__info-block p {
+    text-align: left;
+    margin: 0;
+}
+
+.map__info-block strong {
+    font-weight: 500;
+    font-size: 14px;
+    color: black;
 }
 
 .footer {
@@ -371,6 +429,69 @@ form i {
     font-size: 14px;
 }
 
+.vase {
+    display: grid;
+    grid-template-columns: 20% 25% 55%;
+    align-items: center;
+}
+.vase .tip {
+    border-left: 1px solid #ccc;
+    position: relative;
+    padding-left: 10px;
+}
+.vase .tip::before {
+    content: "";
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background: #fff;
+    top: 50%;
+    left: 0;
+    border-bottom: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.table-responsive {
+    display: table;
+}
+
+#cart-modal .card {
+    background: transparent;
+}
+
+#cart-modal .card img {
+    border-radius: 50%;
+}
+
+.cart-style .img-prod {
+    width: 35px!important;
+}
+
+.helper {
+    position: absolute!important;
+    z-index: 999;
+    padding: 15px;
+}
+
+.helper {
+    display: none;
+}
+.helper ol {
+    color: grey;
+    font-weight: 300;
+}
+.helper__label {
+    display: none;
+    text-decoration: underline;
+}
+.helper__toggle, .helper__label {
+    padding: 0 15px;
+    opacity: 0.3;
+    cursor: pointer;
+}
+
+
 @media(max-width: 767px) {
     .nav li > form > button.logout {
         display:block;
@@ -386,6 +507,38 @@ form i {
     .category-info {
         width: 100%!important;
     }
+
+    .btn {
+        line-height: 15px!important;
+    }
+
+}
+
+@media (max-width: 998px) {
+    .helper {
+        border-bottom: 5px solid #b89c64;
+        background: #fff;
+    }
+
+    .nav-link {
+        padding: 8px 15px!important;
+    }
+    .dropdown-menu {
+        display: none!important;
+    }
+
+    .helper__toggle {
+        padding: 15px;
+    }
+    .helper__label {
+        display: inline;
+    }
+}
+
+@media (max-width: 1200px) {
+    .nav-link {
+        line-height: 1;
+    }
 }
 
 @media (min-width: 992px) {
@@ -394,6 +547,13 @@ form i {
     }
     .card-holiday {
         border-left: 5px solid #212529;
+    }
+
+    .helper__toggle:hover + .helper__label {
+        display: inline;
+    }
+    .helper__label:hover {
+        display: inline;
     }
 }
 

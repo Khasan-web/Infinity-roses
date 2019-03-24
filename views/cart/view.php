@@ -28,9 +28,9 @@ use yii\widgets\MaskedInput;
     </div>
     <?php endif;?>
 
-    <h1 class="text-center"><?= Yii::t('app', 'Your Cart')?></h1>
-    <div class="container table-container mt-5">
-
+    <h1 class="text-center table-container"><?= Yii::t('app', 'Your Cart')?></h1>
+    <div class="container mt-5">
+    <div class="table-responsive">
         <?php if (!empty($session['cart'])): ?>
         <table class="table">
             <thead>
@@ -40,8 +40,8 @@ use yii\widgets\MaskedInput;
                     <th><?= Yii::t('app', 'Size')?></th>
                     <th><?= Yii::t('app', 'Price')?></th>
                     <th><?= Yii::t('app', 'Quantity')?></th>
-                    <th><?= Yii::t('app', 'Parfume')?></th>
-                    <th><?= Yii::t('app', 'Chocolate')?></th>
+                    <!-- <th><?php //echo Yii::t('app', 'Parfume')?></th>
+                    <th><?php //echo Yii::t('app', 'Chocolate')?></th> -->
                     <th><?= Yii::t('app', 'Vase')?></th>
                     <th><?= Yii::t('app', 'Sum')?></th>
                     <th><i class="fas fa-times"></i></th>
@@ -54,12 +54,13 @@ use yii\widgets\MaskedInput;
                     <td><a target="_blank" style="text-decoration: underline"
                             href="<?= Url::to(['product/view', 'id' => $item['id']])?>"><?= $item['name']?></a></td>
                     <td><?= $item['size']?></td>
-                    <td><?= $item['price'] / 1000 >= 1000 ? $item['price'] / 1000000 . 'M' : $item['price'] / 1000 . 'K';?> <?= Yii::t('app', 'sum')?></td>
+                    <td><?= $item['price'] / 1000 >= 1000 ? $item['price'] / 1000000 . 'M' : $item['price'] / 1000 . 'K';?>
+                        <?= Yii::t('app', 'sum')?></td>
                     <td><?= $item['qty']?></td>
-                    <td>
-                        <?= $item['parfume']?>
+                    <!-- <td>
+                        <?php //echo $item['parfume']?>
                     </td>
-                    <td><?= $item['chocolate']?></td>
+                    <td><?php //echo $item['chocolate']?></td> -->
                     <td><?php
                         if ($item['vase'] == 'true') {
                             echo 'Yes';
@@ -67,32 +68,35 @@ use yii\widgets\MaskedInput;
                             echo '--';
                         }
                     ?></td>
-                    <td><?= $item['qty'] * $item['price'] / 1000 >= 1000 ? $item['qty'] * $item['price'] / 1000000 . 'M' : $item['qty'] * $item['price'] / 1000 . 'K';?> <?= Yii::t('app', 'sum')?></td>
+                    <td><?= $item['qty'] * $item['price'] / 1000 >= 1000 ? $item['qty'] * $item['price'] / 1000000 . 'M' : $item['qty'] * $item['price'] / 1000 . 'K';?>
+                        <?= Yii::t('app', 'sum')?></td>
                     <td><i class="fas fa-times del-item" data-id="<?= $item['id']?>"></i></td>
                 </tr>
                 <?php endforeach;?>
                 <tr>
-                    <td colspan="8"><?= Yii::t('app', 'Common sum:')?></td>
-                    <td><?= $session['cart.sum'] / 1000 >= 1000 ? $session['cart.sum'] / 1000000 . 'M' : $session['cart.sum'] / 1000 . 'K';?> <?= Yii::t('app', 'sum')?></td>
+                    <td colspan="7"><?= Yii::t('app', 'Common sum:')?></td>
+                    <td><?= $session['cart.sum'] / 1000 >= 1000 ? $session['cart.sum'] / 1000000 . 'M' : $session['cart.sum'] / 1000 . 'K';?>
+                        <?= Yii::t('app', 'sum')?></td>
                 </tr>
                 <tr>
-                    <td colspan="8"><?= Yii::t('app', 'Common quantity:')?></td>
+                    <td colspan="7"><?= Yii::t('app', 'Common quantity:')?></td>
                     <td><?= $session['cart.qty']?></td>
                 </tr>
             </tbody>
         </table>
+        </div>
 
-        <div class="order">
+        <div class="order black-form form">
+            <?php $form = ActiveForm::begin()?>
             <h2 class="text-center my-5"><?= Yii::t('app', 'Place an Order')?></h2>
             <div class="row">
-                <div class="col-md-6 black-form form">
-                    <?php $form = ActiveForm::begin()?>
+                <div class="col-md-6">
                     <div class="row">
                         <div class="col-md-6">
                             <?= $form->field($order, 'name')->input('name', ['placeholder' => Yii::t('app', 'Full Name')])?>
                         </div>
                         <div class="col-md-6">
-							<?= $form->field($order, 'phone')->widget(\yii\widgets\MaskedInput::className(), ['mask' => '(99) 999-99-99',])?>
+                            <?= $form->field($order, 'phone')->widget(\yii\widgets\MaskedInput::className(), ['mask' => '(99) 999-99-99',])?>
                         </div>
                         <div class="col-md-12">
                             <?= $form->field($order, 'email')->input('email', ['placeholder' => Yii::t('app', 'Sending a list of your products')])?>
@@ -101,26 +105,29 @@ use yii\widgets\MaskedInput;
                             <?= $form->field($order, 'address')->input('address', ['placeholder' => Yii::t('app', 'Shipping address')])?>
                         </div>
                     </div>
-                    <div class="text-center">
-                        <button type="submit" class="btn btn-dark btn-block btn-lg"><?= Yii::t('app', 'Order')?>!</button>
-                    </div>
-                    <?php ActiveForm::end()?>
                 </div>
                 <div class="col-lg-4 col-md-6 text-left mt-4">
                     <h4><?= Yii::t('app', 'Delivery')?></h4>
-                    <p><?= Yii::t('app', 'Infinity Roses provide free delivery within just 40-60 minutes in Tashkent city. If you are in another city, we will inform you about the time and price of delivery by phone.')?></p>
-                    <p><?= Yii::t('app', 'You agree to the')?> <a href="" style="text-decoration: underline"><?= Yii::t('app', 'terms and conditions')?></a></p>
+                    <p><?= Yii::t('app', 'Infinity Roses provide free delivery within just 40-60 minutes in Tashkent city. If you are in another city, we will inform you about the time and price of delivery by phone.')?>
+                    </p>
+                    <p><?= Yii::t('app', 'You agree to the')?> <a href=""
+                            style="text-decoration: underline"><?= Yii::t('app', 'terms and conditions')?></a></p>
                 </div>
-                <div class="col-lg-2 col-md-5 mx-auto mt-4">
+                <div class="col-lg-2 col-5 mx-auto my-4">
                     <img src="img/gold-logo.svg" alt="">
                 </div>
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-dark btn-block btn-lg"><?= Yii::t('app', 'Order')?>!</button>
+                </div>
             </div>
+            <?php ActiveForm::end()?>
         </div>
 
         <?php else:?>
         <div class="text-center py-5">
             <h2 class="not-found text-center pb-2 pt-0"><?= Yii::t('app', 'Cart is empty')?>...</h2>
-            <a href="<?= Url::to(['/#popular-prods'])?>" class="btn btn-outline-dark"><?= Yii::t('app', 'See our favorites')?>!</a>
+            <a href="<?= Url::to(['/#popular-prods'])?>"
+                class="btn btn-outline-dark"><?= Yii::t('app', 'See our favorites')?>!</a>
         </div>
         <?php endif;?>
     </div>

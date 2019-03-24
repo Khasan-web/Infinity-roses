@@ -11,16 +11,16 @@ class Navbar extends Widget {
 
     public $categories;
     public $products;
-    public $description;
-    public $id;
     public $navHtml;
     public $lang;
+    public $current_action;
 
 
     public function init() {
         parent::init();
         $this->products = Product::find()->with('prices')->all();
         $this->categories = Category::find()->with('product')->all();
+        $this->current_action = Yii::$app->controller->action->id;
         if (Yii::$app->language == 'en') {
             $this->lang = 0;
           } else if (Yii::$app->language == 'ru') {
@@ -30,19 +30,14 @@ class Navbar extends Widget {
 
     public function run() {
         // get cache
-        if (Yii::$app->user->isGuest) {
-            $nav = Yii::$app->cache->get('nav');
-            if ($nav) return $nav;
-        }
-
+        // $nav = Yii::$app->cache->get('nav');
+        // if ($nav) {
+        //     return $nav;
+        // } else {
+        //     $this->navHtml = $this->catToTemplate();
+        //     Yii::$app->cache->set('nav', $this->navHtml, 100);
+        // }
         $this->navHtml = $this->catToTemplate();
-
-        // set cache
-        if (Yii::$app->user->isGuest) {
-            Yii::$app->cache->set('nav', $this->navHtml, 60);
-        } else {
-            Yii::$app->cache->delete('nav');
-        }
 
         return $this->navHtml;
     }

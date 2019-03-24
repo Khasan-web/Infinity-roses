@@ -102,8 +102,23 @@ use mihaildev\elfinder\ElFinder;
                             <?= $mainImage->name ? $mainImage->name : '---'?></span></p>
                     <hr>
                     <div class="col-md-6" style="padding: 0">
-                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Accusantium quaerat rerum vero
-                            modi, laudantium consectetur?</p>
+                        <p>Main image should have "small" size or least amount of stems, if the product has several sizes</p>
+                        <p>There are some conditions to upload images:</p>
+                        <ol>
+                            <li>Prepare your images before uploading - they should looks like other images</li>
+                            <li>Rename your images before uploading - there is specific structure of a file name:</li>
+                            <ul>
+                                <li><strong>color_position_size.extensition</strong></li>
+                                <br>
+                                <i><li>Symbol " _ " you can get by pressing (shift  + -[minus]) ( near 0 and under F10 and F11 )</li></i>
+                                <br>
+                                <li>color - this part of the name will be a color of this image</li>
+                                <li>position - certain perspective of product view</li>
+                                <li>size - size of product on the image (cm)</li>
+                                <li>extensition - ( jpg, jpeg, png )</li>
+                            </ul>
+                        </ol>
+                        <p>Same for a gallery</p>
                     </div>
                 </div>
             </div>
@@ -146,7 +161,12 @@ use mihaildev\elfinder\ElFinder;
             <div class="row">
                 <?= $form->field($model, 'gallery[]', ['labelOptions' => ['class' => 'btn btn-default', 'style' => 'display: block']])->fileInput(['class' => 'uploadGallery', 'style' => 'width: 0.1px; height: 0.1px', 'multiple' => true, 'accept' => 'image/*'])->label('<i class="fa fa-upload"></i> Upload a gallery', ['']) ?>
                 <div class="row preview-images text-center" style="padding: 15px">
-
+                    <div class="col-md-1 col-sm-2">
+                        <img src="/web/img/img-placeholder.png" style="width: 100%;" alt="">
+                        <p style="margin-top: 5px; margin-bottom: 0">Name</p>
+                        <p style="margin: 0;">Pos. №</p>
+                        <p style="margin: 0;">Size</p>
+                    </div>
                 </div>
             </div>
 
@@ -158,10 +178,10 @@ use mihaildev\elfinder\ElFinder;
         <div class="panel-body">
 
             <?= $form->field($model, 'keywords')->textInput(['maxlength' => true]) ?>
-            <p>In the keywords you can add any information you want, there may also be keys to formulate belonging of product to some gift finder categories. <br> <i>Keys can be added in any part of a keywords and there are</i></p>
+            <p>In the keywords you can add any information you want, there may also be keys to formulate belonging of product to some gift finder categories. <br> <i>Keys can be added in any part and there are</i></p>
             
             <ol>
-                <li>Holiday</li>
+                <li>Event</li>
                 <li>Her</li>
                 <li>Him</li>
                 <li>Home</li>

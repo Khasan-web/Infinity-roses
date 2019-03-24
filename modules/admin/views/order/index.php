@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use app\components\AdminTitle;
+use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\admin\models\OrderSearch */
@@ -21,7 +22,10 @@ $this->params['breadcrumbs'][] = $this->title;
         <span class="label label-sm label-success"><?= $checked?> Checked</span>
     </p>
 
-    <?= GridView::widget([
+
+    <?php
+    Pjax::begin();
+    echo GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
@@ -88,5 +92,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]
             ],
         ],
-    ]); ?>
+    ]); 
+    Pjax::end();?>
 </div>

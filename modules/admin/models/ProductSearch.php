@@ -17,8 +17,8 @@ class ProductSearch extends Product
     public function rules()
     {
         return [
-            [['id', 'category_id'], 'integer'],
-            [['name', 'keywords', 'description_en', 'description_ru', 'img', 'hit'], 'safe'],
+            [['id'], 'integer'],
+            [['name', 'keywords', 'description_en', 'description_ru', 'accessories', 'vase', 'hit'], 'safe'],
         ];
     }
 
@@ -66,7 +66,6 @@ class ProductSearch extends Product
             ->andFilterWhere(['like', 'keywords', $this->keywords])
             ->andFilterWhere(['like', 'description_en', $this->description_en])
             ->andFilterWhere(['like', 'description_ru', $this->description_ru])
-            ->andFilterWhere(['like', 'img', $this->img])
             ->andFilterWhere(['like', 'hit', $this->hit]);
 
         return $dataProvider;

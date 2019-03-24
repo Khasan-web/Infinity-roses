@@ -69,9 +69,9 @@ class CategoryController extends AppAdminController
 
         if ($model->load(Yii::$app->request->post())) {
             
-            if ($model->secondary) {
-                $model->keywords = 'secondary';
-            }
+            // if ($model->secondary) {
+            //     $model->keywords = 'secondary';
+            // }
             $model->save();
 
             $model->image = UploadedFile::getInstance($model, 'image');

@@ -70,7 +70,7 @@ use yii\jui\DatePicker;
                         <?= $form->field($model, 'image', ['labelOptions' => ['class' => 'btn btn-default', 'style' => 'display: block']])->fileInput(['class' => 'uploadImage', 'style' => 'width: 0.1px; height: 0.1px'])->label('<i class="fa fa-upload"></i> Upload image', ['']) ?>
                         <hr>
                         <div class="col-md-6" style="padding: 0">
-                            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Accusantium quaerat rerum vero modi, laudantium consectetur?</p>
+                            <p>Available extentions - jpg, jpeg, png</p>
                         </div>
                     </div>
                 </div>

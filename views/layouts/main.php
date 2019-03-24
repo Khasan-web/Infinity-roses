@@ -51,7 +51,6 @@ $currentAction = Yii::$app->controller->action->id;
 <div id="loader"><img src="/img/loading.gif" alt="" width="150" /></div>
 
 <?= Navbar::widget()?>
-
 <!-- Modal search -->
 <div class="modal fade" id="search" tabindex="-1" role="dialog" aria-labelledby="search" aria-hidden="true">
   <div class="modal-dialog" role="document">

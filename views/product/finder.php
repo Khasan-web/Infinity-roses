@@ -17,8 +17,8 @@ $get = Yii::$app->request->get();
                     'tag' => false,
                 ]
             ],
-            'action' => Url::current(['GiftFinderForm' => null, 'price' => null]),
             'method' => 'get',
+            'action' => Url::to(['product/gift-finder']),
         ]);?>
             <div class="row mx-auto my-4">
                 <div class="col-md-2 col-12">

@@ -14,10 +14,16 @@ if ($get['GiftFinderForm']['price']) {
     $price = explode(',', $get['GiftFinderForm']['price']);
 }
 
+// active class in navbar
+$controller = Yii::$app->controller->id;
+$action = Yii::$app->controller->action->id;
+$id = Yii::$app->request->get('id');
+
+
 ?>
 
 <form action="<?= Url::to(['product/gift-finder'])?>">
-<li class="nav-item drop-item" role="button" id="gift-finder-item" aria-haspopup="true" aria-expanded="false">
+<li class="nav-item drop-item <?= $controller == 'product' && $action == 'gift-finder' ? 'active' : ''?>" role="button" id="gift-finder-item" aria-haspopup="true" aria-expanded="false">
     <a class="nav-link" href="<?= Url::to(['site/contact'])?>"><?= Yii::t('app', 'Gift Finder')?></a>
     <div class="dropdown-menu" id="finder" aria-labelledby="gift-finder-item">
         <div class="container">

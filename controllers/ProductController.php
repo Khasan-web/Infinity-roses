@@ -78,23 +78,23 @@ class ProductController extends AppController {
 
         // get parametrs
         $get = Yii::$app->request->get();
+        $get_patter;
         if ($get['price']) {
-            $price = $get['price'];
-            $event = $get['event'];
-            $her = $get['her'];
-            $him = $get['him'];
-            $home = $get['home'];
-            $fresh = $get['fresh'];
-            $infinity = $get['infinity'];
+            $get_patter = $get;
         } else {
-            $price = $get['GiftFinderForm']['price'];
-            $price = $get['GiftFinderForm']['price'];
-            $event = $get['GiftFinderForm']['event'];
-            $her = $get['GiftFinderForm']['her'];
-            $him = $get['GiftFinderForm']['him'];
-            $home = $get['GiftFinderForm']['home'];
-            $fresh = $get['GiftFinderForm']['fresh'];
-            $infinity = $get['GiftFinderForm']['infinity'];
+            $get_patter = $get['GiftFinderForm'];
+        }
+
+        if ($get_patter) {
+            $price = $get_patter['price'];
+            $event = $get_patter['event'];
+            $her = $get_patter['her'];
+            $him = $get_patter['him'];
+            $home = $get_patter['home'];
+            $fresh = $get_patter['fresh'];
+            $infinity = $get_patter['infinity'];
+        } else {
+            $price = $minmax['min'] . ',' . $minmax['max'];
         }
 
         // all boolean - if everything false - everything true
@@ -121,6 +121,7 @@ class ProductController extends AppController {
                     // push products by aspects
                     $keywods_exp = explode(' ', $product->keywords);
                     foreach ($keywods_exp as $key) {
+                        $key = strtolower($key);
 
                         // 1. event    
                         if ($key == 'event' && $event || $all_boolean) {

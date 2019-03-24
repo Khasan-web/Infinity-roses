@@ -373,6 +373,7 @@ $(function () {
 
     $('.uploadGallery').change(function() {
         var files = this.files;
+        $('.preview-images').html('');
         readmultifiles(files);
     });
 

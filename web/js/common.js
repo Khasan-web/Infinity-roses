@@ -6,6 +6,14 @@ $(document).ready(function() {
 	});
 });
 
+// setting default css to nav-link | style attr doesnt work
+$('nav .nav-link').css('padding', '3px 15px');
+
+// helper about buying of a product
+$('.toggle').click(function () {
+	$('.helper').toggle();
+});	
+
 var ru;
 if (window.location.href.indexOf("ru") > -1) {
 	ru = 'ru/';
@@ -37,14 +45,12 @@ $(function() {
 
 	$('nav').css({'background': 'transparent', 'padding': '3px 0', 'position': 'absolute', 'top': '115px'});
 
-
 	// navbar background
-
 	function scrollNav() {
 		var top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
 		if (top >= navTop) {
 			$('nav').css({'background': '#000', 'padding': '0', 'position': 'fixed', 'top': '0'});
-			$('nav .nav-item').css('padding', '8px 15px');
+			$('nav .nav-link').css('padding', '8px 15px');
 		} else if (top < navTop){
 			$('nav').css({'padding': '3px 0', 'position': 'absolute', 'top': '115px'});
 			if (!$('#navbarNav').hasClass('show')) {
@@ -54,7 +60,7 @@ $(function() {
 				$('nav').css({'background': '#000'});
 				$('#nav-brand').css({'background': '#000'});
 			}
-			$('nav .nav-item').css('padding', '3px 15px');
+			$('nav .nav-link').css('padding', '3px 15px');
 		}
 	}
 
@@ -390,19 +396,35 @@ $(function() {
 				$(this).hide();
 			}
 		});
+
+		$('.product__position img').each(function (i) {
+			if ($(this).hasClass('active-img__image')) {
+				$('.active-img').attr('src', $(this).data('src'))
+			}
+			if ($(this).data('size') == size) {
+				$(this).parent().show();
+				if ($(this).hasClass('closed')) {
+					var itemToAppend = $(this).parent();
+					$(this).parent().remove();
+					$('.product__position').append(itemToAppend);
+				}
+			} else {
+				$(this).parent().hide();
+			}
+		});
 		
 	}
 
 	$('.product__position').on('click', 'img', function () {
-		var img = $(this).attr('src'),
+		var img = $(this),
 			size = $('.size select').children('option:selected').val();
 
 		position = $(this).data('position');
 		size = size.toLowerCase();
 
 		$('.active-img').fadeOut(300, function(){
-			$('.active-img').attr('src', img);
-			$('.active-img').fadeIn(300);
+			$('.active-img').attr('src', img.data('src'));
+			$('.active-img').fadeIn('slow');
 			$('.active-img').data('position', position);
 		});
 
@@ -438,7 +460,7 @@ $(function() {
 		name.append(icon);
 		selectedColor = name;
 		activeImg.fadeOut(100, function(){
-			activeImg.attr('src', selectedImg.attr('src'));
+			activeImg.attr('src', selectedImg.data('src'));
 			activeImg.data('color', selectedImg.data('color'));
 			color.img = activeImg.attr('src');
 		});
@@ -625,13 +647,16 @@ $(function() {
 
 	// close notification
 
-	setTimeout(() => {
-		$('.notifications').css('right', '0');
-	}, 3000);
+	$(window).scroll(function() {
+		if ($(document).scrollTop() >= 2300) {
+			$('.notifications').css('right', '0');
+		}
+	});
 
 	$('.notifications').on('click', '.close', function () {
 		var notification = $(this).parent();
 		notification.css('right', '-100%');
+		$('.notifications').hide();
 	});
 
 
@@ -658,55 +683,13 @@ $(function() {
 	});
 
 	$('.closed').on('click', function () {
-		var img = $(this).attr('src');
-		$('.active-img').fadeOut(250, function(){
-			$('.active-img').attr('src', img);
-			$('.active-img').fadeIn(250);
+		var img = $(this);
+		$('.active-img').fadeOut(300, function(){
+			$('.active-img').attr('src', img.data('src'));
+			$('.active-img').fadeIn('slow');
 		});
 		return false;
 	});
-
-
-	// Get images from selected position
-
-	// $('.product__position').on('click', 'img', function () {
-	// 	var img = $(this).attr('src');
-	// 	setSizeInfo();
-	// 	$('.active-img').fadeOut(250, function(){
-	// 		$('.active-img').attr('src', img);
-	// 		$('.active-img').fadeIn(250);
-	// 	});
-	// 	var id = $('.product__position').data('product-id'),
-	// 		position = $(this).data('position');
-
-	// 	$.ajax({
-	// 		url: '/' + ru + 'product/get-images',
-	// 		cache: true,
-	// 		data: {
-	// 			id: id,
-	// 			position: position,
-	// 		},
-	// 		type: 'GET',
-	// 		success: function (res) {
-	// 			if (res) {
-	// 				$('.colors').fadeOut(150, function () {
-	// 					$('.colors').html(res);
-	// 					var $images = $('.colors img');
-	// 					setTimeout(() => {
-	// 						$('.colors').fadeIn(150);
-	// 					}, 200);
-	// 				});
-	// 			} else {
-	// 				$('.colors').html('<p>Images not found</p>');
-	// 			}
-	// 		},
-	// 		error: function () {
-	// 			goldAlert('Sorry, Query Error');
-	// 		}
-	// 	});
-		
-	// });
-
 
 	// custom alert
 

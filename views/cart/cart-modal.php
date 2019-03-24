@@ -1,5 +1,6 @@
 <?php if (!empty($session['cart'])): ?>
 
+<div class="table-responsive">
 <table class="table">
     <thead>
     <tr>
@@ -7,10 +8,10 @@
         <th><?= Yii::t('app', 'Product name')?></th>
         <th><?= Yii::t('app', 'Size')?></th>
         <th><?= Yii::t('app', 'Price')?></th>
-        <th><?= Yii::t('app', 'Quantity')?></th>
-        <th><?php //echo Yii::t('app', 'Parfume')?></th>
-        <th><?php //echo Yii::t('app', 'Chocolate')?></th>
-        <th><?= Yii::t('app', 'Vase')?></th>
+        <th class="hide-on-mob"><?= Yii::t('app', 'Quantity')?></th>
+        <!-- <th><?php //echo Yii::t('app', 'Parfume')?></th>
+        <th><?php //echo Yii::t('app', 'Chocolate')?></th> -->
+        <th class="hide-on-mob"><?= Yii::t('app', 'Vase')?></th>
         <th><i class="fas fa-times"></i></th>
     </tr>
     </thead>
@@ -21,10 +22,10 @@
             <td><?= $item['name']?></td>
             <td><?= $item['size']?></td>
             <td><?= $item['price'] / 1000 >= 1000 ? $item['price'] / 1000000 . 'M' : $item['price'] / 1000 . 'K';?> <?= Yii::t('app', 'sum')?></td>
-            <td><?= $item['qty']?></td>
-            <td><?php //echo $item['parfume'] ? $item['parfume'] : '--'?></td>
-            <td><?php //echo $item['chocolate'] ? $item['chocolate'] : '--'?></td>
-            <td><?php
+            <td class="hide-on-mob"><?= $item['qty']?></td>
+            <!-- <td><?php //echo $item['parfume'] ? $item['parfume'] : '--'?></td>
+            <td><?php //echo $item['chocolate'] ? $item['chocolate'] : '--'?></td> -->
+            <td class="hide-on-mob"><?php
                 if ($item['vase'] == 'true') {
                     echo 'Yes';
                 } else {
@@ -34,16 +35,18 @@
             <td><i class="fas fa-times del-item" data-id="<?= $item['id']?>"></i></td>
         </tr>
     <?php endforeach;?>
+
     <tr>
-        <td colspan="7"><?= Yii::t('app', 'Common sum:')?></td>
-        <td><?= $session['cart.sum'] / 1000 >= 1000 ? $session['cart.sum'] / 1000000 . 'M' : $session['cart.sum'] / 1000 . 'K';?> <?= Yii::t('app', 'sum')?></td>
+        <td class="pb-1 pt-4 colspan-mob" colspan="3"><?= Yii::t('app', 'Common sum:')?></td>
+        <td colspan="4" class="text-right pb-1 pt-4"><?= $session['cart.sum'] / 1000 >= 1000 ? $session['cart.sum'] / 1000000 . 'M' : $session['cart.sum'] / 1000 . 'K';?> <?= Yii::t('app', 'sum')?></td>
     </tr>
     <tr>
-        <td colspan="7"><?= Yii::t('app', 'Common quantity:')?></td>
-        <td><?= $session['cart.qty']?></td>
+        <td class="py-1 colspan-mob" colspan="3"><?= Yii::t('app', 'Common quantity:')?></td>
+        <td colspan="4" class="text-right py-1"><?= $session['cart.qty']?></td>
     </tr>
     </tbody>
 </table>
+</div>
 
 <?php else:?>
 <h2 class="not-found text-center"><?= Yii::t('app', 'Cart is empty')?>...</h2>

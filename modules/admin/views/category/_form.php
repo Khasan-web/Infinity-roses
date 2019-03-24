@@ -26,7 +26,10 @@ use mihaildev\elfinder\ElFinder;
 
             <?= $form->field($model, 'name_ru')->textInput(['maxlength' => true]) ?>
 
-            <?= $form->field($model, 'secondary')->checkbox() ?>
+            <!-- <?php //echo $form->field($model, 'secondary')->checkbox() ?>
+            <div class="col-md-6 col-sm-12" style="padding-left: 0">
+            <p>Secondary categories are in the gift finder ( her, him, home and one event ). If you select a category like a secondary category, it will not be shown anywhere</p>
+            </div> -->
 
         </div>
     </div>
@@ -44,7 +47,7 @@ use mihaildev\elfinder\ElFinder;
                     <?= $form->field($model, 'image', ['labelOptions' => ['class' => 'btn btn-default', 'style' => 'display: block']])->fileInput(['class' => 'uploadImage', 'style' => 'width: 0.1px; height: 0.1px'])->label('<i class="fa fa-upload"></i> Upload image', ['']) ?>
                     <hr>
                     <div class="col-md-6" style="padding: 0">
-                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Accusantium quaerat rerum vero modi, laudantium consectetur?</p>
+                        <p>Available extentions - jpg, jpeg, png</p>
                     </div>
                 </div>
             </div>
