@@ -6,7 +6,7 @@ return [
     'Gift Finder' => 'Поиск Подарков',
     'Contact Us' => 'Связаться с нами',
     'There are not products in this category...' => 'В данной категории товары отсутствуют...',
-    'Nothing is found...' => 'Ничкго не найдено...',
+    'Nothing is found...' => 'Ничего не найдено...',
     'Firstly bla bla bla Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate eius ducimus molestias est, temporibus quia.' => 'В первую очередь далеко-далеко за словесными горами в стране гласных и согласных живут рыбные тексты. Наш точках продолжил семь от всех!',
     'Chocolate' => 'Шоколад',
     'Parfume' => 'Парфюм',

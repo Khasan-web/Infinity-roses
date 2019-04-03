@@ -82,7 +82,7 @@ $this->params['breadcrumbs'][] = '№' . $this->title;
 				<tr>
 					<td><a target="_blank" style="text-decoration: underline" href="<?= Url::to(['product/view', 'id' => $item['product_id']])?>"><?= $item['name']?></a></td>
 					<td><?= $item['size']?></td>
-					<td><?= $item['price'] . ' ' . sum?></td>
+					<td><?= $item['price'] . ' sum'?></td>
                     <td><?= $item['color']?></td>
 					<td><?= $item['qty_item']?></td>
 					<td><?= $item['parfume']?></td>
@@ -94,7 +94,7 @@ $this->params['breadcrumbs'][] = '№' . $this->title;
                             echo '--';
                         }
                     ?></td>
-					<td><?= $item['sum_item'] . ' ' . sum?></td>
+					<td><?= $item['sum_item'] . ' sum'?></td>
 				</tr>
 			<?php endforeach;?>
 			</tbody>

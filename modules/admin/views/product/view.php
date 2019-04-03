@@ -93,7 +93,7 @@ $this->params['breadcrumbs'][] = ['label' => 'View'];
                 'attribute' => 'prices',
                 'value' => function ($model) {
                     $i = 1;
-                    $strToReturn;
+                    $strToReturn = '';
                     foreach ($model->prices as $price) {
                         $width_height = $price->width && $price->height ? "<br> - H: $price->height sm <br> - W: $price->width sm<br>" : '';
                         $strToReturn .= "$i $price->size - <i>$price->price</i> sum $width_height <br>";

@@ -19,6 +19,10 @@ body {
     padding: 0 0 60px;
 }
 
+.custom-checkbox input, label {
+    cursor: pointer!important;
+}
+
 .wrap > .container {
     padding: 70px 15px 20px;
 }

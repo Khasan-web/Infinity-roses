@@ -56,6 +56,13 @@ class CartController extends AppController {
         $session = Yii::$app->session;
         $session->open();
         $cart = new Cart();
+        if (empty($data['accessories'])) {
+            $data['accessories']['parfume'] = false;
+            $data['accessories']['chocolate'] = false;
+        }
+        if (empty($data['vase'])) {
+            $data['vase'] = false;
+        }
         $cart->addToCart($product, $data['size'], $data['color'], $data['accessories'], $data['vase']);
         // name of accessories will be added after they will be in the db
 
@@ -98,14 +105,13 @@ class CartController extends AppController {
             $order_items->name = $item['name'];
             $order_items->size = $item['size'];
             $order_items->color = $item['color'];
-            $order_items->parfume = $item['parfume'];
-            $order_items->chocolate = $item['chocolate'];
+            $order_items->parfume = $item['parfume'] == false ? null : $item['parfume'];
+            $order_items->chocolate = $item['chocolate'] == false ? null : $item['chocolate'];
             $order_items->price = $item['price'];
-            $order_items->vase = $item['vase'] == 'true' ? '1' : '0';
+            $order_items->vase = $item['vase'] != false ? '1' : '0';
             $order_items->qty_item = $item['qty'];
             $order_items->sum_item = $item['price'] * $item['qty'];
             $order_items->save();
-
         }
     }
 

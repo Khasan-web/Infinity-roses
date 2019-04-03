@@ -10,7 +10,7 @@ $this->title = Yii::t('app', 'Update Category: {name}', [
     'name' => $model->name_en,
 ]);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Categories'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->name_en, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = ['label' => $model->name_en, 'url' => ["view?id=$model->id"]];
 $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 ?>
 <?= AdminTitle::widget(['title' => $this->title, 'breadcrumbs' => $this->params['breadcrumbs']])?>

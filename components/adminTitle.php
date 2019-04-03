@@ -14,8 +14,8 @@ class AdminTitle extends Widget {
 
     public function init() {
         parent::init();
-        if ($title == null) {
-            $title = 'No title';
+        if ($this->title == null) {
+            $this->title = 'No title';
         }
     }
 

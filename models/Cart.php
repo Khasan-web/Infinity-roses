@@ -5,7 +5,10 @@ use yii\db\ActiveRecord;
 class Cart extends ActiveRecord {
     
     public function addToCart($product, $size, $color, $accessories, $vase = false) {
-        $i = count($_SESSION['cart']);
+        $i = 0;
+        if (isset($_SESSION['cart'])) {
+            $i = count($_SESSION['cart']);
+        }
         if ($i != 0) {
             for ($id = 0; $id <= $i; $id++) {
                 if ($_SESSION['cart'][$id]['id'] == $product->id && 
@@ -30,8 +33,8 @@ class Cart extends ActiveRecord {
                         'img' => $color['img'],
                         'size' => $size['selected_size'],
                         'color' => $color['color'],
-                        'parfume' => $accessories['parfume'], // if accessories will not be important set them in condition
-                        'chocolate' => $accessories['chocolate'],
+                        'parfume' => empty($accessories) ? $accessories['parfume'] : false, // if accessories will not be important set them in condition
+                        'chocolate' => empty($accessories) ? $accessories['chocolate'] : false,
                         'vase' => $vase,
                     ];
                     break;
@@ -46,8 +49,8 @@ class Cart extends ActiveRecord {
                 'img' => $color['img'],
                 'size' => $size['selected_size'],
                 'color' => $color['color'],
-                'parfume' => $accessories['parfume'], // if accessories will not be important set them in condition
-                'chocolate' => $accessories['chocolate'],
+                'parfume' => empty($accessories) ? $accessories['parfume'] : false, // if accessories will not be important set them in condition
+                'chocolate' => empty($accessories) ? $accessories['chocolate'] : false,
                 'vase' => $vase,
             ];
         }
@@ -55,7 +58,7 @@ class Cart extends ActiveRecord {
     $_SESSION['cart.sum'] = isset($_SESSION['cart.sum']) ? $_SESSION['cart.sum'] + $size['price'] : $size['price'];
     }
     public function delItem($id) {
-        $productIndex;
+        $productIndex = false;
         for ($i = 0; $i < count($_SESSION['cart']); $i++) {
             if ($_SESSION['cart'][$i]['id'] != $id && $i == count($_SESSION['cart']) - 1) {
                 return false;

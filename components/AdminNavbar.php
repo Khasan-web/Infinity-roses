@@ -22,15 +22,15 @@ class AdminNavbar extends widget {
     public function run() {
         $controller = Yii::$app->controller->id;
         if ($controller == 'default') {
-            $home = 'active';
+            $this->home = 'active';
         } else if ($controller == 'product') {
-            $products = 'active';
+            $this->products = 'active';
         } else if ($controller == 'category') {
-            $categories = 'active';
+            $this->categories = 'active';
         } else if ($controller == 'order') {
-            $orders = 'active';
+            $this->orders = 'active';
         } else if ($controller == 'events') {
-            $events = 'active';
+            $this->events = 'active';
         }
         $html = include __DIR__ . '/adminNavbar/adminNavbarHtml.php';
         return $this->html;

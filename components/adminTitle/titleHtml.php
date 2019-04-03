@@ -16,7 +16,7 @@ use yii\helpers\Url;
                 <li class="active">
                         <?php if (isset($crumb['url'])):?>
                         <a href="
-                            <?= Url::to(["{$crumb['url'][0]}", 'id' => $crumb['url']['id']])?>
+                            <?= Url::to(["{$crumb['url'][0]}"])?>
                         ">
                         <?php endif;?>
                         <?php if (is_array($crumb)):?>

@@ -8,14 +8,16 @@ use yii\web\HttpException;
 use app\models\GiftFinderForm;
 use yii\helpers\StringHelper;
 
-class ProductController extends AppController {
+class ProductController extends AppController
+{
 
-    public function actionView() {
+    public function actionView()
+    {
         $id = Yii::$app->request->get('id');
         if (Yii::$app->language == 'en') {
             $lang = 0;
             $name = 'name_en';
-          } else if (Yii::$app->language == 'ru') {
+        } else if (Yii::$app->language == 'ru') {
             $lang = 1;
             $name = 'name_ru';
         }
@@ -32,20 +34,23 @@ class ProductController extends AppController {
         $description = 'description_' . Yii::$app->language;
         $this->setMeta($product->name, $product->keywords, $product->$description);
         return $this->render('view', compact('product', 'hits', 'lang', 'name'));
-
     }
 
-    public function actionGiftFinder() {
+    public function actionGiftFinder()
+    {
         $model = new GiftFinderForm();
         $name = 'name_' . Yii::$app->language;
-        
+        $request = Yii::$app->request;
+
         // get max and min price
         $prods = Product::find()->all();
+
         $minmax = [
             'min' => 0,
             'max' => 0,
         ];
         $i = 0;
+
         foreach ($prods as $product) {
 
             // minmax
@@ -61,152 +66,192 @@ class ProductController extends AppController {
             }
         }
 
-        // get price from GET
+        // GET params from gift finder
+        $price = $request->get('price');
+        $event = isset($_GET['event']) ? true : false;
+        $her = isset($_GET['her']) ? true : false;
+        $him = isset($_GET['him']) ? true : false;
+        $home = isset($_GET['her']) ? true : false;
+        $infinity = isset($_GET['infinity']) ? true : false;
+        $fresh = isset($_GET['fresh']) ? true : false;
+        $price = explode(',', $price);
 
-        // variables - aspects
-        // * $price;
-        // * $event;
-        // * $her;
-        // * $him;
-        // * $home;
-        // * $fresh;
-        // * $infinity;
-
-        // conditions
-        // 1. if not her and him -> both
-        // 2. if her -> him and if him -> her
-
-        // get parametrs
-        $get = Yii::$app->request->get();
-        $get_patter;
-        if ($get['price']) {
-            $get_patter = $get;
-        } else {
-            $get_patter = $get['GiftFinderForm'];
+        // search a specific key in keywords
+        function searchKey($key, $product)
+        {
+            if (isset($_GET["$key"])) {
+                $key_existing = strpos($product->keywords, $key);
+                return $key_existing ? true : false;
+            } else {
+                return false;
+            }
         }
 
-        if ($get_patter) {
-            $price = $get_patter['price'];
-            $event = $get_patter['event'];
-            $her = $get_patter['her'];
-            $him = $get_patter['him'];
-            $home = $get_patter['home'];
-            $fresh = $get_patter['fresh'];
-            $infinity = $get_patter['infinity'];
-        } else {
-            $price = $minmax['min'] . ',' . $minmax['max'];
-        }
+        // filter all product
+        $product_count_prods = count($prods);
+        // array of appropriate products
+        $products = [];
 
-        // all boolean - if everything false - everything true
-        if (!$event && !$her && !$him && !$home && !$fresh && !$infinity) {
-            $all_boolean = true;
-        } else {
-            $all_boolean = false;
-        }
+        for ($i = 0; $i < $product_count_prods; $i++) {
+            $selected_type = false;
 
-        // check parametrs
-        if ($price) {
+            // infinity
+            // and if all roses in luxury collection will be infinity then new condition that (... || $prods[$i]->category->name_en == 'Luxury Collection')
+            if ($infinity) {
+                $selected_type = 'Infinity Roses';
+            }
 
-            // get min and max from parametrs
-            $price_arr = StringHelper::explode($price, ',', $trim = true);
-            $model->price_min = $price_arr[0];
-            $model->price_max = $price_arr[1];
+            // fresh
+            if ($fresh) {
+                $selected_type = 'Fresh Roses';
+            }
 
-            // appropriate products - array
-            $products = [];
-            foreach ($prods as $product) {
-                $count = count($product->prices);
-                for ($i = 0; $i < $count; $i++) {
+            // both
+            if ($infinity and $fresh) {
+                $selected_type = false;
+            }
 
-                    // push products by aspects
-                    $keywods_exp = explode(' ', $product->keywords);
-                    foreach ($keywods_exp as $key) {
-                        $key = strtolower($key);
-
-                        // 1. event    
-                        if ($key == 'event' && $event || $all_boolean) {
-                            $products += [
-                                "$product->id" => $product,
-                            ];
-                        }
-
-                        // 2. her
-                        if ($key == 'her' && $her || $all_boolean) {
-                            $products += [
-                                "$product->id" => $product,
-                            ];
-                        } else {
-                            // 3. him
-                            if ($key == 'him' && $him || $all_boolean) {
-                                $products += [
-                                    "$product->id" => $product,
-                                ];
-                            }   
-                        }
-
-                        // 4. home
-                        if ($key == 'home' && $home || $all_boolean) {
-                            $products += [
-                                "$product->id" => $product,
-                            ];
-                        }
-
-                    }
-                    // 5. fresh
-                    if ($product->category->name_en == 'Fresh Roses' && $fresh || $all_boolean) {
-                        $products += [
-                            "$product->id" => $product,
-                        ];
-                    }
-                    
-                    // 6. infinity
-                    if ($product->category->name_en == 'Infinity Roses' && $infinity || $all_boolean) {
-                        $products += [
-                            "$product->id" => $product,
-                        ];
-                    }
-
-                // set price diapazon on result
-                // 7. Prices
-
-                $products_count = count($products);
-                foreach ($products as $product) {
-                    $max_product_price = $product->prices[0]->price;
-                    $min_product_price = $product->prices[0]->price;
-                    foreach ($product->prices as $price) {
-                        if ($price > $max_product_price) {
-                            $max_product_price = $price->price;
-                        }
-                        if ($price < $min_product_price) {
-                            $min_product_price = $price->price;
-                        }
-                    }
-                    if ($min_product_price >= $model->price_min && $max_product_price <= $model->price_max) {
-                        // everything is awesome ))
-                    } else {
-                        // delete unapprpriate element
-                        unset($products[$product->id]);
-                    }
-                }
-
+            // check if switched filter is one and it is infinity roses filter
+            if (count($request->get()) == 2 && isset($_GET['infinity'])) {
+                if ($prods[$i]->category->name_en == 'Infinity Roses') {
+                    array_push($products, $prods[$i]);
                 }
             }
-            
+
+            // check if switched filter is one and it is fresh roses filter
+            if (count($request->get()) == 2 && isset($_GET['fresh'])) {
+                if ($prods[$i]->category->name_en == 'Fresh Roses') {
+                    array_push($products, $prods[$i]);
+                }
+            }
+
+            // check if switched filters are fresh roses filter and infinity roses filter
+            if (count($request->get()) == 3 && isset($_GET['infinity']) && isset($_GET['fresh'])) {
+                if ($prods[$i]->category->name_en == 'Infinity Roses') {
+                    array_push($products, $prods[$i]);
+                }
+                if ($prods[$i]->category->name_en == 'Fresh Roses') {
+                    array_push($products, $prods[$i]);
+                }
+            }
+
+            // event
+            if (searchKey('event', $prods[$i])) {
+                if ($selected_type) {
+                    if ($prods[$i]->category->name_en == $selected_type) {
+                        array_push($products, $prods[$i]);
+                    }
+                } else {
+                    array_push($products, $prods[$i]);
+                }
+            }
+
+            // her
+            if (searchKey('her', $prods[$i])) {
+                if ($selected_type) {
+                    if ($prods[$i]->category->name_en == $selected_type) {
+                        array_push($products, $prods[$i]);
+                    }
+                } else {
+                    array_push($products, $prods[$i]);
+                }
+            }
+
+            // him
+            if (searchKey('him', $prods[$i])) {
+                if ($selected_type) {
+                    if ($prods[$i]->category->name_en == $selected_type) {
+                        array_push($products, $prods[$i]);
+                    }
+                } else {
+                    array_push($products, $prods[$i]);
+                }
+            }
+
+            // home
+            if (searchKey('home', $prods[$i])) {
+                if ($selected_type) {
+                    if ($prods[$i]->category->name_en == $selected_type) {
+                        array_push($products, $prods[$i]);
+                    }
+                } else {
+                    array_push($products, $prods[$i]);
+                }
+            }
+        }
+
+        // // show all products, if all filters off 
+        // if (empty($request->get())) {
+        //     $products = $prods;
+        // }
+        // if there is only price filter
+        $product_count = count($products);
+        if (count($request->get()) == 1 && $request->get('price')) {
+            if ($price[0] != $minmax['min'] || $price[1] != $minmax['max']) {
+                $products = $prods;
+                for ($i = 0; $i < $product_count; $i++) {
+                    // price filter
+                    $min_price = $products[$i]->prices[0]->price;
+                    $product_sizes = (array)$products[$i]->prices;
+                    foreach ($product_sizes as $size) {
+                        if ($size->price < $min_price) {
+                            $min_price = $size->price;
+                        }
+                    }
+                    if ($min_price >= $price[0] && $min_price <= $price[1]) {
+                        // everything is ok 
+                    } else {
+                        unset($products[$i]);
+                    }
+                    // price filter end
+                }
+            } else {
+                $products = $prods;
+            }
         } else {
-            $model->price_min = $minmax['min'];
-            $model->price_max = $minmax['max'];
+            for ($i = 0; $i < $product_count; $i++) {
+                // price filter
+                $min_price = $products[$i]->prices[0]->price;
+                $product_sizes = (array)$products[$i]->prices;
+                foreach ($product_sizes as $size) {
+                    if ($size->price < $min_price) {
+                        $min_price = $size->price;
+                    }
+                }
+                if ($min_price >= $price[0] && $min_price <= $price[1]) {
+                    // everything is ok 
+                } else {
+                    unset($products[$i]);
+                }
+                // price filter end
+            }
+        }
+
+        // remove same products
+        $prev_name = '';
+        for ($i = 0; $i < $product_count; $i++) {
+            if ($prev_name == '') {
+                $prev_name = $products[$i]->name;
+            } else {
+                if ($prev_name == $products[$i]->name) {
+                    unset($products[$i]);
+                } else {
+                    $prev_name = $products[$i]->name;
+                }
+            }
         }
 
         $this->setMeta(Yii::t('app', 'Gift finder'));
-        return $this->render('finder', compact('model', 'products', 'name', 'minmax'));
+        return $this->render('finder', compact('model', 'products', 'name', 'minmax', 'price'));
     }
 
-    public function actionGetImages() {
+    public function actionGetImages()
+    {
         $id = Yii::$app->request->get('id');
         $position = Yii::$app->request->get('position');
         $product = Product::findOne($id);
         $images = $product->getImages();
-        $imagesToAjax;
+        $imagesToAjax = [];
         $i = 0;
         foreach ($images as $image) {
             $i++;
@@ -223,7 +268,5 @@ class ProductController extends AppController {
         $this->layout = false;
         return $this->render('images', compact('imagesToAjax'));
     }
-
 }
-
-?>
+ 

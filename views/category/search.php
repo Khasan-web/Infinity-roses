@@ -25,7 +25,7 @@ use yii\helpers\Url;
 						<img src="<?= $image->getUrl()?>" alt="" class="w-100" />
 						<h2 class="name"><?= $product->name?></h2>
 					</a>
-					<p class="price">from $<?= $product->price?></p>
+					<p class="price"><?= $product->category->$name?></p>
 				</div>
 			<?php endforeach;?>
 		</div>

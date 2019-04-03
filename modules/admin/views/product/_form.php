@@ -142,9 +142,11 @@ use mihaildev\elfinder\ElFinder;
                         <img src="<?= $image->getUrl('80x')?>" style="width: 100%">
                     <?php
                         $name_explode = explode('_', $image->name);
-                        $name = $name_explode[0];
-                        $position = $name_explode[1];
-                        $size = explode('.', $name_explode[2])[0];
+                        if (count($name_explode) > 2) {
+                            $name = $name_explode[0];
+                            $position = $name_explode[1];
+                            $size = explode('.', $name_explode[2])[0];
+                        }
                     ?>
                     <p style="margin-top: 5px; margin-bottom: 0;"><?= $name?></p>
                     <?php  if ($position) {

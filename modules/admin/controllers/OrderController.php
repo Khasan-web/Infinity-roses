@@ -114,7 +114,6 @@ class OrderController extends Controller
     {
         $model = $this->findModel($id);
         $model->delete();
-        $model->removeImages();
         return $this->redirect(['index']);
     }
 

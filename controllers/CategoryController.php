@@ -35,13 +35,23 @@ class CategoryController extends AppController {
         if (!$q) {
             return $this->render('search');
         }
+        if (Yii::$app->language == 'en') {
+            $lang = 0;
+        } else if (Yii::$app->language == 'ru') {
+            $lang = 1;
+        }
+        if ($lang == 0) {
+            $name = 'name_en';
+        } else {
+            $name = 'name_ru';
+        }
         $products = Product::find()
         ->where(['like', 'name', $q])
         ->orWhere(['like', 'description_en', $q])
         ->orWhere(['like', 'description_ru', $q])
         ->orWhere(['like', 'keywords', $q])
         ->all();
-        return $this->render('search', compact('products', 'q'));
+        return $this->render('search', compact('products', 'q', 'name'));
     }
 
     public function actionGetProducts() {

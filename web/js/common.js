@@ -182,10 +182,8 @@ $(function() {
 		var toggle = $(this).find('input[type="checkbox"]').attr("checked");
 		if (toggle == "checked") {
 			$(this).find('input[type="checkbox"]').removeAttr("checked", "checked");
-			$(this).find('input[type="checkbox"]').val(false);
 		} else {
 			$(this).find('input[type="checkbox"]').attr("checked", "checked");
-			$(this).find('input[type="checkbox"]').val(true);
 		}
 	});
 
@@ -352,15 +350,28 @@ $(function() {
 		position = 1;
 	setSizeInfo();
 
+	$('#product-details').on('click', '.custom-checkbox', function () {
+		setSizeInfo();
+	});	
+
+	$('#product-details').find('.vase:checked').change(function () {
+		alert('123');
+	});
+
 	function setSizeInfo() {
  		var selectedOption = $('.size select').children('option:selected'), 
 		height = $('.size select').next().find('.height'),
 		width = $('.size select').next().find('.width'),
 		size = selectedOption.val(),
-		price = selectedOption.data('price');
+		price = selectedOption.data('price'),
+		vase_checkbox = $('#product-details').find('.vase:checked').val();
 
 		if (size) {
 			size = size.toLowerCase();
+		}
+
+		if (vase_checkbox) {
+			price += parseInt($('.vase-price').text());
 		}
 
 		// object with info about selected size from select tag and its price
@@ -377,7 +388,7 @@ $(function() {
 		}
 
 		// set price
-		if (price > 1000000) {
+		if (price >= 1000000) {
 			price = price / 1000000 + 'M' + ' ' + sum;
 		} else {
 			price = price / 1000 + 'K' + ' ' + sum;
@@ -398,9 +409,9 @@ $(function() {
 		});
 
 		$('.product__position img').each(function (i) {
-			if ($(this).hasClass('active-img__image')) {
-				$('.active-img').attr('src', $(this).data('src'))
-			}
+			// if ($(this).hasClass('active-img__image')) {
+			// 	$('.active-img').attr('src', $(this).data('src'))
+			// }
 			if ($(this).data('size') == size) {
 				$(this).parent().show();
 				if ($(this).hasClass('closed')) {
@@ -551,7 +562,7 @@ $(function() {
 		});
 
 		if ($('.vase')) {
-			vase = $('.vase').val();
+			vase = $('#product-details').find('.vase:checked').val();
 		}
 		var addAjaxData = {
 			'accessories': accessories,
@@ -572,7 +583,7 @@ $(function() {
 					showCart(res);
 				},
 				error: function (xhr) {
-					goldAlert(xhr.status);
+					console.log(xhr);
 				}
 			});
 		} else {

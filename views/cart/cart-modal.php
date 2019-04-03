@@ -26,7 +26,7 @@
             <!-- <td><?php //echo $item['parfume'] ? $item['parfume'] : '--'?></td>
             <td><?php //echo $item['chocolate'] ? $item['chocolate'] : '--'?></td> -->
             <td class="hide-on-mob"><?php
-                if ($item['vase'] == 'true') {
+                if ($item['vase'] == true) {
                     echo 'Yes';
                 } else {
                     echo '--';
