@@ -39,3 +39,11 @@ use yii\helpers\Url;
         <li><a href="<?= Url::to(['events/create'])?>"><span class="submenu-title"><i class="fa fa-plus" aria-hidden="true"></i> Add an event</span></a></li>
     </ul>
 </li>
+<li class="<?= $this->gallery?>"><a href="#"><i class="fa fa-image fa-fw">
+    <div class="icon-bg bg-violet"></div>
+</i><span class="menu-title">Gallery</span><span class="fa arrow"></span></a>
+    <ul class="nav nav-second-level">
+    <li><a href="<?= Url::to(['gallery/'])?>"><span class="submenu-title"><i class="fa fa-ellipsis-v" aria-hidden="true"></i> Gallery</span></a></li>
+        <li><a href="<?= Url::to(['gallery/create'])?>"><span class="submenu-title"><i class="fa fa-plus" aria-hidden="true"></i> Add new images</span></a></li>
+    </ul>
+</li>

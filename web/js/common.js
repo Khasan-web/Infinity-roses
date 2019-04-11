@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
 	$('#loader').fadeOut(200);
 	$('body').css('opacity', '1');
 	$('.owl-carousel').owlCarousel({
@@ -12,7 +12,35 @@ $('nav .nav-link').css('padding', '3px 15px');
 // helper about buying of a product
 $('.toggle').click(function () {
 	$('.helper').toggle();
-});	
+});
+
+// magnific pop up
+$('.gallery_images').magnificPopup({
+	delegate: 'div',
+	type: 'image',
+	tLoading: 'Loading image #%curr%...',
+	mainClass: 'item',
+	fixedContentPos: false,
+	gallery: {
+		enabled: true,
+		navigateByImgClick: true,
+		preload: [0, 1], // Will preload 0 - before current, and 1 after the current image
+	},
+	image: {
+		tError: '<a href="%url%">The image #%curr%</a> could not be loaded.',
+		// titleSrc: function(item) {
+		// 	return item.el.attr('title') + '<small>by Marsel Van Oosten</small>';
+		// }
+	},
+	callbacks: {
+		open: function () {
+			$("body").css("overflow", "hidden");
+		},
+		beforeClose: function () {
+			$("body").css("overflow", "visible");
+		},
+	}
+});
 
 var ru;
 if (window.location.href.indexOf("ru") > -1) {
@@ -23,42 +51,66 @@ if (window.location.href.indexOf("ru") > -1) {
 
 new WOW().init();
 $('#gift-finder').slider()
-.on('slide', function(ev){
-	$(this).parent().find('.tooltip').css('opacity', '1');
-});
+	.on('slide', function (ev) {
+		$(this).parent().find('.tooltip').css('opacity', '1');
+	});
 $('#gift-finder-page').slider()
-.on('slide', function(ev){
-	$(this).parent().find('.tooltip').css('opacity', '1');
-});
+	.on('slide', function (ev) {
+		$(this).parent().find('.tooltip').css('opacity', '1');
+	});
 $('.slider').css('width', '100%');
 
-$(function() {
+// $('#gift-finder-page').draggable();
+
+$(function () {
 
 	var navbarHeight = $('#nav-brand').height() + 32, // 32 is padding of nav-brand
 		bgImage = $('.bg-image').height();
-	
+
 	var introHeight = bgImage - navbarHeight;
 	$('.intro').height(introHeight);
-	
+
 	var doc = document.documentElement,
 		navTop = $('#nav-brand').height() + 32;
 
-	$('nav').css({'background': 'transparent', 'padding': '3px 0', 'position': 'absolute', 'top': '115px'});
+	$('nav').css({
+		'background': 'transparent',
+		'padding': '3px 0',
+		'position': 'absolute',
+		'top': '115px'
+	});
 
 	// navbar background
 	function scrollNav() {
-		var top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
+		var top = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
 		if (top >= navTop) {
-			$('nav').css({'background': '#000', 'padding': '0', 'position': 'fixed', 'top': '0'});
+			$('nav').css({
+				'background': '#000',
+				'padding': '0',
+				'position': 'fixed',
+				'top': '0'
+			});
 			$('nav .nav-link').css('padding', '8px 15px');
-		} else if (top < navTop){
-			$('nav').css({'padding': '3px 0', 'position': 'absolute', 'top': '115px'});
+		} else if (top < navTop) {
+			$('nav').css({
+				'padding': '3px 0',
+				'position': 'absolute',
+				'top': '115px'
+			});
 			if (!$('#navbarNav').hasClass('show')) {
-				$('nav').css({'background': 'transparent'});
-				$('#nav-brand').css({'background': 'transparent'});
+				$('nav').css({
+					'background': 'transparent'
+				});
+				$('#nav-brand').css({
+					'background': 'transparent'
+				});
 			} else {
-				$('nav').css({'background': '#000'});
-				$('#nav-brand').css({'background': '#000'});
+				$('nav').css({
+					'background': '#000'
+				});
+				$('#nav-brand').css({
+					'background': '#000'
+				});
 			}
 			$('nav .nav-link').css('padding', '3px 15px');
 		}
@@ -77,21 +129,17 @@ $(function() {
 
 	// make bg black on toggler click 
 
-	var collapseIndex = 0;
-	$('.navbar-toggler').click(function() {
-		var top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
-		if (collapseIndex == 0) {
-			$('#nav-brand').css('background', '#000');
-			$('nav').css('background', '#000');
-			collapseIndex = 1
-		} else if (collapseIndex == 1 && top < navTop){
-			collapseIndex = 0
-			$('#nav-brand').css('background', 'transparent');
-			$('nav').css('background', 'transparent');
-		}
+	$('.navbar-toggler').click(function () {
+		$('#nav-brand').toggleClass('bg-black');
+		$('nav').toggleClass('bg-black');
 	});
 
-	
+	$('.navbar-toggler').dblclick(function () {
+		$('#nav-brand').toggleClass('bg-black');
+		$('nav').toggleClass('bg-black');
+	});
+
+
 	// active nav-item
 
 	var location = window.location.pathname;
@@ -106,28 +154,29 @@ $(function() {
 
 	// change image in nav on hover
 
-	$('li .product-item').mouseover(function() {
+	$('li .product-item').mouseover(function () {
 		var parents = $(this).parents(),
 			parent = parents.closest('.content').find('.img-preview img');
-			
+
 		parent.attr('src', $(this).data('image'));
 	});
 
 	// product qty
 
 	var productQty = 1;
-	function updateQty () {
+
+	function updateQty() {
 		productQty = $('.input-qty').val();
 	}
 
 	$('.input-qty').change(function () {
 		updateQty();
-	});	
+	});
 
-	$('.container').on('click', '.more', function() {
+	$('.container').on('click', '.more', function () {
 		var qty = $(this).parent().find('input'),
 			addedFlower = $(this).parents().closest('.added-flower');
-			flowerId = addedFlower.data('id');
+		flowerId = addedFlower.data('id');
 
 		if (!qty.val()) {
 			qty.val(1);
@@ -144,10 +193,10 @@ $(function() {
 		updateQty();
 		getTotalQty();
 	});
-	$('.container').on('click', '.less', function() {
+	$('.container').on('click', '.less', function () {
 		var qty = $(this).parent().find('input'),
 			addedFlower = $(this).parents().closest('.added-flower');
-			flowerId = addedFlower.data('id');
+		flowerId = addedFlower.data('id');
 
 		paresedQty = parseInt(qty.val());
 		qty.val(paresedQty - 1);
@@ -169,7 +218,7 @@ $(function() {
 
 	function getTotalQty() {
 		var commonQty = 0;
-		$('.added-flower input').each(function(){
+		$('.added-flower input').each(function () {
 			commonQty += parseInt($(this).html());
 		});
 		$('.count').html(commonQty);
@@ -178,7 +227,7 @@ $(function() {
 
 	// logic for switcher
 
-	$(".custom-switch").click(function (){
+	$(".custom-switch").click(function () {
 		var toggle = $(this).find('input[type="checkbox"]').attr("checked");
 		if (toggle == "checked") {
 			$(this).find('input[type="checkbox"]').removeAttr("checked", "checked");
@@ -187,7 +236,7 @@ $(function() {
 		}
 	});
 
-	$(".custom-checkbox").click(function (){
+	$(".custom-checkbox").click(function () {
 		var toggle = $(this).find('input[type="checkbox"]').attr("checked");
 		if (toggle == "checked") {
 			$(this).find('input[type="checkbox"]').removeAttr("checked", "checked");
@@ -201,7 +250,7 @@ $(function() {
 
 	// drodown open
 
-	$('.drop-item').hover(function() {
+	$('.drop-item').hover(function () {
 		var display = $(this).find('.dropdown-menu');
 		if (display.css('display') == 'block') {
 			display.css('display', 'none');
@@ -221,127 +270,130 @@ $(function() {
 
 	// ajax add own set
 
-	$('.form-order').click(function() {
-		var creatorAjaxData = {};
-		creatorAjaxData.flowers = selectedFlowers;
-		creatorAjaxData.container = container;
-		creatorAjaxData.accessories = accessories;
-		// $.ajax({
-		// 	url: '/creator/formalize-set',
-		// 	data: {data: creatorAjaxData},
-		// 	type: 'GET',
-		// 	success: function (res) {
-		// 		if (!res) return alert('Error');
-		// 		// smth else
-		// 	},
-		// 	error: function () {
-		// 		alert('Error');
-		// 	}
-		// });
-		console.log(creatorAjaxData);
-	});
+	// $('.form-order').click(function() {
+	// 	var creatorAjaxData = {};
+	// 	creatorAjaxData.flowers = selectedFlowers;
+	// 	creatorAjaxData.container = container;
+	// 	creatorAjaxData.accessories = accessories;
+	// 	// $.ajax({
+	// 	// 	url: '/creator/formalize-set',
+	// 	// 	data: {data: creatorAjaxData},
+	// 	// 	type: 'GET',
+	// 	// 	success: function (res) {
+	// 	// 		if (!res) return alert('Error');
+	// 	// 		// smth else
+	// 	// 	},
+	// 	// 	error: function () {
+	// 	// 		alert('Error');
+	// 	// 	}
+	// 	// });
+	// 	console.log(creatorAjaxData);
+	// });
 
-	// end ajax add own set
-
-
-	$('#container').on('click', '.container-item', function () {
-		var id = $(this).find('img').data('id');
-		next('container', 'accessories');
-	});
-
-	$('.chocolate').on('click', 'div', function() {
-		var chocolate = $(this).find('img').data('id');
-		$('.chocolate div').css('opacity', '0.4');
-		$(this).css('opacity', '1');
-	});	
-	$('.parfume').on('click', 'div', function() {
-		var parfume = $(this).find('img').data('id');
-		$('.parfume div').css('opacity', '0.4');
-		$(this).css('opacity', '1');
-	});
-
-	var selectedFlowers = [];
-
-	$('#roses').on('click', '.flower', function() {
-		flowerData = {};
-		var flower 	   = $(this).find('img');
-			flowerData.id     	   = flower.data('id');
-			flowerData.name   	   = flower.data('name');
-			flowerData.price  	   = flower.data('price');
-			flowerData.img	   	   = flower.attr('src');
-			flowerData.qty   	   = 1;
-			flowerData.sum;
-
-		selectedFlowers.push(flowerData);
-
-		var list = $('.flowers-list');
-		list.prepend('<div class="row added-flower mt-4" data-id="' + flowerData.id + '"><div class="col-4"><img src="' + flowerData.img + '" alt="' + flowerData.name + '"></div><div class="col-8 text-left"><p class="d-inline-block mr-3">' + flowerData.name + '</p><i class="fas fa-trash-alt remove text-danger" data-id="' + flowerData.id + '"></i><div class="qty-indicators unselectable d-inline-block"><i class="fas fa-plus more"></i><input type="number" class="form-control form-control-sm d-inline" style="width: 50px"><i class="fas fa-minus less"></i></div><p class="d-inline-block">$' + flowerData.price + '.00</p><select style="border-radius: 0" class="custom-select" id="' + flowerData.id + '"><option disabled selected class="hidden-option">Choose One</option><option value="AL1">Alabama1</option><option value="AL2">Alabama2</option><option value="AL3">Alabama3</option></select></div></div>');
-		// colors will be added in .flower elements and got like an array, after by for or foreach will be implemented in DOM
-		getTotalQty();
-
-		// for colors will be cetain ajax to actionColors that will return colors of product by using id ( not good option )
-		// also try to use one ajax
-
-		allowNextStep();
-	});
-	$('.flowers-list').on('change', 'select', function() { 
-		var id = $(this).parents().closest('.added-flower').data('id');
-		for (var i = 0; i < selectedFlowers.length; i++) {
-			if (selectedFlowers[i][0] == id) {
-				selectedFlowers[i][5] = $(this).val();
-			}
-		}
-	});
-
-	$('.flowers-list').on('click', '.remove', function() { 
-		var parents = $(this).parents(),
-			parentFlower = parents.closest('.added-flower'),
-			id = $(this).data('id');
-
-		parentFlower.remove();
-		for (var i = 0; i < selectedFlowers.length; i++) {
-			if (selectedFlowers[i][0] == id) {
-				selectedFlowers.splice(i, 1);
-			}
-		}
-		allowNextStep();
-		getTotalQty();
-	});
+	// // end ajax add own set
 
 
-	// container
+	// $('#container').on('click', '.container-item', function () {
+	// 	var id = $(this).find('img').data('id');
+	// 	next('container', 'accessories');
+	// });
 
-	var container;
+	// $('.chocolate').on('click', 'div', function() {
+	// 	var chocolate = $(this).find('img').data('id');
+	// 	$('.chocolate div').css('opacity', '0.4');
+	// 	$(this).css('opacity', '1');
+	// });	
+	// $('.parfume').on('click', 'div', function() {
+	// 	var parfume = $(this).find('img').data('id');
+	// 	$('.parfume div').css('opacity', '0.4');
+	// 	$(this).css('opacity', '1');
+	// });
 
-	$('#container').on('click', 'img', function () {
-		container = $(this).data('id');
-	});
+	// var selectedFlowers = [];
 
-	// accessories
+	// $('#roses').on('click', '.flower', function() {
+	// 	flowerData = {};
+	// 	var flower 	   = $(this).find('img');
+	// 		flowerData.id     	   = flower.data('id');
+	// 		flowerData.name   	   = flower.data('name');
+	// 		flowerData.price  	   = flower.data('price');
+	// 		flowerData.img	   	   = flower.attr('src');
+	// 		flowerData.qty   	   = 1;
+	// 		flowerData.sum;
 
-	accessories = {};
-	$('.parfume').on('click', 'img', function () {
-		accessories.parfume = $(this).data('id');
-		allowNextStep();
-	});
-	$('.chocolate').on('click', 'img', function () {
-		accessories.chocolate = $(this).data('id');
-		allowNextStep();
-	});
+	// 	selectedFlowers.push(flowerData);
 
-	function allowNextStep() {
-		if (selectedFlowers.length) {
-			$('.flowers-selection').removeAttr('disabled');
-		} else {
-			$('.flowers-selection').attr('disabled', '');
-		}
+	// 	var list = $('.flowers-list');
+	// 	list.prepend('<div class="row added-flower mt-4" data-id="' + flowerData.id + '"><div class="col-4"><img src="' + flowerData.img + '" alt="' + flowerData.name + '"></div><div class="col-8 text-left"><p class="d-inline-block mr-3">' + flowerData.name + '</p><i class="fas fa-trash-alt remove text-danger" data-id="' + flowerData.id + '"></i><div class="qty-indicators unselectable d-inline-block"><i class="fas fa-plus more"></i><input type="number" class="form-control form-control-sm d-inline" style="width: 50px"><i class="fas fa-minus less"></i></div><p class="d-inline-block">$' + flowerData.price + '.00</p><select style="border-radius: 0" class="custom-select" id="' + flowerData.id + '"><option disabled selected class="hidden-option">Choose One</option><option value="AL1">Alabama1</option><option value="AL2">Alabama2</option><option value="AL3">Alabama3</option></select></div></div>');
+	// 	// colors will be added in .flower elements and got like an array, after by for or foreach will be implemented in DOM
+	// 	getTotalQty();
 
-		if (accessories.parfume && accessories.chocolate) {
-			$('.accessories').removeAttr('disabled');
-		} else {
-			$('.accessories').attr('disabled', '');
-		}
-	}
+	// 	// for colors will be cetain ajax to actionColors that will return colors of product by using id ( not good option )
+	// 	// also try to use one ajax
+
+	// 	allowNextStep();
+	// });
+	// $('.flowers-list').on('change', 'select', function() { 
+	// 	var id = $(this).parents().closest('.added-flower').data('id');
+	// 	for (var i = 0; i < selectedFlowers.length; i++) {
+	// 		if (selectedFlowers[i][0] == id) {
+	// 			selectedFlowers[i][5] = $(this).val();
+	// 		}
+	// 	}
+	// });
+
+	// $('.flowers-list').on('click', '.remove', function() { 
+	// 	var parents = $(this).parents(),
+	// 		parentFlower = parents.closest('.added-flower'),
+	// 		id = $(this).data('id');
+
+	// 	parentFlower.remove();
+	// 	for (var i = 0; i < selectedFlowers.length; i++) {
+	// 		if (selectedFlowers[i][0] == id) {
+	// 			selectedFlowers.splice(i, 1);
+	// 		}
+	// 	}
+	// 	allowNextStep();
+	// 	getTotalQty();
+	// });
+
+
+	// // container
+
+	// var container;
+
+	// $('#container').on('click', 'img', function () {
+	// 	container = $(this).data('id');
+	// });
+
+	// // accessories
+
+	// accessories = {};
+	// $('.parfume').on('click', 'img', function () {
+	// 	accessories.parfume = $(this).data('id');
+	// 	allowNextStep();
+	// });
+	// $('.chocolate').on('click', 'img', function () {
+	// 	accessories.chocolate = $(this).data('id');
+	// 	allowNextStep();
+	// });
+
+	// function allowNextStep() {
+	// 	if (selectedFlowers.length) {
+	// 		$('.flowers-selection').removeAttr('disabled');
+	// 	} else {
+	// 		$('.flowers-selection').attr('disabled', '');
+	// 	}
+
+	// 	if (accessories.parfume && accessories.chocolate) {
+	// 		$('.accessories').removeAttr('disabled');
+	// 	} else {
+	// 		$('.accessories').attr('disabled', '');
+	// 	}
+	// }
+
+
+	// CREATOR END
 
 
 	// product | dependence of price from size
@@ -352,19 +404,15 @@ $(function() {
 
 	$('#product-details').on('click', '.custom-checkbox', function () {
 		setSizeInfo();
-	});	
-
-	$('#product-details').find('.vase:checked').change(function () {
-		alert('123');
 	});
 
 	function setSizeInfo() {
- 		var selectedOption = $('.size select').children('option:selected'), 
-		height = $('.size select').next().find('.height'),
-		width = $('.size select').next().find('.width'),
-		size = selectedOption.val(),
-		price = selectedOption.data('price'),
-		vase_checkbox = $('#product-details').find('.vase:checked').val();
+		var selectedOption = $('.size select').children('option:selected'),
+			height = $('.size select').next().find('.height'),
+			width = $('.size select').next().find('.width'),
+			size = selectedOption.val(),
+			price = selectedOption.data('price'),
+			vase_checkbox = $('#product-details').find('.vase:checked').val();
 
 		if (size) {
 			size = size.toLowerCase();
@@ -388,12 +436,7 @@ $(function() {
 		}
 
 		// set price
-		if (price >= 1000000) {
-			price = price / 1000000 + 'M' + ' ' + sum;
-		} else {
-			price = price / 1000 + 'K' + ' ' + sum;
-		}
-		$('.product__price').text(price);
+		$('.product__price').text(price + ' ' + sum);
 
 		// set width and height
 		height.text(selectedOption.data('height'));
@@ -401,31 +444,40 @@ $(function() {
 
 		// show images
 		$('.colors .color').each(function (i) {
-			if ($(this).find('img').data('position') == position && $(this).find('img').data('size') == size) {
-				$(this).show();
-			} else {
-				$(this).hide();
-			}
-		});
-
-		$('.product__position img').each(function (i) {
-			// if ($(this).hasClass('active-img__image')) {
-			// 	$('.active-img').attr('src', $(this).data('src'))
-			// }
-			if ($(this).data('size') == size) {
-				$(this).parent().show();
-				if ($(this).hasClass('closed')) {
-					var itemToAppend = $(this).parent();
-					$(this).parent().remove();
-					$('.product__position').append(itemToAppend);
+			if ($(this).find('img').data('size')) {
+				if ($(this).find('img').data('position') == 1 && $(this).find('img').data('size') == size) {
+					$(this).show();
+				} else {
+					$(this).hide();
 				}
 			} else {
-				$(this).parent().hide();
+				if ($(this).find('img').data('position') == 1) {
+					$(this).show();
+				} else {
+					$(this).hide();
+				}
 			}
 		});
-		
+
+		// show positions depend from size
+		$('.product__position img').each(function (i) {
+			if ($(this).data('size')) {
+				if ($(this).data('size') == size) {
+					$(this).parent().show();
+					if ($(this).hasClass('closed')) {
+						var itemToAppend = $(this).parent();
+						$(this).parent().remove();
+						$('.product__position').append(itemToAppend);
+					}
+				} else {
+					$(this).parent().hide();
+				}
+			}
+		});
+
 	}
 
+	// change position
 	$('.product__position').on('click', 'img', function () {
 		var img = $(this),
 			size = $('.size select').children('option:selected').val();
@@ -433,19 +485,29 @@ $(function() {
 		position = $(this).data('position');
 		size = size.toLowerCase();
 
-		$('.active-img').fadeOut(300, function(){
+		$('.active-img').fadeOut(300, function () {
 			$('.active-img').attr('src', img.data('src'));
 			$('.active-img').fadeIn('slow');
 			$('.active-img').data('position', position);
 		});
 
-		$('.colors .color').each(function (i) {
-			if ($(this).find('img').data('position') == position && $(this).find('img').data('size') == size) {
-				$(this).show();
-			} else {
-				$(this).hide();
-			}
-		});
+		if (!$(this).hasClass('closed')) {
+			$('.colors .color').each(function (i) {
+				if ($(this).find('img').data('position') == position) {
+					if ($(this).find('img').data('size'))  {
+						if ($(this).find('img').data('size') == size) {
+							$(this).show();
+						} else {
+							$(this).hide();
+						}
+					} else {
+						$(this).show();
+					}
+				} else {
+					$(this).hide();
+				}
+			});
+		}
 	});
 
 	$('.size').on('change', 'select', function () {
@@ -459,73 +521,134 @@ $(function() {
 
 	color.color = $('.active-img').data('color');
 
-	$('.colors').on('click', 'img[data-color]', function() {
+	$('.colors').on('click', 'img[data-color]', function () {
 		var activeImg = $('.active-img'),
 			selectedImg = $(this),
-			name	  = $(this).next(),
-			icon	  = '<i class="fas fa-check ml-2"></i>';
+			name = $(this).next(),
+			icon = '<i class="fas fa-check ml-2"></i>';
 
 		if (selectedColor) {
 			selectedColor.find('i').remove();
 		}
 		name.append(icon);
 		selectedColor = name;
-		activeImg.fadeOut(100, function(){
+		activeImg.fadeOut(100, function () {
 			activeImg.attr('src', selectedImg.data('src'));
 			activeImg.data('color', selectedImg.data('color'));
 			color.img = activeImg.attr('src');
+			color.color = $(this).data('color');
+			activeImg.fadeIn();
 		});
-		color.color = $(this).data('color');
-		activeImg.fadeIn();
 	});
 
-	
+
 	// product | accessories
 
 	var accessories = {};
 
-	$('.toggle-parfume').click(function(){
+	$('.toggle-parfume').click(function () {
 		$('.chocolate-carousel').hide(0);
 		$('.parfume-carousel').fadeIn();
 	});
-	$('.toggle-chocolate').click(function(){
+	$('.toggle-chocolate').click(function () {
 		$('.parfume-carousel').hide(0);
 		$('.chocolate-carousel').fadeIn();
 	});
 
 	$('.parfume-carousel').on('click', 'img', function () {
 		var id = $(this).parent().data('id');
+
+		// replace the parfume in object
 		if (accessories.hasOwnProperty('parfume')) {
-			$('.parfume-carousel').fadeOut();
 			accessories.parfume = id;
+
+			// set active dot under selected parfume
+			$('.parfume-carousel').find('i').hide();
+			$(this).next().show();
+
+			// hide parfume carousel
+			$('.parfume-carousel').fadeOut();
 			return;
 		}
+
+		// set active dot under selected parfume
+		$('.parfume-carousel').find('i').hide();
+		$(this).next().show();
+
+		// put check icon in toggle-parfume button
 		var html = $('.toggle-parfume').html();
 		$('.toggle-parfume').html(html + '<i class="fas fa-check ml-2"></i>');
+
+		// set a parfume in the object
 		accessories.parfume = id;
+
+		// if chocolate was selected, dont show chocolate corousel again
 		if (accessories.hasOwnProperty('chocolate')) {
 			$('.parfume-carousel').hide(0);
 		} else {
 			$('.parfume-carousel').hide(0);
 			$('.chocolate-carousel').fadeIn();
 		}
+
+		// hide cancel button
+		$('.cancel-parfume').hide(0);
+
 	});
 
 	$('.chocolate-carousel').on('click', 'img', function () {
 		var id = $(this).parent().data('id');
-		if (accessories.hasOwnProperty('parfume')) {
-			$('.chocolate-carousel').fadeOut();
-		} else {
-			$('.chocolate-carousel').hide(0);
-			$('.parfume-carousel').fadeIn();
-		}
+
+		// put check icon in toggle-chocolate button
 		if (!accessories.hasOwnProperty('chocolate')) {
 			var html = $('.toggle-chocolate').html();
 			$('.toggle-chocolate').html(html + '<i class="fas fa-check ml-2"></i>');
 		}
+
+		// set active dot under selected parfume
+		$('.chocolate-carousel').find('i').hide();
+		$(this).next().show();
+
+		// set a chocolate in the object
 		accessories.chocolate = id;
+
+		$('.chocolate-carousel').fadeOut();
+		$('.cancel-chocolate').hide(0);
 	});
-	
+
+	// when parfume carousel will be opened, show button to cancel
+	$('.toggle-parfume').click(function () {
+		if (accessories.hasOwnProperty('parfume')) {
+			$('.cancel-parfume').show();
+		}
+		if (accessories.hasOwnProperty('chocolate')) {
+			$('.cancel-chocolate').hide(0);
+		}
+	});
+	// when chocolate carousel will be opened, show button to cancel
+	$('.toggle-chocolate').click(function () {
+		if (accessories.hasOwnProperty('chocolate')) {
+			$('.cancel-chocolate').show();
+		}
+		if (accessories.hasOwnProperty('parfume')) {
+			$('.cancel-parfume').hide(0);
+		}
+	});
+
+	// delete parfume from array of accessories on click button "cancel parfume"
+	$('.cancel-parfume').click(function () {
+		delete accessories.parfume;
+		$('.parfume-carousel').find('i').hide();
+		$('.toggle-parfume').find('i').remove();
+		$(this).hide(0);
+	});
+	// delete chocolate from array of accessories on click button "cancel chocolate"
+	$('.cancel-chocolate').click(function () {
+		delete accessories.chocolate;
+		$('.chocolate-carousel').find('i').hide();
+		$('.toggle-chocolate').find('i').remove();
+		$(this).hide(0);
+	});
+
 
 	// AJAX ADD TO CART
 
@@ -541,17 +664,17 @@ $(function() {
 			$('#cart-modal').modal();
 		}
 
-		var clear = ru ? 'Очистить корзину' : 'Clear the cart',
-		buttonExist = cartModal.find('.clear-cart'),
-		notFound = cartModal.find('.not-found');
+		var clear = ru ? 'Очистить <span class="hide-on-mob">корзину</span>' : 'Clear the cart',
+			buttonExist = cartModal.find('.clear-cart'),
+			notFound = cartModal.find('.not-found');
 		if (!notFound.length && !buttonExist.length) {
 			cartModal.find('.modal-footer').html('<button class="btn btn-outline-danger clear-cart">' + clear + '</button>' + cartModal.find('.modal-footer').html());
-		} else if(notFound.length) {
+		} else if (notFound.length) {
 			buttonExist.remove();
 		}
 	}
 
-	$('.add-to-cart').click(function(e) {
+	$('.add-to-cart').click(function (e) {
 		e.preventDefault();
 		var id = $(this).data('id');
 
@@ -605,7 +728,7 @@ $(function() {
 		goldAlert(msg, true);
 	}
 
-	$('#cart-modal').on('click', '.clear-cart', function(){
+	$('#cart-modal').on('click', '.clear-cart', function () {
 		clearCart();
 	});
 
@@ -617,24 +740,24 @@ $(function() {
 		$.ajax({
 			url: '/' + ru + 'cart/show-cart',
 			type: 'GET',
-			success: function(res) {
+			success: function (res) {
 				if (!res) alert('Error');
 				showCart(res);
 			},
-			error: function() {
+			error: function () {
 				alert('Error!');
 			}
 		});
 	}
 
-	$('.showCart').click(function(e){
+	$('.showCart').click(function (e) {
 		e.preventDefault();
 		getCart();
 	});
 
 	// END GET CART
 
-	
+
 	// DELET ITEM
 
 	$('.cart').on('click', '.del-item', function () {
@@ -642,12 +765,14 @@ $(function() {
 		$.ajax({
 			url: '/' + ru + 'cart/del-item',
 			type: 'GET',
-			data: {id: id},
-			success: function(res) {
+			data: {
+				id: id
+			},
+			success: function (res) {
 				if (!res) goldAlert('Error');
 				showCart(res);
 			},
-			error: function() {
+			error: function () {
 				goldAlert('Error!');
 			}
 		});
@@ -658,17 +783,30 @@ $(function() {
 
 	// close notification
 
-	$(window).scroll(function() {
+	$(window).scroll(function () {
 		if ($(document).scrollTop() >= 2300) {
 			$('.notifications').css('right', '0');
 		}
 	});
 
-	$('.notifications').on('click', '.close', function () {
+	function closeNotific() {
 		var notification = $(this).parent();
 		notification.css('right', '-100%');
 		$('.notifications').hide();
+	}
+
+	$('.notifications').on('click', '.close', function () {
+		closeNotific();
 	});
+
+	// by esc
+	$(document).keyup(function(e) {
+		if(e.keyCode == 27) {
+			closeNotific();
+		}
+	});
+
+	// close notification end
 
 
 	// auto options in search
@@ -678,7 +816,9 @@ $(function() {
 		q = q.trim();
 		$.ajax({
 			url: '/' + ru + 'category/get-products',
-			data: {q: q},
+			data: {
+				q: q
+			},
 			type: 'GET',
 			success: function (res) {
 				if (!res) goldAlert('Error!');
@@ -688,18 +828,9 @@ $(function() {
 				}
 			},
 			error: function () {
-				goldAlert ('Error');
+				// goldAlert('Please try again later, search doesnt work now');
 			}
 		});
-	});
-
-	$('.closed').on('click', function () {
-		var img = $(this);
-		$('.active-img').fadeOut(300, function(){
-			$('.active-img').attr('src', img.data('src'));
-			$('.active-img').fadeIn('slow');
-		});
-		return false;
 	});
 
 	// custom alert
@@ -712,11 +843,11 @@ $(function() {
 				$.ajax({
 					url: '/' + ru + 'cart/clear',
 					type: 'GET',
-					success: function(res) {
+					success: function (res) {
 						if (!res) goldAlert('Clear Error!');
 						showCart(res);
 					},
-					error: function() {
+					error: function () {
 						goldAlert('Clear Error');
 					}
 				});
@@ -724,5 +855,76 @@ $(function() {
 		}
 		$('#alert-modal').modal('toggle');
 	}
-	
+
+	// GALLERY
+
+	// make categories buttons fixed if they reach 54px
+	if ($('.gallery__categories').length) {
+		var eTop = $('.gallery__categories').offset().top; //get the offset top of the element
+	}
+	$(window).scroll(function () { //when window is scrolled
+		var categoriesOffset = eTop - $(window).scrollTop();
+		if ($(window).width() <= 992) {
+			navHeight = 54;
+		} else {
+			navHeight = 45;
+		}
+		if (categoriesOffset <= navHeight) {
+			$('.gallery__categories').css({
+				'position': 'fixed',
+				'top': navHeight + 'px'
+			});
+			$('.gallery__title').css('padding-bottom', '55px');
+		} else {
+			$('.gallery__categories').css({
+				'position': 'static'
+			});
+			$('.gallery__title').css('padding-bottom', '0px');
+		}
+	});
+
+	// category filter 
+	var removedImages = [];
+	$('.gallery__categories').on('click', '.gallery__category', function () {
+		var categoryId = $(this).data('id'),
+			secondCycle = [];
+
+		$('.gallery__categories button').removeClass('btn-dark');
+		$('.gallery__categories button').addClass('btn-outline-dark');
+		$(this).toggleClass('btn-outline-dark');
+		$(this).toggleClass('btn-dark');
+
+		$('.gallery_images .item').each(function () {
+			if ($(this).data('category') == categoryId) {
+				$(this).show();
+			} else {
+				removedImages.push($(this));
+				$(this).remove();
+			}
+
+			// search in previously removed images
+			for (i = 0; i < removedImages.length; i++) {
+				if (removedImages[i][0].attributes['data-category']['value'] == categoryId) {
+					$('.gallery_images').append(removedImages[i]);
+				}
+			}
+		});
+	});
+
+	// show all images
+	$('.gallery__show-all').click(function () {
+		$('.gallery__categories button').removeClass('btn-dark');
+		$('.gallery__categories button').addClass('btn-outline-dark');
+		$(this).toggleClass('btn-outline-dark');
+		$(this).toggleClass('btn-dark');
+
+		for (i = 0; i < removedImages.length; i++) {
+			$('.gallery_images').append(removedImages[i]);
+		}
+	});
+
+	// category filter end
+
+	// GALLERY END
+
 });

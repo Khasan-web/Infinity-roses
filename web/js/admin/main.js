@@ -449,6 +449,8 @@ $(function () {
             ol = $('.added-sizes'),
             width_height;
 
+        // new_size = new_size.toLowerCase();
+
         if (new_width && new_height) {
             width_height = " (" + new_height + 'cm H x ' + new_width + 'cm W' + ")";
         } else {
@@ -518,7 +520,7 @@ $(function () {
 
     // remove a size
 
-    $('.remove-size').on('click', function(){
+    $('.product-form').on('click', '.remove-size', function(){
         if (confirm('Delete this size?')) {
             var id = $(this).parent().data('id'),
             product_id = $('.added-sizes').data('page-id');
@@ -530,15 +532,10 @@ $(function () {
                 },
                 type: 'GET',
                 success: function(res) {
-                    if (!res) alert('Sorry, Error in respond. Please try again');
                     $('.added-sizes').html(res);
-                    console.log(res);
                 }
             });
         }
     });
 
 });
-
-
-

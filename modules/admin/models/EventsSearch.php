@@ -18,7 +18,7 @@ class EventsSearch extends Events
     {
         return [
             [['id'], 'integer'],
-            [['name', 'date_from', 'date_to', 'description_en', 'description_ru'], 'safe'],
+            [['name_en', 'name_ru', 'date_from', 'date_to', 'description_en', 'description_ru'], 'safe'],
         ];
     }
 
@@ -63,7 +63,8 @@ class EventsSearch extends Events
             'date_to' => $this->date_to,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name])
+        $query->andFilterWhere(['like', 'name_en', $this->name_en])
+            ->andFilterWhere(['like', 'name_ru', $this->name_ru])
             ->andFilterWhere(['like', 'description_en', $this->description_en])
             ->andFilterWhere(['like', 'description_ru', $this->description_ru])
             ->andFilterWhere(['like', 'image', $this->image]);

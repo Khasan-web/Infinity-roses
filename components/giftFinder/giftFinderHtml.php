@@ -29,7 +29,7 @@ $id = Yii::$app->request->get('id');
 <form action="<?= Url::to(['product/gift-finder'])?>">
     <li class="nav-item drop-item <?= $controller == 'product' && $action == 'gift-finder' ? 'active' : ''?>"
         role="button" id="gift-finder-item" aria-haspopup="true" aria-expanded="false">
-        <a class="nav-link" href="<?= Url::to(['site/contact'])?>"><?= Yii::t('app', 'Gift Finder')?></a>
+        <a class="nav-link" href="<?= Url::to(['product/gift-finder'])?>"><?= Yii::t('app', 'Gift Finder')?></a>
         <div class="dropdown-menu" id="finder" aria-labelledby="gift-finder-item">
             <div class="container">
                 <div class="row mx-auto my-4">

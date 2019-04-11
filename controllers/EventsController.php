@@ -15,8 +15,9 @@ class EventsController extends AppController {
             throw new HttpException(404, 'The Event Not Found');
         }
         $description = 'description_' . Yii::$app->language;
-        $this->setMeta($event->name);
-        return $this->render('view', compact('event', 'description'));
+        $name = 'name_' . Yii::$app->language;
+        $this->setMeta($event->$name);
+        return $this->render('view', compact('event', 'description', 'name'));
     }
 
 }

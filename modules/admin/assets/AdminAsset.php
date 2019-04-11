@@ -30,7 +30,7 @@ class AdminAsset extends AssetBundle
         'js/admin/jquery.menu.js',
         'js/admin/pace.min.js',
         'js/admin/holder.js',
-        'vendors/calendar/zabuto_calendar.min.js',
+        // 'vendors/calendar/zabuto_calendar.min.js',
         'js/admin/index.js',
         'js/admin/main.js',
     ];

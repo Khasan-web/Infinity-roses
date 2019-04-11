@@ -26,11 +26,6 @@ use mihaildev\elfinder\ElFinder;
 
             <?= $form->field($model, 'name_ru')->textInput(['maxlength' => true]) ?>
 
-            <!-- <?php //echo $form->field($model, 'secondary')->checkbox() ?>
-            <div class="col-md-6 col-sm-12" style="padding-left: 0">
-            <p>Secondary categories are in the gift finder ( her, him, home and one event ). If you select a category like a secondary category, it will not be shown anywhere</p>
-            </div> -->
-
         </div>
     </div>
 

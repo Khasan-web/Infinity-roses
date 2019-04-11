@@ -28,7 +28,7 @@ use yii\widgets\MaskedInput;
     </div>
     <?php endif;?>
 
-    <h1 class="text-center table-container"><?= Yii::t('app', 'Your Cart')?></h1>
+    <h2 class="text-center table-container prata fsize_h1"><?= Yii::t('app', 'Your Cart')?></h2>
     <div class="container mt-5">
     <div class="table-responsive">
         <?php if (!empty($session['cart'])): ?>
@@ -117,7 +117,7 @@ use yii\widgets\MaskedInput;
                     <img src="img/gold-logo.svg" alt="">
                 </div>
                 <div class="col-md-6">
-                    <button type="submit" class="btn btn-dark btn-block btn-lg"><?= Yii::t('app', 'Order')?>!</button>
+                    <button type="submit" class="btn btn-dark btn-block"><i class="fas fa-box-open"></i> <?= Yii::t('app', 'Order')?></button>
                 </div>
             </div>
             <?php ActiveForm::end()?>

@@ -7,6 +7,9 @@ use app\models\Product;
 use yii\web\HttpException;
 use app\models\GiftFinderForm;
 use yii\helpers\StringHelper;
+use yii\helpers\Url;
+use app\models\Category;
+use app\modules\admin\models\Gallery;
 
 class ProductController extends AppController
 {
@@ -14,13 +17,7 @@ class ProductController extends AppController
     public function actionView()
     {
         $id = Yii::$app->request->get('id');
-        if (Yii::$app->language == 'en') {
-            $lang = 0;
-            $name = 'name_en';
-        } else if (Yii::$app->language == 'ru') {
-            $lang = 1;
-            $name = 'name_ru';
-        }
+        $name = getLang('name');
         $product = Product::findOne($id);
         if (Yii::$app->cache->get('hits')) {
             $hits = Yii::$app->cache->get('hits');
@@ -32,7 +29,9 @@ class ProductController extends AppController
             throw new HttpException(404, 'This product does not exist');
         }
         $description = 'description_' . Yii::$app->language;
-        $this->setMeta($product->name, $product->keywords, $product->$description);
+        $img = $product->getImage();
+        $social_img = Url::base(true) . $img->getUrl('850x');
+        $this->setMeta($product->name, $product->keywords, $product->$description, $social_img);
         return $this->render('view', compact('product', 'hits', 'lang', 'name'));
     }
 
@@ -185,11 +184,10 @@ class ProductController extends AppController
         //     $products = $prods;
         // }
         // if there is only price filter
-        $product_count = count($products);
         if (count($request->get()) == 1 && $request->get('price')) {
             if ($price[0] != $minmax['min'] || $price[1] != $minmax['max']) {
                 $products = $prods;
-                for ($i = 0; $i < $product_count; $i++) {
+                for ($i = 0; $i < $product_count_prods; $i++) {
                     // price filter
                     $min_price = $products[$i]->prices[0]->price;
                     $product_sizes = (array)$products[$i]->prices;
@@ -209,6 +207,7 @@ class ProductController extends AppController
                 $products = $prods;
             }
         } else {
+            $product_count = count($products);
             for ($i = 0; $i < $product_count; $i++) {
                 // price filter
                 $min_price = $products[$i]->prices[0]->price;
@@ -229,6 +228,7 @@ class ProductController extends AppController
 
         // remove same products
         $prev_name = '';
+        $product_count = count($products);
         for ($i = 0; $i < $product_count; $i++) {
             if ($prev_name == '') {
                 $prev_name = $products[$i]->name;
@@ -268,5 +268,15 @@ class ProductController extends AppController
         $this->layout = false;
         return $this->render('images', compact('imagesToAjax'));
     }
+
+
+    public function actionGallery() {
+        $categories = Category::find()->asArray()->all();
+        $name = getLang('name');
+        $gallery = Gallery::find()->all();
+        $this->setMeta('Gallery', 'gallery infinity roses infinityroses flowers beautiful', 'See the amazing gallery of Infinityroses');
+        return $this->render('gallery', compact('categories', 'name', 'gallery'));
+    }
+
 }
  

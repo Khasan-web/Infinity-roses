@@ -21,7 +21,7 @@
             <td><img class="img-prod" src="<?= $item['img']?>" alt="<?= $item['name']?>"></td>
             <td><?= $item['name']?></td>
             <td><?= $item['size']?></td>
-            <td><?= $item['price'] / 1000 >= 1000 ? $item['price'] / 1000000 . 'M' : $item['price'] / 1000 . 'K';?> <?= Yii::t('app', 'sum')?></td>
+            <td><?= $item['price'] . ' ' . Yii::t('app', 'sum')?></td>
             <td class="hide-on-mob"><?= $item['qty']?></td>
             <!-- <td><?php //echo $item['parfume'] ? $item['parfume'] : '--'?></td>
             <td><?php //echo $item['chocolate'] ? $item['chocolate'] : '--'?></td> -->
@@ -38,7 +38,7 @@
 
     <tr>
         <td class="pb-1 pt-4 colspan-mob" colspan="3"><?= Yii::t('app', 'Common sum:')?></td>
-        <td colspan="4" class="text-right pb-1 pt-4"><?= $session['cart.sum'] / 1000 >= 1000 ? $session['cart.sum'] / 1000000 . 'M' : $session['cart.sum'] / 1000 . 'K';?> <?= Yii::t('app', 'sum')?></td>
+        <td colspan="4" class="text-right pb-1 pt-4"><?= $session['cart.sum'] . ' ' . Yii::t('app', 'sum')?></td>
     </tr>
     <tr>
         <td class="py-1 colspan-mob" colspan="3"><?= Yii::t('app', 'Common quantity:')?></td>

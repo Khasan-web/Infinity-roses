@@ -7,7 +7,7 @@ use app\components\AdminTitle;
 /* @var $this yii\web\View */
 /* @var $model app\modules\admin\models\Events */
 
-$this->title = $model->name;
+$this->title = $model->$name;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Events'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
@@ -47,7 +47,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'name',
+            'name_en',
+            'name_ru',
             'date_from',
             'date_to',
             'description_en:html',

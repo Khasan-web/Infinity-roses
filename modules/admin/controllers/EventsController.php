@@ -38,10 +38,12 @@ class EventsController extends Controller
     {
         $searchModel = new EventsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $name = 'name_' . Yii::$app->language;
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'name' => $name,
         ]);
     }
 
@@ -53,8 +55,10 @@ class EventsController extends Controller
      */
     public function actionView($id)
     {
+        $name = 'name_' . Yii::$app->language;
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'name' => $name,
         ]);
     }
 
@@ -66,6 +70,7 @@ class EventsController extends Controller
     public function actionCreate()
     {
         $model = new Events();
+        $name = 'name_' . Yii::$app->language;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             
@@ -81,6 +86,7 @@ class EventsController extends Controller
 
         return $this->render('create', [
             'model' => $model,
+            'name' => $name,
         ]);
     }
 
@@ -94,6 +100,7 @@ class EventsController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $name = 'name_' . Yii::$app->language;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
@@ -112,6 +119,7 @@ class EventsController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+            'name' => $name,
         ]);
     }
 

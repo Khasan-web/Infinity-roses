@@ -6,13 +6,13 @@ use yii\widgets\MaskedInput;
 
 ?>
 
-<div class="bg-image" style="background-image: url(img/home/luxury-roses.jpg)"></div>
+<div class="bg-image" style="background-image: url(img/home/contacts-img.jpg)"></div>
 
 <section id="contact">
 		<section class="intro">
 			<div class="col-lg-3 col-md-5 col-10 welcome-cart">
-				<h1 class="gold "><?= Yii::t('app', 'Contacts')?></h1>
-				<p><?= Yii::t('app', 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Minima sint, quibusdam')?></p>
+				<h2 class="gold prata fsize_h1"><?= Yii::t('app', 'Contacts')?></h2>
+				<p><?= Yii::t('app', 'If you have any questions, you can ask us right now! Our manager will respond as soon as possible.')?></p>
 			</div>
 		</section>
 		<section class="contact-info container">
@@ -34,7 +34,7 @@ use yii\widgets\MaskedInput;
 		</section>
 		<section id="get-in-touch">
 			<img src="img/white-logo.svg" alt="" class="bg-logo unselectable">
-			<h1 class="gold text-center "><?= Yii::t('app', 'Get in touch')?></h1>
+			<h2 class="gold text-center prata fsize_h1"><?= Yii::t('app', 'Get in touch')?></h2>
 			<div class="col-lg-5 col-md-8 mx-auto gold-form">
 			<?php $form = ActiveForm::begin([
 				'options' => [
@@ -59,18 +59,13 @@ use yii\widgets\MaskedInput;
 			<?php ActiveForm::end();?>
 			</div>
 		</section>
-		<section id="social-media">
-			<a href="https://www.facebook.com/infinityroses.uz/">
-				<i class="fab fa-facebook-square"></i>
-			</a>
-			<a href="https://www.instagram.com/infinityroses.uz/">
-				<i class="fas fa-camera-retro"></i>
-			</a>
-			<a href="#">
-				<i class="fab fa-skype"></i>
-			</a>
-			<a href="#">
-				<i class="fab fa-pinterest-square"></i>
-			</a>
+		<section class="socials">
+			<a target="_blank" title="facebook" href="https://www.facebook.com/infinityroses.uz/"><img src="img/icons/facebook.svg" alt="facebook"></a>
+            <a target="_blank" title="instagram" href="https://www.instagram.com/infinityroses.uz/"><img src="img/icons/instagram.svg" alt="instagram"></a>
+            <a target="_blank" title="youtube" href="#"><img src="img/icons/youtube.svg" alt="youtube"></a>
+			<a target="_blank" title="telegram" href="#"><img src="img/icons/telegram.svg" alt="telegram"></a>
+			<div class="col-md-4 col-12 mx-auto mt-4">
+				<p><?= Yii::t('app', 'Follow us and be aware <br/>of all news')?></p>
+			</div>
 		</section>
 	</section>

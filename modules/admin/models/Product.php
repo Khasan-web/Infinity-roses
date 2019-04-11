@@ -59,7 +59,7 @@ class Product extends \yii\db\ActiveRecord
             [['description_en', 'description_ru', 'hit'], 'string'],
             [['name', 'keywords'], 'string', 'max' => 255],
             [['image'], 'file', 'extensions' => 'png, jpg, jpeg'],
-            [['gallery'], 'file', 'extensions' => 'png, jpg, jpeg', 'maxFiles' => 12],
+            [['gallery'], 'file', 'extensions' => 'png, jpg, jpeg', 'maxFiles' => 35],
         ];
     }
 

@@ -11,7 +11,7 @@ $this->title = $name;
 ?>
 
 <section id="not-found">
-	<h1><?= Html::encode($this->title) ?></h1>
+	<h2 class="prata fsize_h1"><?= Html::encode($this->title) ?></h2>
 	<p> <?= nl2br(Html::encode($message)) ?></p>
 	<a href="/" class="btn btn-outline-dark"><?= Yii::t('app', 'Main page')?></a>
 </section>

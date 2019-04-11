@@ -8,7 +8,8 @@ use Yii;
  * This is the model class for table "events".
  *
  * @property int $id
- * @property string $name
+ * @property string $name_en
+ * @property string $name_ru
  * @property string $date_from
  * @property string $date_to
  * @property string $description_en
@@ -43,10 +44,10 @@ class Events extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'description_en', 'description_ru'], 'required'],
+            [['name_en', 'name_ru', 'description_en', 'description_ru'], 'required'],
             [['date_from', 'date_to'], 'safe'],
             [['description_en', 'description_ru'], 'string'],
-            [['name'], 'string', 'max' => 50],
+            [['name_en', 'name_ru'], 'string', 'max' => 50],
             [['image'], 'file', 'extensions' => 'png, jpg, jpeg'],
         ];
     }
@@ -58,7 +59,8 @@ class Events extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'Event №'),
-            'name' => Yii::t('app', 'Name'),
+            'name_en' => Yii::t('app', 'Name En'),
+            'name_ru' => Yii::t('app', 'Name Ru'),
             'date_from' => Yii::t('app', 'Date From'),
             'date_to' => Yii::t('app', 'Date To'),
             'description_en' => Yii::t('app', 'Description En'),

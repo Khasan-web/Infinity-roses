@@ -22,12 +22,20 @@ class AppAsset extends AssetBundle
     public $css = [
         'css/site.css',
         'css/main.min.css',
+        'css/magnific-popup.css',
     ];
     public $js = [
         'js/scripts.min.js',
         'js/inputmask.js',
         'js/jquery.inputmask.js',
-        'js/common.js'
+        'js/jquery.magnific-popup.min.js',
+        // slider mobile touch
+        // 'http://code.jquery.com/ui/1.8.17/jquery-ui.min.js',
+        'js/jquery.ui.touch-punch.min.js', 
+        'js/common.js',
+        // social buttons
+        '//yastatic.net/es5-shims/0.0.2/es5-shims.min.js',
+        '//yastatic.net/share2/share.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

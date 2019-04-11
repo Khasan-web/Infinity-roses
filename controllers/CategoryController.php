@@ -18,12 +18,7 @@ class CategoryController extends AppController {
             throw new HttpException(404, 'This category does not exist');
         }
         $products = Product::find()->where(['category_id' => $id])->all();
-        if (Yii::$app->language == 'en') {
-            $lang = 0;
-        } else if (Yii::$app->language == 'ru') {
-            $lang = 1;
-        }
-        $name = 'name_' . Yii::$app->language;
+        $name = getLang('name');
         $description  = 'description_' . Yii::$app->language;
         $this->setMeta($category->$name, $category->keywords, $category->$description);
         return $this->render('view', compact('category', 'products', 'lang', 'name', 'description'));
@@ -35,16 +30,7 @@ class CategoryController extends AppController {
         if (!$q) {
             return $this->render('search');
         }
-        if (Yii::$app->language == 'en') {
-            $lang = 0;
-        } else if (Yii::$app->language == 'ru') {
-            $lang = 1;
-        }
-        if ($lang == 0) {
-            $name = 'name_en';
-        } else {
-            $name = 'name_ru';
-        }
+        $name = getLang('name');
         $products = Product::find()
         ->where(['like', 'name', $q])
         ->orWhere(['like', 'description_en', $q])
@@ -58,12 +44,17 @@ class CategoryController extends AppController {
         $q = trim(Yii::$app->request->get('q'));
         $products = Product::find()
         ->where(['like', 'name', $q])
-        ->orWhere(['like', 'description_en', $q])
-        ->orWhere(['like', 'description_ru', $q])
+        // ->orWhere(['like', 'description_en', $q])
+        // ->orWhere(['like', 'description_ru', $q])
         ->orWhere(['like', 'keywords', $q])
         ->all();
         $this->layout = false;
         return $this->render('search-li', compact('products'));
+    }
+
+    public function actionWeddingDecoration() {
+        $this->setMeta(Yii::t('app', 'Wedding decoration'), null, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid, veniam. Aspernatur deserunt debitis asperiores est.');
+        return $this->render('wedding-decoration');
     }
     
 }

@@ -23,12 +23,28 @@ $currentAction = Yii::$app->controller->action->id;
 <head>
   <meta charset="utf-8" />
   <base href="/" />
-  
-  <meta name="description" content="" />
 
   <meta charset="<?= Yii::$app->charset ?>">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+  <!-- You have to mention the card type. -->
+<meta name="twitter:card" content="summary">
+
+<!-- If you want you can mention the twitter profile of your website -->
+<meta name="twitter:site" content="@qscuttertutor">
+
+<!-- If you want you can mention the twitter profile of the author of the webpage. This is useful if the URL is a blog post. -->
+<meta name="twitter:creator" content="@narayanprusty">
+
+<!-- You have to mention the title of the webpage -->
+<meta name="twitter:title" content="An Introduction To Twitter Card">
+
+<!-- You have to mention a 2-4 lines description about the webpage -->
+<meta name="twitter:description" content="Sometime just tweeting a URL is not enough to make the users more engaging and bringing traffic to your website or app. So Twitter introduced "Twitter Cards", using which we can make Twitter can generate a summarised preview of of our website or app and also provide basic information about what the webpage contains.">
+
+<!-- If you want you can embed a URL of a image representing the content of your webpage. This image will be displayed in the preview and will make your post look more attractive. -->
+<meta name="twitter:image" content="http://qnimate.com/myImage.png">
 
   <?php $this->registerCsrfMetaTags() ?>
 
@@ -49,25 +65,17 @@ $currentAction = Yii::$app->controller->action->id;
 <body>
 <?php $this->beginBody() ?>
 <div id="loader"><img src="/img/loading.gif" alt="" width="150" /></div>
-
+<?php //debug(Url::base(true) . Url::current())?>
 <?= Navbar::widget()?>
 <!-- Modal search -->
 <div class="modal fade" id="search" tabindex="-1" role="dialog" aria-labelledby="search" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="search">
-          <?= Yii::t('app', 'Search in Infinity roses')?>
-        </h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
       <div class="modal-body gold-form">
         <form action="/category/search" method="get">
           <div class="btn-group w-100">
-            <input type="search" autocomplete="off" name="q" class="form-control mb-0 search" placeholder="<?= Yii::t('app', 'What do you want to find?')?>">
-            <button type="submit" class="btn btn-outline-gold">
+            <input type="search" autocomplete="off" name="q" class="form-control mb-0 search" style="border-radius: 3px 0 0 3px!important;" placeholder="<?= Yii::t('app', 'What do you want to find?')?>">
+            <button type="submit" class="btn btn-outline-gold search-btn" style="padding: 3px 15px!important; border-radius: 0 3px 3px 0!important;">
               <?= Yii::t('app', 'Find')?>!
             </button>
           </div>
@@ -123,8 +131,8 @@ $currentAction = Yii::$app->controller->action->id;
 
       </div>
       <div class="modal-footer">
+        <button data-dismiss="modal" aria-label="Close" class="btn btn-outline-gold hide-on-mob"><?= Yii::t('app', 'Continue shopping')?></button>
         <a href="<?= Url::to(['cart/view']);?>" class="btn btn-outline-success"><?= Yii::t('app', 'Formalize the order')?></a>
-        <button data-dismiss="modal" aria-label="Close" class="btn btn-outline-gold"><?= Yii::t('app', 'Continue shopping')?></button>
       </div>
     </div>
   </div>
@@ -169,10 +177,12 @@ $currentAction = Yii::$app->controller->action->id;
         </div>
         <div class="col-lg-3 col-md-6 py-4 socials">
           <h4><?= Yii::t('app', 'Follow Us')?>:</h4>
-          <a target="_blank" href="https://www.facebook.com/infinityroses.uz/"><i class="fab fa-facebook-square"></i> </a>
-          <a target="_blank" href="https://www.instagram.com/infinityroses.uz/"><i class="fas fa-camera-retro"></i> </a>
-          <a target="_blank" href="#"><i class="fab fa-skype"></i> </a>
-          <a target="_blank" href="#"><i class="fab fa-pinterest-square"></i> </a>
+          <div class="mb-2">
+            <a target="_blank" title="facebook" href="https://www.facebook.com/infinityroses.uz/"><img src="img/icons/facebook.svg" alt="facebook"></a>
+            <a target="_blank" title="instagram" href="https://www.instagram.com/infinityroses.uz/"><img src="img/icons/instagram.svg" alt="instagram"></a>
+            <a target="_blank" title="youtube" href="#"><img src="img/icons/youtube.svg" alt="youtube"></a>
+            <a target="_blank" title="telegram" href="#"><img src="img/icons/telegram.svg" alt="telegram"></a>
+          </div>
           <p><?= Yii::t('app', 'Follow us and be aware <br/>of all news')?></p>
         </div>
         <div class="col-lg-3 col-md-6 py-4">

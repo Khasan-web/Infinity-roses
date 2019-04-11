@@ -2,6 +2,14 @@ html,
 body {
     height: 100%;
     padding: 0!important;
+    /* margin: 0!important; */
+}
+
+.prata {
+    font-family: prata!important;
+}
+.fsize_h1 {
+    font-size: 2.5rem;
 }
 
 /* html {
@@ -12,7 +20,30 @@ body {
     text-decoration: underline!important;
 }
 
-.wrap {
+.modal-header {
+    border-bottom: 1px solid #B89C64!important;
+}
+.modal-header .close {
+    padding: 1.2rem 1.5rem!important;
+    text-shadow: none;
+    opacity: 1;
+    border-left: 1px solid #B89C64;
+    transition: 0.2s;
+}
+.modal-header .close:hover {
+    color: #000!important;
+    background-color: #B89C64;
+}
+
+.notification__title {
+    text-decoration: underline;
+    color: #B89C64!important;
+}
+.notification__title:hover {
+    text-decoration: none;
+}
+
+.wrap { 
     min-height: 100%;
     height: auto;
     margin: 0 auto -60px;
@@ -65,6 +96,17 @@ nav .nav-link {
     -webkit-transition: .2s;
     -o-transition: .2s;
     transition: .2s;
+}
+
+nav h5 {
+    margin: 0!important;
+}
+
+nav .cats a {
+    text-decoration: underline;
+}
+nav .cats a:hover {
+    text-decoration: none;
 }
 
 #map {
@@ -120,11 +162,29 @@ footer a:hover {
     text-decoration: underline;
 }
 
-footer .socials a {
+.socials a {
     text-decoration: none;
 }
-footer .socials a:hover {
+.socials a:hover {
     text-decoration: none;  
+}
+
+footer .socials img {
+    width: 22px;
+    margin: 0 3px;
+}
+
+#contact .socials img {
+    width: 50px;
+    margin: 0 10px;
+}
+#contact .socials {
+    padding: 100px 0;
+    text-align: center;
+}
+#contact .socials p {
+    font-weight: 300;
+    color: #B89C64;
 }
 
 .jumbotron {
@@ -146,6 +206,7 @@ footer .socials a:hover {
     padding: 100px 0;
     font-weight: 500;
     color: grey;
+    font-family: inherit!important;
 }
 
 .gridview-custom .glyphicon{
@@ -170,9 +231,8 @@ footer .socials a:hover {
     position: absolute;
     background: #B89C64;
     bottom: 0;
-    width: 300px;
-    padding: 15px;
-    padding-bottom: 5px;
+    width: 400px;
+    padding: 25px;
     left: 50%;
     transform: translate(-50%, 50%);
 }
@@ -182,7 +242,7 @@ footer .socials a:hover {
 }
 
 .event-img h2 {
-    font-family: bodoni;
+    font-family: prata;
 }
 
 #info {
@@ -194,9 +254,11 @@ footer .socials a:hover {
     padding: 100px 0;
     background: #fff;
 }
-
 #finder-page h1 {
     text-align: center;
+}
+#finder-page .tooltip-inner {
+    background-color: #fff;
 }
 
 .qty-indicators {
@@ -212,6 +274,10 @@ input[type=number]::-webkit-outer-spin-button {
 .qty-indicators .input-qty {
     width: 60px!important;
     text-align: center;
+}
+
+#about-company a{
+    text-decoration: underline;
 }
 
 #info img {
@@ -232,7 +298,7 @@ input[type=number]::-webkit-outer-spin-button {
     bottom: 25px;
     z-index: 9999;
     transition: 0.7s;
-    width: 100%;
+    width: 25%;
     bottom: 0;
 }
 
@@ -408,6 +474,10 @@ a.desc:after {
     cursor: pointer;
 }
 
+.product .name {
+   font-family: inherit!important; 
+}
+
 .drop-desc p {
     font-weight: 200;
 }
@@ -435,8 +505,17 @@ form i {
 
 .vase {
     display: grid;
-    grid-template-columns: 20% 25% 55%;
+    grid-template-columns: 30% 70%;
     align-items: center;
+}
+.vase img {
+    display: block;
+    cursor: pointer;
+    margin: 0 auto;
+}
+.vase .custom-control-label {
+    left: calc(50% + 16px);
+    transform: translateX(-50%);
 }
 .vase .tip {
     border-left: 1px solid #ccc;
@@ -456,8 +535,29 @@ form i {
     transform: translate(-50%, -50%) rotate(45deg);
 }
 
+.owl-item {
+    text-align: center;
+}
+
+.owl-item i {
+    font-size: 8px!important;
+    opacity: 0.5;
+    display: none;
+}
+
+.cancel-accessory {
+    text-align: center;
+}
+.cancel-accessory .btn {
+    display: none;
+}
+
 .table-responsive {
     display: table;
+}
+
+#cat h2 {
+    font-family: prata;
 }
 
 #cart-modal .card {
@@ -495,6 +595,78 @@ form i {
     cursor: pointer;
 }
 
+.btn {
+    padding: 10px 25px!important;
+    border-radius: 3px!important;
+}
+
+footer a {
+    color: #b89c64;
+    font-weight: 200!important;
+}
+footer p {
+    font-weight: 200!important;
+}
+footer a:hover {
+    color: #B89C64;
+    text-decoration: none;
+}
+
+form input, textarea {
+    border-radius: 3px!important;
+}
+
+.location-info {
+    border-radius: 0 3px 3px 0;
+}
+
+.wedding-gallery {
+    text-align: center;
+}
+.mobile-wedding {
+    display: none!important;
+}
+.wedding-gallery .gallery_images div {
+    box-sizing: border-box;
+}
+.gallery_images {
+    -webkit-column-count: 3;
+    -moz-column-count: 3;
+    column-count: 3;
+}
+
+.gallery_images .item img:hover {
+    opacity: 0.9;
+}
+
+.section-basic {
+    background: #fff;
+    padding: 100px 0;
+}
+.section-basic p, span{
+    font-weight: 300;
+}
+
+.gallery__categories {
+    display: block;
+    width: 100%;
+    background-color: #fff;
+    z-index: 999;
+}
+.gallery__categories button {
+    border-radius: 5rem!important;
+    margin: 15px 5px;
+}
+
+#product-details .info .color img {
+    cursor: pointer;
+}
+
+
+
+
+
+
 
 @media(max-width: 767px) {
     .nav li > form > button.logout {
@@ -516,6 +688,38 @@ form i {
         line-height: 15px!important;
     }
 
+    .product h2 {
+        font-size: 25px!important;
+    }
+
+    .custom-select {
+        height: 37px!important;
+    }
+
+    .location-info {
+        border-radius: 0 0 3px 3px;
+    }
+
+    .cart .modal-footer .btn {
+        margin: 0 auto;
+    }
+
+    .notifications {
+        width: 100%;
+    }
+
+}
+
+@media (max-width: 1300px) {
+    .nav-link {
+        line-height: 1!important;
+    }
+}
+
+@media (max-width: 380px) {
+    .map__info-block {
+        display: none;
+    }
 }
 
 @media (max-width: 998px) {
@@ -536,6 +740,14 @@ form i {
     }
     .helper__label {
         display: inline;
+    }
+
+    .mobile-wedding {
+        display: flex!important;
+    }
+
+    .fsize_h1 {
+        font-size: 35px;
     }
 }
 
@@ -559,6 +771,7 @@ form i {
     .helper__label:hover {
         display: inline;
     }
+
 }
 
 .nav > li > form > button.logout:focus,

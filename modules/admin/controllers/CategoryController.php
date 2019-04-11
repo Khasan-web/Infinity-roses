@@ -66,12 +66,15 @@ class CategoryController extends AppAdminController
     public function actionCreate()
     {
         $model = new Category();
+        $cats = Category::find()->asArray()->all();
+        $dropdownArr = [];
+        $dropdownArr[0] = '- Parent Category -';
+        foreach ($cats as $cat) {
+            $dropdownArr[$cat['id']] = $cat['name_en'];
+        }
 
         if ($model->load(Yii::$app->request->post())) {
             
-            // if ($model->secondary) {
-            //     $model->keywords = 'secondary';
-            // }
             $model->save();
 
             $model->image = UploadedFile::getInstance($model, 'image');
@@ -86,6 +89,7 @@ class CategoryController extends AppAdminController
 
         return $this->render('create', [
             'model' => $model,
+            'dropdownArr' => $dropdownArr,
         ]);
     }
 
@@ -102,9 +106,6 @@ class CategoryController extends AppAdminController
 
         if ($model->load(Yii::$app->request->post())) {
 
-            if ($model->secondary) {
-                $model->keywords = 'secondary';
-            }
             $model->save();
             
             $model->image = UploadedFile::getInstance($model, 'image');

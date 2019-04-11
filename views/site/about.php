@@ -6,7 +6,7 @@ use yii\helpers\Url;
 ?>
 
 <section id="about-company">
-    <h1><?= Yii::t('app', 'About Infinity roses')?></h1>
+    <h2 class="prata fsize_h1"><?= Yii::t('app', 'About Infinity roses')?></h2>
     <div class="col-lg-4 col-md-5 mx-auto">
         <p><?= Yii::t('app', 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis dolores atque dolorem alias autem distinctio.')?></p>
     </div>

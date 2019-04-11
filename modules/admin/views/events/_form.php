@@ -21,7 +21,9 @@ use yii\jui\DatePicker;
         <div class="panel-heading">1. Event name</div>
         <div class="panel-body">
 
-            <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'name_en')->textInput(['maxlength' => true]) ?>
+
+            <?= $form->field($model, 'name_ru')->textInput(['maxlength' => true]) ?>
             You can add any events! For example, a holiday, a new product or an action in infinity roses.
 
         </div>

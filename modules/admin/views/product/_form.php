@@ -49,7 +49,7 @@ use mihaildev\elfinder\ElFinder;
             <ol class="added-sizes" data-page-id="<?= $model->id?>">
                 <?php if ($pricesModel):?>
                     <?php foreach ($pricesModel as $size):?>
-                        <li data-id="<?= $size->id?>"><i class="fa fa-times remove-size" style="margin: 0 5px;"></i><?= $size->size . ' | ' . $size->price . ' sum'?></li>
+                        <li data-id="<?= $size->id?>"><i class="fa fa-times remove-size" style="margin: 0 5px;"></i><?= $size->size . ' ' . "($size->height cm H x $size->width cm W)" . ' | ' . $size->price . ' sum'?></li>
                     <?php endforeach;?>
                 <?php endif;?>
             </ol>
@@ -82,12 +82,10 @@ use mihaildev\elfinder\ElFinder;
         <div class="panel-heading">3. Uploading Main Image</div>
         <div class="panel-body">
             <div class="row">
-                <div class="col-md-3">
-                    <div class="row preview-image">
-                        <?php if ($mainImage->name):?>
+                <div class="col-md-3 preview-image">
+                    <?php if ($mainImage->name):?>
                         <img src="<?= $mainImage->getUrl()?>" style="width: 100%">
-                        <?php endif;?>
-                    </div>
+                    <?php endif;?>
                 </div>
                 <div class="col-md-9">
                     <?= $form->field($model, 'image', ['labelOptions' => ['class' => 'btn btn-default', 'style' => 'display: block']])->fileInput(['class' => 'uploadImage', 'style' => 'width: 0.1px; height: 0.1px'])->label('<i class="fa fa-upload"></i> Upload image', ['']) ?>
@@ -133,7 +131,7 @@ use mihaildev\elfinder\ElFinder;
             <div class="row text-center gallery">
                 <?php if ($gallery[0]):?>
                 <h3 style="margin-top: 5px">Gallery</h3>
-                <?php foreach ($gallery as $image):?>
+                <?php $i = 0; foreach ($gallery as $image):?>
                 <?php if ($image->urlAlias != 'placeHolder'):?>
                 <div class="col-md-1 col-sm-2" style="margin: 15px 0">
                     <div class="removeImage" data-image="<?= $image->urlAlias?>">
@@ -142,9 +140,9 @@ use mihaildev\elfinder\ElFinder;
                         <img src="<?= $image->getUrl('80x')?>" style="width: 100%">
                     <?php
                         $name_explode = explode('_', $image->name);
-                        if (count($name_explode) > 2) {
                             $name = $name_explode[0];
                             $position = $name_explode[1];
+                        if (count($name_explode) > 2) {
                             $size = explode('.', $name_explode[2])[0];
                         }
                     ?>
@@ -152,8 +150,17 @@ use mihaildev\elfinder\ElFinder;
                     <?php  if ($position) {
                         echo "<p style='margin: 0'>Pos. №$position</p>";
                     }?>
-                    <p style="margin: 0"><?= $size?></p>
+                    <?php  if (count($name_explode) > 2):?>
+                        <p style="margin: 0"><?= $size?></p>
+                    <?php endif;?>
                 </div>
+                <?php
+                $i++;
+                if ($i == 12) {
+                    echo '<div class="clearfix"></div>';
+                    $i = 0;
+                }
+                ?>
                 <?php endif;?>
                 <?php endforeach;?>
                 <?php endif;?>

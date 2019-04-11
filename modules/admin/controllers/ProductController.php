@@ -166,7 +166,6 @@ class ProductController extends AppAdminController
         $size = Price::findOne($id);
         $size->delete();
         $pricesModel = Price::find()->where(['product_id' => $product_id])->all();
-        
 
         $this->layout = false;
         return $this->render('sizes', compact('pricesModel'));
@@ -198,6 +197,10 @@ class ProductController extends AppAdminController
     public function actionDelete($id)
     {
         $model = $this->findModel($id);
+        $sizes = Price::find()->where(['product_id' => $id])->all();
+        foreach ($sizes as $size) {
+            $size->delete();
+        }
         $model->delete();
         $model->removeImages();
         return $this->redirect(['index']);

@@ -19,7 +19,6 @@ class Category extends \yii\db\ActiveRecord
 {
 
     public $image;
-    public $secondary;
 
     public function behaviors()
     {
@@ -48,8 +47,6 @@ class Category extends \yii\db\ActiveRecord
             [['description_en', 'description_ru'], 'string'],
             [['name_en', 'name_ru', 'keywords'], 'string', 'max' => 255],
             [['image'], 'file', 'extensions' => 'png, jpg, jpeg'],
-            // attr secondary hide this category in navbar
-            ['secondary', 'safe']
         ];
     }
 
@@ -59,13 +56,13 @@ class Category extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'Category №'),
-            'name_en' => Yii::t('app', 'Name En'),
-            'name_ru' => Yii::t('app', 'Name Ru'),
-            'description_en' => Yii::t('app', 'Description En'),
-            'description_ru' => Yii::t('app', 'Description Ru'),
-            'keywords' => Yii::t('app', 'Keywords'),
-            'image' => Yii::t('app', 'Image'),
+            'id' => 'Category №',
+            'name_en' => 'Name En',
+            'name_ru' => 'Name Ru',
+            'description_en' => 'Description En',
+            'description_ru' => 'Description Ru',
+            'keywords' => 'Keywords',
+            'image' => 'Image',
         ];
     }
 

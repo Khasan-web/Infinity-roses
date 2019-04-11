@@ -14,6 +14,7 @@ class AdminNavbar extends widget {
     public $categories;
     public $orders;
     public $events;
+    public $gallery;
 
     public function init() {
         parent::init();
@@ -31,6 +32,8 @@ class AdminNavbar extends widget {
             $this->orders = 'active';
         } else if ($controller == 'events') {
             $this->events = 'active';
+        } else if ($controller == 'gallery') {
+            $this->gallery = 'active';
         }
         $html = include __DIR__ . '/adminNavbar/adminNavbarHtml.php';
         return $this->html;

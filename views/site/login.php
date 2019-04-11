@@ -10,7 +10,7 @@ use yii\bootstrap\ActiveForm;
 ?>
 
 <section id="login">
-        <h1><?= Yii::t('app', 'Login')?> <span class="gold">Infinity-roses</span></h1>
+        <h2 class="prata fsize_h1"><?= Yii::t('app', 'Login')?> <span class="gold">Infinity-roses</span></h2>
 		<div class="col-lg-2 col-md-6 col-10 mx-auto mt-4">
 
             <?php $form = ActiveForm::begin([

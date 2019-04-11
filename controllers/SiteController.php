@@ -12,6 +12,7 @@ use app\models\ContactForm;
 use app\components\Navbar;
 use app\models\Product;
 use app\models\Events;
+use app\modules\admin\models\Gallery;
 
 class SiteController extends AppController
 {
@@ -65,14 +66,10 @@ class SiteController extends AppController
      */
     public function actionIndex()
     {
-        if (Yii::$app->language == 'en') {
-            $lang = 0;
-        } else if (Yii::$app->language == 'ru') {
-            $lang = 1;
-        }
-        $name = 'name_' . Yii::$app->language;
-        $description = 'description_' . Yii::$app->language;
+        $name = getLang('name');
+        $description = getLang('description');
         $events = Events::find()->all();
+        $gallery = Gallery::find()->asArray()->limit(6)->all();
         // get hits
         $hits_cache = Yii::$app->cache->get('hits');
         if ($hits_cache) {
@@ -82,7 +79,7 @@ class SiteController extends AppController
             Yii::$app->cache->set('hit', $hits, 100);
         }
         $this->setMeta("Home", "keys", "desc");
-        return $this->render('index', compact('hits', 'lang', 'name', 'description', 'events'));
+        return $this->render('index', compact('hits', 'lang', 'name', 'description', 'events', 'gallery'));
     }
 
     /**

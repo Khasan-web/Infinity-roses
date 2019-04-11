@@ -1,9 +1,9 @@
 $(function () {
 
     //BEGIN CALENDAR
-    $("#my-calendar").zabuto_calendar({
-        language: "en"
-    });
+    // $("#my-calendar").zabuto_calendar({
+    //     language: "en"
+    // });
     //END CALENDAR
 
     //BEGIN TO-DO-LIST
