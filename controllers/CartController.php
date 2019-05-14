@@ -12,15 +12,18 @@ use app\models\OrderItems;
 class CartController extends AppController {
 
     public function actionView() {
+        $hits = Product::find()->where(['hit' => '1'])->all();
+        $name = getLang('name');
         $session = Yii::$app->session;
         $session->open();
+
         $order = new Order();
         if ($order->load(Yii::$app->request->post())) {
             $order->qty = $session['cart.qty'];
             $order->sum = $session['cart.sum'];
             if ($order->save()) {
                 $this->saveOrderItem($session['cart'], $order->id);
-                Yii::$app->session->setFlash('success', 'Order successfuly accepted, manager will contact with you soon');
+                Yii::$app->session->setFlash('success', Yii::t('app', 'Order successfully accepted, manager will contact with you soon'));
                 if ($order->email) {
                     Yii::$app->mailer->compose('order', compact('session'))
                     ->setFrom([Yii::$app->params['adminEmail'] => 'Infinity roses'])
@@ -42,8 +45,8 @@ class CartController extends AppController {
                 Yii::$app->session->setFlash('error', Yii::t('app', 'Please fill out all required fileds in form'));
             }
         }
-        $this->setMeta('Cart');
-        return $this->render('view', compact('session', 'order'));
+        $this->setMeta(Yii::t('app', 'Your Cart'));
+        return $this->render('view', compact('session', 'order', 'hits', 'name'));
     }
 
     public function actionAdd() {
@@ -116,5 +119,3 @@ class CartController extends AppController {
     }
 
 }
-
-?>

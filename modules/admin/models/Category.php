@@ -9,6 +9,7 @@ use yii\helpers\Url;
  * This is the model class for table "category".
  *
  * @property int $id
+ * @property int $paernt_id
  * @property string $name_en
  * @property string $name_ru
  * @property string $description_en
@@ -37,6 +38,10 @@ class Category extends \yii\db\ActiveRecord
         return 'category';
     }
 
+    public function getCategory(){
+        return $this->hasOne(Category::className(), ['id' => 'parent_id']);
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -47,6 +52,7 @@ class Category extends \yii\db\ActiveRecord
             [['description_en', 'description_ru'], 'string'],
             [['name_en', 'name_ru', 'keywords'], 'string', 'max' => 255],
             [['image'], 'file', 'extensions' => 'png, jpg, jpeg'],
+            ['parent_id', 'safe'],
         ];
     }
 
@@ -57,6 +63,7 @@ class Category extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'Category №',
+            'parent_id' => 'Parent Category',
             'name_en' => 'Name En',
             'name_ru' => 'Name Ru',
             'description_en' => 'Description En',

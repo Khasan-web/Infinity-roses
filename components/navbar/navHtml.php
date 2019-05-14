@@ -14,6 +14,8 @@ $id = Yii::$app->request->get('id');
 
 $active_category = Yii::$app->request->get('active-category');
 
+$luxury_sub_cats = [];
+
 ?>
 <!-- navbar -->
 <div class="gradient"></div>
@@ -22,7 +24,7 @@ $active_category = Yii::$app->request->get('active-category');
 </div>
 <nav class="navbar navbar-expand-lg w-100 p-0">
     <button class="navbar-toggler text-white my-2" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <i class="fas fa-bars navbar-toggler-icon"></i> Menu
+        <i class="fas fa-bars navbar-toggler-icon"></i> <?= Yii::t('app', 'Menu') ?>
     </button>
     <div class="show-on-mob my-2">
         <span class="nav-mob">
@@ -43,55 +45,91 @@ $active_category = Yii::$app->request->get('active-category');
             <?= GiftFinder::widget() ?>
             <?php $i = 0; ?>
             <?php foreach ($this->categories as $cat) : ?>
-                <li class="nav-item drop-item <?= $id == $cat->id && $action == 'view' && $controller == 'category' || $active_category == $cat->id ? 'active' : '' ?>" id="<?= $cat->id ?>">
-                    <a class="nav-link" style="padding: 3px 15px;" href="<?= Url::to(['category/view', 'id' => $cat->id]); ?>" role="button" id="luxuty-roses-item" aria-haspopup="true" aria-expanded="false"><?= $cat->$name ?></a>
-                    <div class="dropdown-menu" aria-labelledby="luxuty-roses-item">
-                        <div class="container">
-                            <div class="row mb-5 mt-4 content">
-                                <div class="col-lg-2 offset-lg-1 col-md-4">
-                                    <ul class="list-unstyled">
-                                        <?php foreach ($cat->product as $product) : ?>
-                                            <?php $image = $product->getImage() ?>
-                                            <li>
-                                                <?php if ($product->category_id == $cat->id) : ?>
-                                                    <?= Html::a($product->name, Url::to(['product/view', 'id' => $product->id]), $options = ['class' => 'product-item', 'data-image' => $image->getUrl()]) ?>
-                                                <?php endif; ?>
-                                            </li>
-                                        <? endforeach; ?>
-                                    </ul>
-                                </div>
-                                <div class="col-lg-4 col-md-4 img-preview mx-auto">
-                                    <img src="<?= $image->getUrl() ?>" alt="" />
-                                </div>
-                                <div class="col-lg-3 col-md-4 px-0 drop-desc">
-                                    <h6><span><?= Yii::t('app', 'What are') ?></span> <?= $cat->$name ?>?</h6>
-                                    <?php $desc_arr = explode('</p>', $cat->$description); ?>
-                                    <p><?= $desc_arr[0] ?></p>
-                                </div>
-                            </div>
-                            <!-- <?php if ($cat->name_en != 'Luxury Collection'):?>
-                                <hr>
-                                <div class="row cats">
-                                    <?php if ($cat->name_en == 'Infinity Roses'):?>
-                                        <div class="col-lg-3 col-md-6 mx-auto">
-                                            <a href="<?= Url::to(['category/view', 'id' => $cat->id])?>"><h5>All Infinity Roses</h5></a>
+                <?php
+                // show only independent categories and hide business section
+                if ($cat->parent_id == 0 && $cat->name_en != 'Roses for Business' && $cat->name_en != 'Celebration Decorations') : ?>
+                    <li class="nav-item drop-item <?= $id == $cat->id && $action == 'view' && $controller == 'category' || $active_category == $cat->id ? 'active' : '' ?>" id="<?= $cat->id ?>">
+                        <a class="nav-link" style="padding: 3px 15px;" href="<?= Url::to(['category/view', 'id' => $cat->id]); ?>" role="button" id="dropdown-menu" aria-haspopup="true" aria-expanded="false"><?= $cat->$name ?></a>
+                        <div class="dropdown-menu" aria-labelledby="dropdown-menu">
+                            <div class="container">
+                                <?php if ($cat->name_en == 'Luxury Collection') : ?>
+                                    <div class="row mb-5 mt-4 content luxury-collection">
+                                        <?php foreach ($cat->category as $subcat) : ?>
+                                            <div class="col-lg-2 col-md-4 p-0">
+                                                <a href="<?= Url::to(['category/' . $subcat->id]) ?>">
+                                                    <h6><?= $subcat->$name ?></h6>
+                                                </a>
+                                                <ul class="list-unstyled">
+                                                    <?php
+                                                    // get products and their images
+                                                    foreach ($subcat->product as $product) : ?>
+                                                        <?php $image = $product->getImage() ?>
+                                                        <li>
+                                                            <?= Html::a($product->name, Url::to(['product/view', 'id' => $product->id]), $options = ['class' => 'product-item', 'data-image' => $image->getUrl('400x')]) ?>
+                                                        </li>
+                                                    <? endforeach; ?>
+                                                </ul>
+                                            </div>
+                                        <?php endforeach; ?>
+                                        <div class="col-lg-4 col-md-4 img-preview mx-auto">
+                                            <img src="<?= $image->getUrl() ?>" alt="" />
                                         </div>
-                                    <?php endif;?>
-                                    <?php if ($cat->name_en == 'Fresh Roses'):?>
-                                        <div class="col-lg-3 col-md-6 mx-auto">
-                                            <a href="<?= Url::to(['category/view', 'id' => $cat->id])?>"><h5>All Classic Roses</h5></a>
+                                        <div class="col-lg-3 col-md-4 px-0 drop-desc">
+                                            <h6><span><?= Yii::t('app', 'About Luxury Collection') ?></span></h6>
+                                            <?php $desc_arr = explode('</p>', $cat->$description); ?>
+                                            <p><?= $desc_arr[0] ?></p>
                                         </div>
-                                    <?php endif;?>
-                                    <div class="col-lg-3 col-md-6 mx-auto">
-                                        <a href=""><h5>Roses for business</h5></a>
                                     </div>
-                                </div>
-                            <?php endif;?> -->
+                                <?php else : ?>
+                                    <div class="row mb-5 mt-4 content">
+                                        <div class="col-lg-2 offset-lg-1 col-md-4">
+                                            <ul class="list-unstyled">
+                                                <?php
+                                                // get products and their images
+                                                foreach ($cat->product as $product) : ?>
+                                                    <?php $image = $product->getImage() ?>
+                                                    <li>
+                                                        <?php if ($product->category_id == $cat->id) : ?>
+                                                            <?= Html::a($product->name, Url::to(['product/view', 'id' => $product->id]), $options = ['class' => 'product-item', 'data-image' => $image->getUrl('400x')]) ?>
+                                                        <?php endif; ?>
+                                                    </li>
+                                                <? endforeach; ?>
+                                            </ul>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 img-preview mx-auto">
+                                            <img src="<?= $image->getUrl() ?>" alt="" />
+                                        </div>
+                                        <div class="col-lg-3 col-md-4 px-0 drop-desc">
+                                            <h6><span><?= Yii::t('app', 'A little about category') ?></span> «<?= $cat->$name ?>»</h6>
+                                            <?php $desc_arr = explode('</p>', $cat->$description); ?>
+                                            <p><?= $desc_arr[0] ?></p>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div class="row cats">
+                                        <?php foreach ($cat->category as $cat) : ?>
+                                            <div class="col-lg-3 col-md-6 mx-auto">
+                                                <a href="<?= Url::to(['category/' . $cat->id])?>">
+                                                    <h5><?= $cat->$name?></h5>
+                                                </a>
+                                            </div>
+                                        <?php endforeach; ?>
+                                        <div class="col-lg-3 col-md-6 mx-auto">
+                                            <a href="<?= Url::to(['category/business'])?>">
+                                                <h5><?= Yii::t('app', 'Roses for business')?></h5>
+                                            </a>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
                         </div>
-                    </div>
-                </li>
+                    </li>
+                <?php endif; ?>
                 <?php $i++;
             endforeach; ?>
+            <li class="nav-item <?= $controller == 'category' && $action == 'celebration-decoration' ? 'active' : '' ?>">
+                <a class="nav-link" href="<?= Url::to(['category/celebration-decoration']) ?>"><?= Yii::t('app', 'Celebration Decoration'); ?></a>
+            </li>
             <li class="nav-item <?= $controller == 'site' && $action == 'contact' ? 'active' : '' ?>">
                 <a class="nav-link" href="<?= Url::to(['site/contact']) ?>"><?= Yii::t('app', 'Contacts'); ?></a>
             </li>
@@ -101,8 +139,9 @@ $active_category = Yii::$app->request->get('active-category');
             <li class="nav-item icon-item mx-0 px-3">
                 <a href="" class="nav-link" data-toggle="modal" data-target="#langModal" title="<?= Yii::t('app', 'Language') ?>"><i class="fas fa-globe"></i></a>
             </li>
-            <li class="nav-item icon-item mx-0 px-3">
-                <a href="" class="nav-link showCart" title="<?= Yii::t('app', 'Your Cart') ?>"><i class="fas fa-shopping-cart"></i></a>
+            <li class="nav-item icon-item showCart-item mx-0 px-3">
+                <a href="" class="nav-link showCart"><i class="fas fa-shopping-cart"></i></a>
+                <div class="cart-qty-container text-center"><span class="cart-qty"><?= isset($_SESSION['cart']) ? count($_SESSION['cart']) : '0' ?></span></div>
             </li>
             <?php if (!Yii::$app->user->isGuest) : ?>
                 <li class="nav-item icon-item mx-0 px-3">

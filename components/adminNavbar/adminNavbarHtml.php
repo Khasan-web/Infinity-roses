@@ -12,7 +12,7 @@ use yii\helpers\Url;
 </i><span class="menu-title">Products</span><span class="fa arrow"></span></a>
     <ul class="nav nav-second-level">
     <li><a href="<?= Url::to(['product/'])?>"><span class="submenu-title"><i class="fa fa-ellipsis-v" aria-hidden="true"></i> List of products</span></a></li>
-        <li><a href="<?= Url::to(['product/create'])?>"><span class="submenu-title"><i class="fa fa-plus" aria-hidden="true"></i> Add a product</span></a></li>
+        <li><a href="<?= Url::to(['product/create'])?>"><span class="submenu-title"><i class="fa fa-plus" aria-hidden="true"></i> Add product</span></a></li>
     </ul>
 </li>
 <li class="<?= $this->categories?>"><a href="#"><i class="fa fa-dropbox fa-fw">
@@ -20,7 +20,7 @@ use yii\helpers\Url;
 </i><span class="menu-title">Categories</span><span class="fa arrow"></span></a>
     <ul class="nav nav-second-level">
         <li><a href="<?= Url::to(['category/'])?>"><span class="submenu-title"><i class="fa fa-ellipsis-v" aria-hidden="true"></i> List of collections</span></a></li>
-        <li><a href="<?= Url::to(['category/create'])?>"><span class="submenu-title"><i class="fa fa-plus" aria-hidden="true"></i> Add an collection</span></a></li>
+        <li><a href="<?= Url::to(['category/create'])?>"><span class="submenu-title"><i class="fa fa-plus" aria-hidden="true"></i> Add collection</span></a></li>
     </ul>
 </li>
 <li class="<?= $this->orders?>"><a href="#"><i class="fa fa-users">
@@ -28,7 +28,7 @@ use yii\helpers\Url;
 </i><span class="menu-title">Orders</span><span class="fa arrow"></span></a>
     <ul class="nav nav-second-level">
         <li><a href="<?= Url::to(['order/'])?>"><span class="submenu-title"><i class="fa fa-ellipsis-v" aria-hidden="true"></i> List of orders</span></a></li>
-        <li><a href="<?= Url::to(['order/create'])?>"><span class="submenu-title"><i class="fa fa-plus" aria-hidden="true"></i> Create an order</span></a></li>
+        <li><a href="<?= Url::to(['order/create'])?>"><span class="submenu-title"><i class="fa fa-plus" aria-hidden="true"></i> Create order</span></a></li>
     </ul>
 </li>
 <li class="<?= $this->events?>"><a href="#"><i class="fa fa-calendar fa-fw">
@@ -36,14 +36,30 @@ use yii\helpers\Url;
 </i><span class="menu-title">Events</span><span class="fa arrow"></span></a>
     <ul class="nav nav-second-level">
     <li><a href="<?= Url::to(['events/'])?>"><span class="submenu-title"><i class="fa fa-ellipsis-v" aria-hidden="true"></i> List of events</span></a></li>
-        <li><a href="<?= Url::to(['events/create'])?>"><span class="submenu-title"><i class="fa fa-plus" aria-hidden="true"></i> Add an event</span></a></li>
+        <li><a href="<?= Url::to(['events/create'])?>"><span class="submenu-title"><i class="fa fa-plus" aria-hidden="true"></i> Add event</span></a></li>
     </ul>
 </li>
-<li class="<?= $this->gallery?>"><a href="#"><i class="fa fa-image fa-fw">
+<li class="<?= $this->gallery?>"><a href="#"><i class="fa fa-file-image-o">
     <div class="icon-bg bg-violet"></div>
 </i><span class="menu-title">Gallery</span><span class="fa arrow"></span></a>
     <ul class="nav nav-second-level">
     <li><a href="<?= Url::to(['gallery/'])?>"><span class="submenu-title"><i class="fa fa-ellipsis-v" aria-hidden="true"></i> Gallery</span></a></li>
         <li><a href="<?= Url::to(['gallery/create'])?>"><span class="submenu-title"><i class="fa fa-plus" aria-hidden="true"></i> Add new images</span></a></li>
+    </ul>
+</li>
+<li class="<?= $this->background?>"><a href="#"><i class="fa fa-image fa-fw">
+    <div class="icon-bg bg-violet"></div>
+</i><span class="menu-title">Background</span><span class="fa arrow"></span></a>
+    <ul class="nav nav-second-level">
+    <li><a href="<?= Url::to(['background/'])?>"><span class="submenu-title"><i class="fa fa-ellipsis-v" aria-hidden="true"></i> Backgrounds</span></a></li>
+        <li><a href="<?= Url::to(['background/create'])?>"><span class="submenu-title"><i class="fa fa-plus" aria-hidden="true"></i> Add a new background</span></a></li>
+    </ul>
+</li>
+<li class="<?= $this->color?>"><a href="#"><i class="fa fa-eye fa-fw">
+    <div class="icon-bg bg-violet"></div>
+</i><span class="menu-title">Color</span><span class="fa arrow"></span></a>
+    <ul class="nav nav-second-level">
+    <li><a href="<?= Url::to(['color/'])?>"><span class="submenu-title"><i class="fa fa-ellipsis-v" aria-hidden="true"></i> List of Colors</span></a></li>
+        <li><a href="<?= Url::to(['color/create'])?>"><span class="submenu-title"><i class="fa fa-plus" aria-hidden="true"></i> Add a new color</span></a></li>
     </ul>
 </li>

@@ -135,8 +135,9 @@ class CategoryController extends AppAdminController
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
+        $category = Category::findOne($id);
+        $category->removeImages();
+        $category->delete();
         return $this->redirect(['index']);
     }
 

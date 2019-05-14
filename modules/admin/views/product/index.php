@@ -30,7 +30,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
             'id',
             'name',
             [
@@ -47,7 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     return !$data->hit ? '<span class="text-danger"><i class="fa fa-times"></i></span>' : '<span class="text-success"><i class="fa fa-check"></i></span>';
                 },
                 'format' => 'html',
-                'label' => 'Hit 1 | 0'
+                'label' => 'Hit 1 | 0',
             ],
 
             [

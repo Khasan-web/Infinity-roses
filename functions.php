@@ -8,4 +8,9 @@ function getLang($key) {
     return $key . '_' . Yii::$app->language;
 }
 
+function priceWithSpaces($price) {
+    $price = intval($price);
+    return number_format($price, 0, ',', ' ');
+}
+
 ?>

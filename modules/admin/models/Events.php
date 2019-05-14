@@ -10,6 +10,7 @@ use Yii;
  * @property int $id
  * @property string $name_en
  * @property string $name_ru
+ * @property string $keywords
  * @property string $date_from
  * @property string $date_to
  * @property string $description_en
@@ -48,6 +49,7 @@ class Events extends \yii\db\ActiveRecord
             [['date_from', 'date_to'], 'safe'],
             [['description_en', 'description_ru'], 'string'],
             [['name_en', 'name_ru'], 'string', 'max' => 50],
+            [['keywords'], 'string', 'max' => 255],
             [['image'], 'file', 'extensions' => 'png, jpg, jpeg'],
         ];
     }
@@ -58,14 +60,15 @@ class Events extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'Event №'),
-            'name_en' => Yii::t('app', 'Name En'),
-            'name_ru' => Yii::t('app', 'Name Ru'),
-            'date_from' => Yii::t('app', 'Date From'),
-            'date_to' => Yii::t('app', 'Date To'),
-            'description_en' => Yii::t('app', 'Description En'),
-            'description_ru' => Yii::t('app', 'Description Ru'),
-            'image' => Yii::t('app', 'Image'),
+            'id' => 'Event №',
+            'name_en' => 'Name En',
+            'name_ru' => 'Name Ru',
+            'keywords' => 'Keywords',
+            'date_from' => 'Date From',
+            'date_to' => 'Date To',
+            'description_en' => 'Description En',
+            'description_ru' => 'Description Ru',
+            'image' => 'Image',
         ];
     }
 

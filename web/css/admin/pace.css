@@ -80,6 +80,36 @@
     border-radius: 0!important;
 }
 
+.btn-positions {
+    margin-top: 15px;
+}
+
+.btn-not_available {
+    float: right;
+}
+
+.not-available-check {
+    opacity: 0!important;
+}
+
+.preview-color {
+    width: 12px;
+    height: 12px;
+    display: inline-block;
+    margin-bottom: -2px;
+}
+
+.checkbox-none {
+    display: none;
+}
+
+.color-img {
+    width: 50px;
+}
+#img-color label {
+    margin-right: 20px;
+}
+
 @media (max-width: 992px) {
     .navbar-top-links {
         display: none;

@@ -11,7 +11,7 @@ class MenuWidget extends Widget {
     public $model;
     public $data; // simply array
     public $tree; // array as tree where we can see what products every category has
-    public $menuHtml; 
+    public $menuHtml;
 
     public function init() {
         parent::init();
@@ -31,10 +31,10 @@ class MenuWidget extends Widget {
     protected function getTree() {
         $tree = [];
         foreach ($this->data as $id=>&$node) {
-            if (!isset($node['parent_id'])) {
-                $tree[$id] = &$node;
-            } else {
+            if ($node['parent_id'] != 0) {
                 $this->data[$node['parent_id']]['childs'][$node['id']] = &$node;
+            } else {
+                $tree[$id] = &$node;
             }
         }
         return $tree;

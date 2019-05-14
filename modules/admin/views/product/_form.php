@@ -11,8 +11,7 @@ use mihaildev\elfinder\ElFinder;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="product-form" data-id="<?= $model->id?>">
-
+<div class="product-form" data-id="<?= $model->id ?>">
 
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
@@ -24,171 +23,219 @@ use mihaildev\elfinder\ElFinder;
                 <label class="control-label" for="product-category_id">Category</label>
                 <select id="product-category_id" class="form-control" name="Product[category_id]" aria-invalid="false">
                     <option value="hello" disabled selected>Select Category</option>
-                    <?= MenuWidget::widget(['tpl' => 'select-product', 'model' => $model])?>
+                    <?= MenuWidget::widget(['tpl' => 'select-product', 'model' => $model]) ?>
                 </select>
             </div>
 
             <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-            <?php //echo $form->field($model, 'hit')->dropDownList([ '0', '1', ], ['prompt' => '']) ?>
+            <?= $form->field($model, 'hit')->checkbox() ?>
 
-            <?= $form->field($model, 'hit')->checkbox()?>
+            <?= $form->field($model, 'accessories')->checkbox() ?>
 
-            <?= $form->field($model, 'accessories')->checkbox()?>
-
-            <?= $form->field($model, 'vase')->textInput()->label('Price of a vase')?>
+            <?= $form->field($model, 'vase')->textInput()->label('Price of a vase') ?>
             <p>if you set the price, the product will be a bouquet and it will have a vase selection function</p>
 
         </div>
     </div>
 
-    <div class="panel panel-red">
-        <div class="panel-heading">2. Prices and Sizes</div>
-        <div class="panel-body sizes">
 
-            <ol class="added-sizes" data-page-id="<?= $model->id?>">
-                <?php if ($pricesModel):?>
-                    <?php foreach ($pricesModel as $size):?>
-                        <li data-id="<?= $size->id?>"><i class="fa fa-times remove-size" style="margin: 0 5px;"></i><?= $size->size . ' ' . "($size->height cm H x $size->width cm W)" . ' | ' . $size->price . ' sum'?></li>
-                    <?php endforeach;?>
-                <?php endif;?>
-            </ol>
-            <hr>
-            <div class="form-inline">
-                <div class="form-group">
-                    <input type="text" id="size" placeholder="size" class="form-control">
+    <?php if (Yii::$app->controller->action->id == 'update') : ?>
+        <div class="panel panel-red">
+            <div class="panel-heading">2. Prices and Sizes</div>
+            <div class="panel-body sizes">
+                <ol class="added-sizes" data-page-id="<?= $model->id ?>">
+                    <?php if ($pricesModel) : ?>
+                        <?php foreach ($pricesModel as $size) : ?>
+                            <li data-id="<?= $size->id ?>"><i class="fa fa-times remove-size" style="margin: 0 5px;"></i><?= $size->size . ' ' . "($size->height cm H x $size->width cm W)" . ' | ' . $size->price . ' sum' ?>
+                            </li>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </ol>
+                <hr>
+                <div class="form-inline">
+                    <div class="form-group">
+                        <input type="text" id="size" placeholder="size" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="size_ru" class="form-control" style="display:none;" placeholder="size ru">
+                    </div>
+                    <div class="form-group">
+                        <!-- Choosing a type [ roses, stems or smth else ] -->
+                        <select class="form-control" id="size_type">
+                            <option value="Roses" selected>Roses</option>
+                            <option value="Stems">Stems</option>
+                            <option value="">Personal type</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="number" id="height" placeholder="height cm" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <input type="number" id="width" placeholder="width cm" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="price" placeholder="price" class="form-control">
+                    </div>
+                    <button class="btn btn-info" id="add-new-size" onclick="return false">Add new size</button>
                 </div>
-                <div class="form-group">
-                    <input type="number" id="height" placeholder="height cm" class="form-control">
-                </div>
-                <div class="form-group">
-                    <input type="number" id="width" placeholder="width cm" class="form-control">
-                </div>
-                <div class="form-group">
-                    <input type="text" id="price" placeholder="price" class="form-control">
-                </div>
-                <button class="btn btn-info" id="add-new-size" onclick="return false">Add new size</button>
+                <p style="margin-top: 15px;">If this product is bouquet, then you can skip width and height</p>
             </div>
-            <p style="margin-top: 15px;">If this product is bouquet, then width and height are not important to set</p>
         </div>
-    </div>
 
-    <?php
+        <?php
         $mainImage = $model->getImage();
         $gallery = $model->getImages();
-    ?>
-
-    <div class="panel panel-orange">
-        <div class="panel-heading">3. Uploading Main Image</div>
-        <div class="panel-body">
-            <div class="row">
-                <div class="col-md-3 preview-image">
-                    <?php if ($mainImage->name):?>
-                        <img src="<?= $mainImage->getUrl()?>" style="width: 100%">
-                    <?php endif;?>
-                </div>
-                <div class="col-md-9">
-                    <?= $form->field($model, 'image', ['labelOptions' => ['class' => 'btn btn-default', 'style' => 'display: block']])->fileInput(['class' => 'uploadImage', 'style' => 'width: 0.1px; height: 0.1px'])->label('<i class="fa fa-upload"></i> Upload image', ['']) ?>
-
-                    <p><strong>Name: </strong> <span class="name">
-                            <?= $mainImage->name ? $mainImage->name . '.' . $mainImage->extension : '---'?></span></p>
-
-                    <?php if ($mainImage->name):?>
-                    <p><strong>Size: </strong> <span class="size"> ---</span></p>
-                    <?php endif;?>
-                    <p><strong>Color: </strong> <span class="color">
-                            <?= $mainImage->name ? $mainImage->name : '---'?></span></p>
-                    <hr>
-                    <div class="col-md-6" style="padding: 0">
-                        <p>Main image should have "small" size or least amount of stems, if the product has several sizes</p>
-                        <p>There are some conditions to upload images:</p>
-                        <ol>
-                            <li>Prepare your images before uploading - they should looks like other images</li>
-                            <li>Rename your images before uploading - there is specific structure of a file name:</li>
-                            <ul>
-                                <li><strong>color_position_size.extensition</strong></li>
-                                <br>
-                                <i><li>Symbol " _ " you can get by pressing (shift  + -[minus]) ( near 0 and under F10 and F11 )</li></i>
-                                <br>
-                                <li>color - this part of the name will be a color of this image</li>
-                                <li>position - certain perspective of product view</li>
-                                <li>size - size of product on the image (cm)</li>
-                                <li>extensition - ( jpg, jpeg, png )</li>
-                            </ul>
-                        </ol>
-                        <p>Same for a gallery</p>
+        ?>
+        <?php if (!empty($pricesModel)) : ?>
+            <div class="panel panel-orange">
+                <div class="panel-heading">3. Uploading Main Image</div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-3 preview-image main-image" data-size="<?= $model->prices[0]->size?>" data-position="1">
+                            <?php if (isset($mainImage->name)) : ?>
+                                <img src="<?= $mainImage->getUrl() ?>" style="width: 100%">
+                            <?php endif; ?>
+                        </div>
+                        <div class="col-md-9">
+                            <?= $form->field($model, 'image', ['labelOptions' => ['class' => 'btn btn-default', 'style' => 'display: block']])->fileInput(['class' => 'uploadImage', 'style' => 'width: 0.1px; height: 0.1px'])->label('<i class="fa fa-upload"></i> Upload image', ['']) ?>
+                            <?= $form->field($model, 'size_main')->textInput(['class' => 'sr-only'])->label(false);?>
+                            <?php
+                            // getting the color of main image
+                            $color = isset($mainImage->name) ? explode('_', $mainImage->name)[0] : false;
+                            ?>
+                            <button class="btn <?= $color ? 'btn-default' : 'btn-warning'?> btn-sm main-img-color"><?= $color ? $color : 'COLOR'?></button>
+                            <hr>
+                            <p>Image you are uploading will be 1st position and size will be <?= $model->prices[0]->size?></p>
+                            <p>In any case upload image which is appropriate</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <div class="panel panel-violet">
-        <div class="panel-heading">4. Uploading a gallery</div>
-        <div class="panel-body" style="margin: 0 15px">
-
-            <!-- Gallery from db -->
-            <div class="row text-center gallery">
-                <?php if ($gallery[0]):?>
-                <h3 style="margin-top: 5px">Gallery</h3>
-                <?php $i = 0; foreach ($gallery as $image):?>
-                <?php if ($image->urlAlias != 'placeHolder'):?>
-                <div class="col-md-1 col-sm-2" style="margin: 15px 0">
-                    <div class="removeImage" data-image="<?= $image->urlAlias?>">
-                        <i class="fa fa-times"></i>
+            <div class="panel panel-violet">
+                <div class="panel-heading">4. Uploading a gallery</div>
+                <div class="panel-body" style="margin: 0 15px">
+                    <!-- Buttons to switch sizes -->
+                    <div class="btn-sizes">
+                        <?php if (!$model->vase) : ?>
+                            <?php
+                            $i = 0;
+                            foreach ($model->prices as $size) : ?>
+                                <button class="btn <?= $i == 0 ? 'btn-warning' : 'btn-default' ?> size-toggle" data-size="<?= $size->size ?>"><?= $size->size ?></button>
+                                <?php
+                                $i++;
+                            endforeach; ?>
+                            <button class="btn btn-default show-all">All</button>
+                        <?php endif; ?>
+                        <button class="btn btn-default btn-not_available" data-position="1">Not available</button>
                     </div>
-                        <img src="<?= $image->getUrl('80x')?>" style="width: 100%">
+                    <!-- Buttons to switch position -->
+                    <div class="btn-positions">
+                        <button class="btn btn-warning position-toggle" data-position="1">1st</button>
+                        <button class="btn btn-default position-toggle" data-position="2">2nd</button>
+                        <button class="btn btn-default position-toggle" data-position="closed">Closed</button>
+                    </div>
+                    <!-- Gallery from db -->
+                    <div class="row text-center gallery">
+                        <?php if ($gallery[0]) : ?>
+                            <h3 style="margin-top: 5px">Gallery</h3>
+                            <?php
+                            $i = 0;
+                            foreach ($gallery as $image) : ?>
+                                <?php if ($image->urlAlias != 'placeHolder') : ?>
+
+                                    <?php
+                                    // getting all info
+                                    $name_explode = explode('_', $image->name);
+                                    $name = $name_explode[0];
+                                    if (count($name_explode) > 1) {
+                                        $position = $name_explode[1];
+                                    }
+                                    if (count($name_explode) > 2) {
+                                        $size = explode('.', $name_explode[2])[0];
+                                    } else {
+                                        $size = '';
+                                    }
+                                    $status = end($name_explode);
+                                    ?>
+
+                                    <div class="col-md-1 col-sm-2 size" style="opacity: <?= !$status ? '0.6' : '1'?>" data-size="<?= $size ?>" style="margin: 15px 0">
+                                        <div class="checkbox-none">
+                                            <input type="checkbox" class="not-available-check form-control" <?= !$status ? 'checked' : ''?> data-id="<?= $image->id?>">
+                                        </div>
+                                        <div class="removeImage" data-image="<?= $image->urlAlias ?>">
+                                            <i class="fa fa-times"></i>
+                                        </div>
+                                        <img src="<?= $image->getUrl('80x') ?>" style="width: 100%">
+                                        <p style="margin-top: 5px; margin-bottom: 0;"><?= $name ? $name : '' ?></p>
+                                        <?php if ($position) {
+                                            echo "<p style='margin: 0'>Pos. №$position</p>";
+                                        } ?>
+                                        <?php if (count($name_explode) > 2) : ?>
+                                            <p style="margin: 0"><?= $size ?></p>
+                                        <?php endif; ?>
+                                    </div>
+
+                                    <?php
+                                    $i++;
+                                    if ($i == 12) {
+                                        echo '<div class="clearfix"></div>';
+                                        $i = 0;
+                                    }
+                                    ?>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </div>
+
                     <?php
-                        $name_explode = explode('_', $image->name);
-                            $name = $name_explode[0];
-                            $position = $name_explode[1];
-                        if (count($name_explode) > 2) {
-                            $size = explode('.', $name_explode[2])[0];
-                        }
+                    // non available products id
+                    echo $form->field($model, 'not_available')->textInput(['class' => 'sr-only'])->label(false);
+                    // Model will get string from here to create name of the image and js will add size --> colorName_position_size
+                    echo $form->field($model, 'size_list')->textInput(['class' => 'sr-only'])->label(false);
                     ?>
-                    <p style="margin-top: 5px; margin-bottom: 0;"><?= $name?></p>
-                    <?php  if ($position) {
-                        echo "<p style='margin: 0'>Pos. №$position</p>";
-                    }?>
-                    <?php  if (count($name_explode) > 2):?>
-                        <p style="margin: 0"><?= $size?></p>
-                    <?php endif;?>
-                </div>
-                <?php
-                $i++;
-                if ($i == 12) {
-                    echo '<div class="clearfix"></div>';
-                    $i = 0;
-                }
-                ?>
-                <?php endif;?>
-                <?php endforeach;?>
-                <?php endif;?>
-            </div>
 
-            <!-- New images in the existing gallery -->
-            <div class="row">
-                <?= $form->field($model, 'gallery[]', ['labelOptions' => ['class' => 'btn btn-default', 'style' => 'display: block']])->fileInput(['class' => 'uploadGallery', 'style' => 'width: 0.1px; height: 0.1px', 'multiple' => true, 'accept' => 'image/*'])->label('<i class="fa fa-upload"></i> Upload a gallery', ['']) ?>
-                <div class="row preview-images text-center" style="padding: 15px">
-                    <div class="col-md-1 col-sm-2">
-                        <img src="/web/img/img-placeholder.png" style="width: 100%;" alt="">
-                        <p style="margin-top: 5px; margin-bottom: 0">Name</p>
-                        <p style="margin: 0;">Pos. №</p>
-                        <p style="margin: 0;">Size</p>
+                    <!-- New images in the existing gallery -->
+                    <div class="row">
+                        <?= $form->field($model, 'gallery[]', ['labelOptions' => ['class' => 'btn btn-default', 'style' => 'display: block']])->fileInput(['class' => 'uploadGallery', 'style' => 'width: 0.1px; height: 0.1px', 'multiple' => true, 'accept' => 'image/*'])->label('<i class="fa fa-upload"></i> Upload a gallery', ['']) ?>
+                        <div class="row preview-images text-center" style="padding: 15px">
+                            <div class="col-md-1 col-sm-2">
+                                <img src="/web/img/img-placeholder.png" style="width: 100%;" alt="">
+                                <p style="margin-top: 5px; margin-bottom: 0">Name</p>
+                                <p style="margin: 0;">Pos. №</p>
+                                <p style="margin: 0;">Size</p>
+                            </div>
+                        </div>
                     </div>
+                    <hr>
+                    <p>The uploaded main image should be uploaded in the gallery</p>
+
                 </div>
             </div>
-
-        </div>
-    </div>
+        <?php endif; ?>
+    <?php endif; ?>
 
     <div class="panel panel-green">
-        <div class="panel-heading">5. Work with text</div>
+        <?php
+        // just changing number of the table
+        if (Yii::$app->controller->action->id == 'update') {
+            if (!empty($pricesModel)) {
+                $text_i = 5;
+            } else {
+                $text_i = 3;
+            }
+        } else {
+            $text_i = 2;
+        }
+        ?>
+        <div class="panel-heading"><?= $text_i ?>. Work with text</div>
         <div class="panel-body">
 
             <?= $form->field($model, 'keywords')->textInput(['maxlength' => true]) ?>
-            <p>In the keywords you can add any information you want, there may also be keys to formulate belonging of product to some gift finder categories. <br> <i>Keys can be added in any part and there are</i></p>
-            
+            <p>In the keywords you can add any information you want, there may also be keys to formulate belonging of
+                product to some gift finder categories. <br> <i>Keys can be added in any part and there are</i></p>
+
             <ol>
                 <li>Event</li>
                 <li>Her</li>
@@ -200,23 +247,55 @@ use mihaildev\elfinder\ElFinder;
 
             <?php
             echo $form->field($model, 'description_en')->widget(CKEditor::className(), [
-                'editorOptions' => ElFinder::ckeditorOptions('elfinder',[]),
+                'editorOptions' => ElFinder::ckeditorOptions('elfinder', []),
             ]);
-        ?>
+            ?>
 
             <?php
             echo $form->field($model, 'description_ru')->widget(CKEditor::className(), [
-                'editorOptions' => ElFinder::ckeditorOptions('elfinder',[]),
+                'editorOptions' => ElFinder::ckeditorOptions('elfinder', []),
             ]);
-        ?>
+            ?>
 
         </div>
     </div>
 
     <div class="form-group">
-        <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success save-product', 'data-product-id' => $model->id]) ?>
+        <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success save-product btn-block', 'data-product-id' => $model->id]) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
+
+
+    <!-- COLOR SELECTION MODAL -->
+    <div id="img-color" class="modal fade w-25" role="dialog">
+        <div class="modal-dialog" style="width: 300px">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Please select a color</h4>
+                </div>
+                <div class="modal-body">
+
+                    <?php foreach ($colors as $color) : ?>
+                        <?php
+                        $color_img = $color->getImage()
+                        ?>
+                        <img class="color-img" src="<?= $color_img->getUrl('50x') ?>" alt="">
+                        <input type="radio" name="color" id="<?= $color->id ?>" value="<?= $color->color_en ?>">
+                        <label for="<?= $color->id ?>"><?= $color->color_en ?></label>
+                    <?php endforeach; ?>
+
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success accept-color btn-block">Accept a color</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- COLOR SELECTION MODAL END -->
 
 </div>

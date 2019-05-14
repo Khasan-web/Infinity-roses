@@ -7,12 +7,14 @@ use yii\base\Widget;
 use app\models\Product;
 use app\models\GiftFinderForm;
 use app\components\Navbar;
+use app\models\Events;
 
 class GiftFinder extends Widget {
 
     public $html;
     public $minmax;
     public $model;
+    public $events;
 
     public function init () {
         parent::init();
@@ -21,6 +23,7 @@ class GiftFinder extends Widget {
     public function run () {
         // get max and min price
         $nav = new Navbar();
+        $this->events = Events::find()->asArray()->all();
         $this->model = new GiftFinderForm();
         $this->minmax = [
             'min' => 0,

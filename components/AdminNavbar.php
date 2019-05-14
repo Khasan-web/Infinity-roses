@@ -15,6 +15,8 @@ class AdminNavbar extends widget {
     public $orders;
     public $events;
     public $gallery;
+    public $background;
+    public $color;
 
     public function init() {
         parent::init();
@@ -34,6 +36,10 @@ class AdminNavbar extends widget {
             $this->events = 'active';
         } else if ($controller == 'gallery') {
             $this->gallery = 'active';
+        } else if ($controller == 'background') {
+            $this->background = 'active';
+        } else if ($controller == 'color') {
+            $this->color = 'active';
         }
         $html = include __DIR__ . '/adminNavbar/adminNavbarHtml.php';
         return $this->html;

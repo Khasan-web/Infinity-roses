@@ -80,7 +80,7 @@ $this->params['breadcrumbs'][] = ['label' => 'View'];
                         $images = $model->getImages();
                         foreach ($images as $image) {
                             if ($image->name == 'vase') {
-                                return "<img src='{$image->getUrl('80x')}'></img><span>$model->vase sum</span>";
+                                return "<img src='{$image->getUrl('80x')}'></img><span>" . priceWithSpaces($model->vase) . " sum</span>";
                             }
                         }
                     } else {
@@ -96,7 +96,7 @@ $this->params['breadcrumbs'][] = ['label' => 'View'];
                     $strToReturn = '';
                     foreach ($model->prices as $price) {
                         $width_height = $price->width && $price->height ? "<br> - H: $price->height sm <br> - W: $price->width sm<br>" : '';
-                        $strToReturn .= "$i $price->size - <i>$price->price</i> sum $width_height <br>";
+                        $strToReturn .= "$i $price->size | $price->size_ru - <i>" . priceWithSpaces($price->price) . "</i> sum $width_height <br>";
                         $i++;
                     }
                     return $strToReturn;

@@ -6,13 +6,13 @@ use yii\widgets\MaskedInput;
 
 ?>
 
-<div class="bg-image" style="background-image: url(img/home/contacts-img.jpg)"></div>
+<div class="bg-image" style="background-image: url('<?= $background['filePath'] ?>')"></div>
 
 <section id="contact">
 		<section class="intro">
 			<div class="col-lg-3 col-md-5 col-10 welcome-cart">
-				<h2 class="gold prata fsize_h1"><?= Yii::t('app', 'Contacts')?></h2>
-				<p><?= Yii::t('app', 'If you have any questions, you can ask us right now! Our manager will respond as soon as possible.')?></p>
+            <h2 class="gold prata fsize_h1"><?= $background[$title] ?></h2>
+            <p><?= $background[$description] ?></p>
 			</div>
 		</section>
 		<section class="contact-info container">
@@ -25,8 +25,7 @@ use yii\widgets\MaskedInput;
 					<h4><?= Yii::t('app', 'Location')?>:</h4>
 					<p>Taras Shevchenko street 40 Tashkent</p>
 					<h4><?= Yii::t('app', 'Contacts')?>:</h4>
-					<p>+9989 99 111 11 11 <br>
-						+9989 90 111 11 11</p>
+					<p>+9989 99 001 11 22
 					<h4>Email:</h4>
 					<p>info@infinityroses.uz</p>
 				</div>
@@ -62,8 +61,8 @@ use yii\widgets\MaskedInput;
 		<section class="socials">
 			<a target="_blank" title="facebook" href="https://www.facebook.com/infinityroses.uz/"><img src="img/icons/facebook.svg" alt="facebook"></a>
             <a target="_blank" title="instagram" href="https://www.instagram.com/infinityroses.uz/"><img src="img/icons/instagram.svg" alt="instagram"></a>
-            <a target="_blank" title="youtube" href="#"><img src="img/icons/youtube.svg" alt="youtube"></a>
-			<a target="_blank" title="telegram" href="#"><img src="img/icons/telegram.svg" alt="telegram"></a>
+			<a target="_blank" title="telegram" href="https://t.me/infinityroses"><img src="img/icons/telegram.svg" alt="telegram"></a>
+			<a class="disabled-link" onclick="return false" target="_blank" title="youtube" href="#"><img src="img/icons/youtube.svg" alt="youtube"></a>
 			<div class="col-md-4 col-12 mx-auto mt-4">
 				<p><?= Yii::t('app', 'Follow us and be aware <br/>of all news')?></p>
 			</div>

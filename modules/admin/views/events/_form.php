@@ -18,13 +18,16 @@ use yii\jui\DatePicker;
     <?php $form = ActiveForm::begin(); ?>
 
     <div class="panel panel-blue">
-        <div class="panel-heading">1. Event name</div>
+        <div class="panel-heading">1. Event name and keywords</div>
         <div class="panel-body">
 
             <?= $form->field($model, 'name_en')->textInput(['maxlength' => true]) ?>
 
             <?= $form->field($model, 'name_ru')->textInput(['maxlength' => true]) ?>
-            You can add any events! For example, a holiday, a new product or an action in infinity roses.
+            <div class="alert alert-success">
+                You can add any events! For example, a holiday, a new product or an action in infinity roses.
+            </div>
+            <?= $form->field($model, 'keywords')->textInput(['maxlength' => true]) ?>
 
         </div>
     </div>
@@ -55,32 +58,32 @@ use yii\jui\DatePicker;
                     'editorOptions' => ElFinder::ckeditorOptions('elfinder',[]),
                 ]);
             ?>
-            
+
         </div>
     </div>
 
-        <div class="panel panel-orange">
-            <div class="panel-heading">4. Uploading Main Image</div>
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="row preview-image" style="margin: 5px;">
-                            <img src="<?= $mainImage->getUrl()?>" style="width: 100%">
-                        </div>
+    <div class="panel panel-orange">
+        <div class="panel-heading">4. Uploading Main Image</div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="row preview-image" style="margin: 5px;">
+                        <img src="<?= $mainImage->getUrl()?>" style="width: 100%">
                     </div>
-                    <div class="col-md-9">
-                        <?= $form->field($model, 'image', ['labelOptions' => ['class' => 'btn btn-default', 'style' => 'display: block']])->fileInput(['class' => 'uploadImage', 'style' => 'width: 0.1px; height: 0.1px'])->label('<i class="fa fa-upload"></i> Upload image', ['']) ?>
-                        <hr>
-                        <div class="col-md-6" style="padding: 0">
-                            <p>Available extentions - jpg, jpeg, png</p>
-                        </div>
+                </div>
+                <div class="col-md-9">
+                    <?= $form->field($model, 'image', ['labelOptions' => ['class' => 'btn btn-default', 'style' => 'display: block']])->fileInput(['class' => 'uploadImage', 'style' => 'width: 0.1px; height: 0.1px'])->label('<i class="fa fa-upload"></i> Upload image', ['']) ?>
+                    <hr>
+                    <div class="col-md-6" style="padding: 0">
+                        <p>Available extentions - jpg, jpeg, png</p>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
     <div class="form-group">
-        <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Save', ['class' => 'btn btn-success btn-block']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

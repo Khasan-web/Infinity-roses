@@ -15,11 +15,10 @@ class Navbar extends Widget {
     public $lang;
     public $current_action;
 
-
     public function init() {
         parent::init();
         $this->products = Product::find()->with('prices')->all();
-        $this->categories = Category::find()->with('product')->all();
+        $this->categories = Category::find()->with('product')->with('category')->all();
         $this->current_action = Yii::$app->controller->action->id;
         if (Yii::$app->language == 'en') {
             $this->lang = 0;

@@ -23,19 +23,27 @@ class AppAsset extends AssetBundle
         'css/site.css',
         'css/main.min.css',
         'css/magnific-popup.css',
+        'css/map/leaflet.css',
+        'css/map/mapbox-gl.css',
+        'css/map/esri-leaflet-geocoder.css',
+        // slider
+        'css/nouislider.min.css',
     ];
     public $js = [
-        'js/scripts.min.js',
+        "js/scripts.min.js",
         'js/inputmask.js',
         'js/jquery.inputmask.js',
         'js/jquery.magnific-popup.min.js',
-        // slider mobile touch
-        // 'http://code.jquery.com/ui/1.8.17/jquery-ui.min.js',
-        'js/jquery.ui.touch-punch.min.js', 
+        // slider
+        'js/nouislider.min.js',
         'js/common.js',
         // social buttons
         '//yastatic.net/es5-shims/0.0.2/es5-shims.min.js',
         '//yastatic.net/share2/share.js',
+        'js/map/leaflet.js',
+        'js/map/leaflet-mapbox-gl.js',
+        'js/map/esri-leaflet.js',
+        'js/map/esri-leaflet-geocoder.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

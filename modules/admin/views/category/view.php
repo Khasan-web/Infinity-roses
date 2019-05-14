@@ -38,6 +38,10 @@ $this->params['breadcrumbs'][] = ['label' => 'View'];
         'model' => $model,
         'attributes' => [
             'id',
+            [
+                'attribute' => 'parent_id',
+                'value' => $model->category['name_en'] ? $model->category['name_en'] : 'Independent category',
+            ],
             'name_en',
             'name_ru',
             [

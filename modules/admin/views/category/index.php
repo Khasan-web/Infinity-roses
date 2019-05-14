@@ -20,55 +20,64 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a(Yii::t('app', 'Create Category'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+    <div class="table-responsive">
+        <?= GridView::widget([
+            'dataProvider' => $dataProvider,
+            'filterModel' => $searchModel,
+            'columns' => [
+                ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
-            'name_en',
-            'name_ru',
-            // 'description_en:ntext',
-            // 'description_ru:ntext',
-            //'keywords',
+                'id',
+                [
+                    'attribute' => 'parent_id',
+                    'value' => function($data) {
+                        return $data->category['name_en'] ? $data->category['name_en'] : 'Independent category';
+                    },
+                    'filter' => false,
+                ],
+                'name_en',
+                'name_ru',
+                // 'description_en:ntext',
+                // 'description_ru:ntext',
+                //'keywords',
 
-            [
-                'class' => 'yii\grid\ActionColumn',
-                'template' => '{view} {update} {delete}',
-                'headerOptions' => ['style' => 'width: 20%'],
-                'contentOptions' => ['style' => 'text-align: center'],
-                'buttons' => [
-                    'view' => function ($url) {
-                        return Html::a(
-                            '<span class="btn btn-info btn-xs"><i class="fa fa-eye"></i>&nbsp;View</span>',
-                            $url, 
-                            [
-                                'title' => 'View',
-                                'data-pjax' => '0',
-                            ]
-                        );
-                    },
-                    'update' => function ($url) {
-                        return Html::a(
-                            '<span class="btn btn-default btn-xs"><i class="fa fa-edit"></i>&nbsp;Edit</span>',
-                            $url, 
-                            [
-                                'title' => 'Update',
-                                'data-pjax' => '0',
-                            ]
-                        );
-                    },
-                    'delete' => function ($url) {
-                        return Html::a('<span class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i>&nbsp;Delete</span>', $url, [
-                                    'title' => Yii::t('app', 'Delete'),
-                                    'data-confirm' => Yii::t('yii', 'Are you sure you want to delete?'),
-                                    'data-method' => 'post', 'data-pjax' => '0',
-                        ]);
-                    }
-                    
-                ]
+                [
+                    'class' => 'yii\grid\ActionColumn',
+                    'template' => '{view} {update} {delete}',
+                    'headerOptions' => ['style' => 'width: 20%'],
+                    'contentOptions' => ['style' => 'text-align: center'],
+                    'buttons' => [
+                        'view' => function ($url) {
+                            return Html::a(
+                                '<span class="btn btn-info btn-xs"><i class="fa fa-eye"></i>&nbsp;View</span>',
+                                $url, 
+                                [
+                                    'title' => 'View',
+                                    'data-pjax' => '0',
+                                ]
+                            );
+                        },
+                        'update' => function ($url) {
+                            return Html::a(
+                                '<span class="btn btn-default btn-xs"><i class="fa fa-edit"></i>&nbsp;Edit</span>',
+                                $url, 
+                                [
+                                    'title' => 'Update',
+                                    'data-pjax' => '0',
+                                ]
+                            );
+                        },
+                        'delete' => function ($url) {
+                            return Html::a('<span class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i>&nbsp;Delete</span>', $url, [
+                                        'title' => Yii::t('app', 'Delete'),
+                                        'data-confirm' => Yii::t('yii', 'Are you sure you want to delete?'),
+                                        'data-method' => 'post', 'data-pjax' => '0',
+                            ]);
+                        }
+                        
+                    ]
+                ],
             ],
-        ],
-    ]); ?>
+        ]); ?>
+    </div>
 </div>

@@ -14,15 +14,15 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Orders'), 'url' => [
 $this->params['breadcrumbs'][] = '№' . $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
-<?= AdminTitle::widget(['title' => 'Order №' . $this->title, 'breadcrumbs' => $this->params['breadcrumbs']])?>
+<?= AdminTitle::widget(['title' => 'Order №' . $this->title, 'breadcrumbs' => $this->params['breadcrumbs']]) ?>
 <div class="order-view page-content">
 
-    <?php if (Yii::$app->session->hasFlash('success')): ?>
-        <div class="alert alert-success alert-dismissable">
-            <button type="button" data-dismiss="alert" aria-hidden="true" class="close">×</button>
-            <?= Yii::$app->session->getFlash('success')?>
-        </div>
-    <?php endif;?>
+    <?php if (Yii::$app->session->hasFlash('success')) : ?>
+    <div class="alert alert-success alert-dismissable">
+        <button type="button" data-dismiss="alert" aria-hidden="true" class="close">×</button>
+        <?= Yii::$app->session->getFlash('success') ?>
+    </div>
+    <?php endif; ?>
 
     <p>
         <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-info']) ?>
@@ -35,6 +35,19 @@ $this->params['breadcrumbs'][] = '№' . $this->title;
         ]) ?>
     </p>
 
+    <?php
+    $address_explode = explode(' | ', $model->address);
+    if (isset($address_explode[0])) {
+        $address = $address_explode[0];
+    } else {
+        $address = '';
+    }
+    if (isset($address_explode[1])) {
+        $coords = $address_explode[1];
+    } else {
+        $coords = '';
+    }
+    ?>
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
@@ -45,7 +58,7 @@ $this->params['breadcrumbs'][] = '№' . $this->title;
             // 'sum',
             [
                 'attribute' => 'sum',
-                'value' => $model->sum . ' ' . Yii::t('app', 'sum'),
+                'value' => priceWithSpaces($model->sum) . ' ' . Yii::t('app', 'sum'),
             ],
             // 'status',
             [
@@ -56,48 +69,66 @@ $this->params['breadcrumbs'][] = '№' . $this->title;
             'name',
             'email:email',
             'phone',
-            'address',
+            // 'address',
+            [
+                'attribute' => 'address',
+                'value' => $address,
+                'contentOptions' => [
+                    'class' => 'address',
+                    'data-coords' => $coords,
+                ],
+            ]
         ],
     ]) ?>
-    
+
     <hr>
 
-    <?php $items = $model->orderItems;?>
-    <table class="table">
-			<thead>
-			<tr>
-				<th>Name</th>
-				<th>Size</th>
-				<th>Price</th>
-                <th>Color</th>
-				<th>Quantity</th>
-				<th>Parfume</th>
-                <th>Chocolate</th>
-                <th>Vase</th>
-				<th>Sum</th>
-			</tr>
-			</thead>
-			<tbody>
-			<?php foreach ($items as $item):?>
-				<tr>
-					<td><a target="_blank" style="text-decoration: underline" href="<?= Url::to(['product/view', 'id' => $item['product_id']])?>"><?= $item['name']?></a></td>
-					<td><?= $item['size']?></td>
-					<td><?= $item['price'] . ' sum'?></td>
-                    <td><?= $item['color']?></td>
-					<td><?= $item['qty_item']?></td>
-					<td><?= $item['parfume']?></td>
-                    <td><?= $item['chocolate']?></td>
+    <?php $items = $model->orderItems; ?>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Size</th>
+                    <th>Price</th>
+                    <th>Color</th>
+                    <th>Quantity</th>
+                    <th>Parfume</th>
+                    <th>Chocolate</th>
+                    <th>Vase</th>
+                    <th>Sum</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($items as $item) : ?>
+                <tr>
+                    <td><a target="_blank" style="text-decoration: underline"
+                            href="<?= Url::to(['product/view', 'id' => $item['product_id']]) ?>"><?= $item['name'] ?></a>
+                    </td>
+                    <td><?= $item['size'] ?></td>
+                    <td><?= priceWithSpaces($item['price']) . ' sum' ?></td>
+                    <td><?= $item['color'] ?></td>
+                    <td><?= $item['qty_item'] ?></td>
+                    <td><?= $item['parfume'] ?></td>
+                    <td><?= $item['chocolate'] ?></td>
                     <td><?php
-                        if ($item['vase'] == true) {
-                            echo 'Yes';
-                        } else {
-                            echo '--';
-                        }
-                    ?></td>
-					<td><?= $item['sum_item'] . ' sum'?></td>
-				</tr>
-			<?php endforeach;?>
-			</tbody>
-		</table>
+                            if ($item['vase'] == true) {
+                                echo 'Yes';
+                            } else {
+                                echo '--';
+                            }
+                            ?></td>
+                    <td><?= priceWithSpaces($item['sum_item']) . ' sum' ?></td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+
+    <hr>
+
+    <?php if ($coords):?>
+        <div id="map" style="height:300px"></div>
+    <?php endif;?>
 
 </div>

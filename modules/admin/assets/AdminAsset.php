@@ -15,6 +15,9 @@ class AdminAsset extends AssetBundle
         'css/admin/skins/all.css',
         'css/admin/themes/style1/orange-blue.css',
         'css/admin/style-responsive.css',
+        'css/map/leaflet.css',
+        'css/map/mapbox-gl.css',
+        'css/map/esri-leaflet-geocoder.css',
     ];
     public $js = [
         'js/admin/jquery-migrate-1.2.1.min.js',
@@ -32,6 +35,10 @@ class AdminAsset extends AssetBundle
         'js/admin/holder.js',
         // 'vendors/calendar/zabuto_calendar.min.js',
         'js/admin/index.js',
+        'js/map/leaflet.js',
+        'js/map/leaflet-mapbox-gl.js',
+        'js/map/esri-leaflet.js',
+        'js/map/esri-leaflet-geocoder.js',
         'js/admin/main.js',
     ];
     public $depends = [

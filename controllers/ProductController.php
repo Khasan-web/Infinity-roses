@@ -9,7 +9,7 @@ use app\models\GiftFinderForm;
 use yii\helpers\StringHelper;
 use yii\helpers\Url;
 use app\models\Category;
-use app\modules\admin\models\Gallery;
+use app\models\Gallery;
 
 class ProductController extends AppController
 {
@@ -19,6 +19,7 @@ class ProductController extends AppController
         $id = Yii::$app->request->get('id');
         $name = getLang('name');
         $product = Product::findOne($id);
+        $size_name = Yii::$app->language == 'ru' ? 'size_ru' : 'size';
         if (Yii::$app->cache->get('hits')) {
             $hits = Yii::$app->cache->get('hits');
         } else {
@@ -31,8 +32,8 @@ class ProductController extends AppController
         $description = 'description_' . Yii::$app->language;
         $img = $product->getImage();
         $social_img = Url::base(true) . $img->getUrl('850x');
-        $this->setMeta($product->name, $product->keywords, $product->$description, $social_img);
-        return $this->render('view', compact('product', 'hits', 'lang', 'name'));
+        $this->setMeta($product->name, $product->keywords, null, $social_img);
+        return $this->render('view', compact('product', 'hits', 'lang', 'name', 'size_name'));
     }
 
     public function actionGiftFinder()
@@ -79,8 +80,14 @@ class ProductController extends AppController
         function searchKey($key, $product)
         {
             if (isset($_GET["$key"])) {
-                $key_existing = strpos($product->keywords, $key);
-                return $key_existing ? true : false;
+                // $key_existing = strpos($product->keywords, $key);
+                $keys_arr = explode(' ', $product->keywords);
+                foreach ($keys_arr as $keyword) {
+                    if ($keyword == $key) {
+                        return true;
+                    }
+                }
+                // return $key_existing ? true : false;
             } else {
                 return false;
             }
@@ -97,7 +104,7 @@ class ProductController extends AppController
             // infinity
             // and if all roses in luxury collection will be infinity then new condition that (... || $prods[$i]->category->name_en == 'Luxury Collection')
             if ($infinity) {
-                $selected_type = 'Infinity Roses';
+                $selected_type = 'Infinite Roses';
             }
 
             // fresh
@@ -110,9 +117,9 @@ class ProductController extends AppController
                 $selected_type = false;
             }
 
-            // check if switched filter is one and it is infinity roses filter
+            // check if switched filter is one and it is Infinite Roses filter
             if (count($request->get()) == 2 && isset($_GET['infinity'])) {
-                if ($prods[$i]->category->name_en == 'Infinity Roses') {
+                if ($prods[$i]->category->name_en == 'Infinite Roses') {
                     array_push($products, $prods[$i]);
                 }
             }
@@ -124,9 +131,9 @@ class ProductController extends AppController
                 }
             }
 
-            // check if switched filters are fresh roses filter and infinity roses filter
+            // check if switched filters are fresh roses filter and Infinite Roses filter
             if (count($request->get()) == 3 && isset($_GET['infinity']) && isset($_GET['fresh'])) {
-                if ($prods[$i]->category->name_en == 'Infinity Roses') {
+                if ($prods[$i]->category->name_en == 'Infinite Roses') {
                     array_push($products, $prods[$i]);
                 }
                 if ($prods[$i]->category->name_en == 'Fresh Roses') {
@@ -227,21 +234,21 @@ class ProductController extends AppController
         }
 
         // remove same products
-        $prev_name = '';
-        $product_count = count($products);
-        for ($i = 0; $i < $product_count; $i++) {
-            if ($prev_name == '') {
-                $prev_name = $products[$i]->name;
-            } else {
-                if ($prev_name == $products[$i]->name) {
-                    unset($products[$i]);
-                } else {
-                    $prev_name = $products[$i]->name;
-                }
-            }
-        }
+        // $prev_name = '';
+        // $product_count = count($products);
+        // for ($i = 0; $i < $product_count; $i++) {
+        //     if ($prev_name == '') {
+        //         $prev_name = $products[$i]->name;
+        //     } else {
+        //         if ($prev_name == $products[$i]->name) {
+        //             unset($products[$i]);
+        //         } else {
+        //             $prev_name = $products[$i]->name;
+        //         }
+        //     }
+        // }
 
-        $this->setMeta(Yii::t('app', 'Gift finder'));
+        $this->setMeta(Yii::t('app', 'Gift Finder'), 'gift finder roses beautiful tashkent поиск подарков красивый розы ташкент', Yii::t('app', 'Gift finder is a filter that helps you find the most suitable composition of roses for a gift, and Gift finder can be used as a more convenient version of the search for roses among the assortment of Infinity Roses!'));
         return $this->render('finder', compact('model', 'products', 'name', 'minmax', 'price'));
     }
 

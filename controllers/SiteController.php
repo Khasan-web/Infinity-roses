@@ -12,7 +12,8 @@ use app\models\ContactForm;
 use app\components\Navbar;
 use app\models\Product;
 use app\models\Events;
-use app\modules\admin\models\Gallery;
+use app\models\Gallery;
+use app\models\Background;
 
 class SiteController extends AppController
 {
@@ -68,18 +69,15 @@ class SiteController extends AppController
     {
         $name = getLang('name');
         $description = getLang('description');
+        $title = getLang('title');
         $events = Events::find()->all();
         $gallery = Gallery::find()->asArray()->limit(6)->all();
+        $background = Background::find()->asArray()->where(['position' => 'home'])->one();
         // get hits
-        $hits_cache = Yii::$app->cache->get('hits');
-        if ($hits_cache) {
-            $hits = $hits_cache;
-        } else {
-            $hits = Product::find()->where(['hit' => '1'])->with('category')->limit(4)->all();
-            Yii::$app->cache->set('hit', $hits, 100);
-        }
-        $this->setMeta("Home", "keys", "desc");
-        return $this->render('index', compact('hits', 'lang', 'name', 'description', 'events', 'gallery'));
+        $hits = Product::find()->where(['hit' => '1'])->with('category')->limit(4)->all();
+        $this->setMeta(null, "Delivery flowers in Tashkent,Roses in Tashkent,Цветы в Ташкенте, Розы в Ташкенте, Доставка роз в Ташкенте, Роза доставка, Цветы доставка, Букеты в ташкенте, Где продаются розы, Самые лучшие розы, Инфинити розы, Atirgullar, Atir gullar Toshkent, Gul Toshkent", "Delivery flowers in Tashkent Цветы в Ташкенте", '/web/img/mail-header.jpg');
+        $this->view->title = 'Infinity Roses';
+        return $this->render('index', compact('hits', 'lang', 'name', 'description', 'events', 'gallery', 'background', 'title'));
     }
 
     /**
@@ -125,15 +123,16 @@ class SiteController extends AppController
     public function actionContact()
     {
         $model = new ContactForm();
+        $description = getLang('description');
+        $title = getLang('title');
+        $background = Background::find()->asArray()->where(['position' => 'contact'])->one();
         if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
             Yii::$app->session->setFlash('contactFormSubmitted');
 
             return $this->refresh();
         }
-        $this->setMeta("Contact", "keys", "desc");
-        return $this->render('contact', [
-            'model' => $model,
-        ]);
+        $this->setMeta(Yii::t('app', 'Contact Us'));
+        return $this->render('contact', compact('model', 'title', 'background', 'description'));
     }
 
     /**
@@ -143,7 +142,7 @@ class SiteController extends AppController
      */
     public function actionAbout()
     {
-        $this->setMeta("About Us", "keys", "desc");
+        $this->setMeta(Yii::t('app', 'About Us'), "Delivery flowers in Tashkent,Roses in Tashkent,Цветы в Ташкенте, Розы в Ташкенте, Доставка роз в Ташкенте, Роза доставка, Цветы доставка, Букеты в ташкенте, Где продаются розы, Самые лучшие розы, Инфинити розы, Atirgullar, Atir gullar Toshkent, Gul Toshkent", "Delivery flowers in Tashkent Цветы в Ташкенте", '/web/img/mail-header.jpg');
         return $this->render('about');
     }
 

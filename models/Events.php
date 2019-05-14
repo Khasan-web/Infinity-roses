@@ -10,6 +10,7 @@ use Yii;
  * @property int $id
  * @property string $name_en
  * @property string $name_ru
+ * @property string $keywords
  * @property string $date_from
  * @property string $date_to
  * @property string $description_en

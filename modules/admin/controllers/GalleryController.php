@@ -57,7 +57,9 @@ class GalleryController extends Controller
         $dropdownArr = [];
         $categories = Category::find()->asArray()->all();
         foreach ($categories as $category) {
-            $dropdownArr[$category['id']] = $category['name_en'];
+            if ($category['parent_id'] == 0) {
+                $dropdownArr[$category['id']] = $category['name_en'];
+            }
         }
 
         if ($model->load(Yii::$app->request->post())) {

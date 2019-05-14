@@ -4,7 +4,9 @@
     </div>
     <div class="gallery__categories">
         <?php foreach ($categories as $category):?>
+        <?php if ($category['parent_id'] == 0):?>
         <button class="btn btn-outline-dark px-2 py-1 gallery__category" data-id="<?= $category['id']?>"><?= $category[$name]?></button>
+        <?php endif;?>
         <?php endforeach;?>
         <button class="btn btn-dark px-2 py-1 gallery__show-all">All</button>
         <!-- php script to show galleries -->
@@ -15,6 +17,7 @@
                 <img src="web/upload/store/gallery/<?= $image->img?>" class="img-thumbnail" alt="<?= $image->category->name_en?>">
             </div>
         <?php endforeach;?>
+        <h2 class="not-found d-none my-5"><?= Yii::t('app', 'Soon...')?></h2>
     </div>
     <div class="gallery__social-nets my-4">
         <span><?= Yii::t('app', 'Share to your friends')?>?</span>

@@ -13,39 +13,33 @@ $date = date('d');
 <div class="notifications">
     <?php $i = 0 ?>
     <?php foreach ($events as $event) : ?>
-        <?php
-        $eventDay = date('d', strtotime($event->date_from));
-        $eventEnd = date('d', strtotime($event->date_to));
-        ?>
-        <?php if ($date > $eventDay || $date < $eventEnd && $i == 0) : ?>
+        <?php if (strtotime($event->date_to) > date('d-M-Y')):?>
             <div class="notification w-100">
                 <div class="close"><i class="fa fa-times"></i></div>
                 <a href="<?= Url::to(['events/view', 'id' => $event->id]) ?>" class="notification__title">
                     <h3><?= $event->$name ?></h3>
                 </a>
-                <p><?= StringHelper::byteSubstr($event->$description, 0, 120 - 1) ?>...</p>
-                <a href="<?= Url::to(['events/view', 'id' => $event->id]) ?>" class="btn btn-outline-gold hide-on-mob">Explore</a>
+                <p><?= StringHelper::byteSubstr($event->$description, 0, 120 - 3)?>...</p>
+                <!-- <a href="<?= Url::to(['events/view', 'id' => $event->id]) ?>" class="btn btn-outline-gold hide-on-mob">Explore</a> -->
             </div>
             <?php $i++;
         endif; ?>
     <?php endforeach; ?>
 </div>
 
-<div class="bg-image wow fadeIn" style="background-image: url('img/home/main.jpg')" data-wow-delay="0.4s"></div>
+<div class="bg-image wow fadeIn" style="background-image: url('<?= $background['filePath'] ?>')" data-wow-delay="0.4s"></div>
 
 <section id="home-page">
     <section class="intro">
         <div class="col-lg-3 col-md-5 col-10 welcome-cart wow fadeIn" data-wow-delay="0.8s">
-            <h2 class="gold prata fsize_h1"><?= Yii::t('app', 'Welcome'); ?></h2>
-            <p>
-                <?= Yii::t('app', 'Welcome to the Infinity Roses online store. Here you will find roses living more than 3 years and many more!') ?>
-            </p>
+            <h2 class="gold prata fsize_h1"><?= $background[$title] ?></h2>
+            <p><?= $background[$description] ?></p>
         </div>
     </section>
     <?php if ($hits) : ?>
         <section id="popular-prods">
             <p class="subheader text-black wow fadeIn text-uppercase" data-wow-delay="0.8s"><?= Yii::t('app', 'Most choice') ?></p>
-            <h2 class="wow fadeIn prata fsize_h1"><?= Yii::t('app', 'Our favorites') ?></h2>
+            <h2 class="wow fadeIn prata fsize_h1"><?= Yii::t('app', 'Popular Roses') ?></h2>
             <div class="container">
                 <div class="row mt-5">
                     <?php $delay = 0.6; ?>
@@ -109,28 +103,30 @@ $date = date('d');
     <section id="holidays">
         <?php if ($events) : ?>
             <?php foreach ($events as $event) : ?>
-                <?php $image = $event->getImage() ?>
-                <a href="<?= Url::to(["events/{$event->id}"]) ?>">
-                    <div class="holiday wow fadeIn" style="background-image: url(<?= $image->getUrl() ?>)">
-                        <?php
-                            $date = date('d-M-Y', strtotime($event->date_to));
-                        ?>
-                        <div class="card-holiday col-lg-3 col-md-6 col-12">
-                            <h2><?= $event->$name ?></h2>
-                            <p class="my-2">to: <?= $date?></p>
-                            <p><?= StringHelper::byteSubstr($event->$description, 0, 120 - 1) ?>...</p>
+                <?php if (strtotime($event->date_to) > date('d-M-Y')):?>
+                    <?php $image = $event->getImage() ?>
+                    <a href="<?= Url::to(["events/{$event->id}"]) ?>">
+                        <div class="holiday wow fadeIn" style="background-image: url(<?= $image->getUrl() ?>)">
+                            <?php
+                                $date = date('d-M-Y', strtotime($event->date_to));
+                            ?>
+                            <div class="card-holiday col-lg-3 col-md-6 col-12">
+                                <h2><?= $event->$name ?></h2>
+                                <p class="my-2">to: <?= $date?></p>
+                                <p><?= StringHelper::byteSubstr($event->$description, 0, 120 - 3) ?>...</p>
+                            </div>
                         </div>
-                    </div>
-                </a>
+                    </a>
+                <?php endif;?>
             <?php endforeach;?>
         <?php endif; ?>
     </section>
     <section class="section-basic text-center">
-        <h2 class="prata fsize_h1 mb-4">Our Gallery</h2>
+        <h2 class="prata fsize_h1 mb-4"><?= Yii::t('app', 'Our Gallery')?></h2>
         <div class="gallery_images container">
         <?php foreach ($gallery as $image):?>
             <div class="item wow fadeIn" href="web/upload/store/gallery/<?= $image['img']?>" data-category="1">
-                <img src="web/upload/store/gallery/<?= $image['img']?>" class="img-thumbnail" alt="<?= $image['category']['name']?>">
+                <img src="web/upload/store/gallery/<?= $image['img']?>" class="img-thumbnail" alt="Gallery image">
             </div>
         <?php endforeach;?>
     </div>
@@ -139,11 +135,11 @@ $date = date('d');
     </div>
     </section>
     <section id="contact-us">
-        <h2 class="prata fsize_h1 gold"><?= Yii::t('app', 'Contact us') ?></h2>
+        <h2 class="prata fsize_h1 gold"><?= Yii::t('app', 'Contact Us') ?></h2>
         <div class="col-lg-3 col-md-6 col-10 mx-auto mt-4">
             <p><?= Yii::t('app', 'If you have any questions, you can ask us right now! Our manager will respond as soon as possible.') 
                 ?></p>
-            <a href="<?= Url::to(['site/contact']) ?>" class="btn btn-outline-gold"><i class="fas fa-phone pr-2"></i><?= Yii::t('app', 'Contact us') ?></a>
+            <a href="<?= Url::to(['site/contact']) ?>" class="btn btn-outline-gold"><i class="fas fa-phone pr-2"></i><?= Yii::t('app', 'Contact Us') ?></a>
             <p class="subheader my-4"><?= Yii::t('app', 'OR') ?></p>
             <p><?= Yii::t('app', 'We will immediately reply to you in the chat in the lower right corner.') ?></p>
         </div>

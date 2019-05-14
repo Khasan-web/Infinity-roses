@@ -16,9 +16,21 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 <?= AdminTitle::widget(['title' => $this->title, 'breadcrumbs' => $this->params['breadcrumbs']])?>
 <div class="product-update page-content">
 
+    <?php if (Yii::$app->session->getFlash('update')):?>
+        <div class="alert alert-warning">
+            <?= Yii::$app->session->getFlash('update');?>
+        </div>
+    <?php endif;?>
+    <?php if (Yii::$app->session->getFlash('add_sizes')):?>
+        <div class="alert alert-warning">
+            <?= Yii::$app->session->getFlash('add_sizes');?>
+        </div>
+    <?php endif;?>
+
     <?= $this->render('_form', [
         'model' => $model,
-        'pricesModel' => $pricesModel
+        'pricesModel' => $pricesModel,
+        'colors' => $colors,
     ]) ?>
 
 </div>

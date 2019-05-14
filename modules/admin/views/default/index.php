@@ -15,7 +15,7 @@ use app\modules\admin\models\ProductSearch;
                 <div class="panel profit db mbm">
                     <div class="panel-body"><p class="icon"><i class="icon fa fa-shopping-cart"></i></p><h4 class="value">Products</h4>
 
-                        <p class="description">Profit description</p>
+                        <p class="description">Products control</p>
 
                         <div class="progress progress-sm mbn">
                             <div role="progressbar" style="width: 100%" class="progress-bar progress-bar-success"></div>
@@ -29,7 +29,7 @@ use app\modules\admin\models\ProductSearch;
                 <div class="panel income db mbm">
                     <div class="panel-body"><p class="icon"><i class="icon fa fa-bars"></i></p><h4 class="value">Categories</h4>
 
-                        <p class="description">Income detail</p>
+                        <p class="description">Categories control</p>
 
                         <div class="progress progress-sm mbn">
                             <div role="progressbar" style="width: 100%" class="progress-bar progress-bar-info"></div>
@@ -43,7 +43,7 @@ use app\modules\admin\models\ProductSearch;
                 <div class="panel task db mbm">
                     <div class="panel-body"><p class="icon"><i class="icon fa fa-money"></i></p><h4 class="value">Orders</h4>
 
-                        <p class="description">Task completed</p>
+                        <p class="description">Orders control</p>
 
                         <div class="progress progress-sm mbn">
                             <div role="progressbar" style="width: 100%" class="progress-bar progress-bar-danger"></div>
@@ -57,7 +57,7 @@ use app\modules\admin\models\ProductSearch;
                 <div class="panel visit db mbm">
                     <div class="panel-body"><p class="icon"><i class="icon fa fa-calendar"></i></p><h4 class="value">Events</h4>
 
-                        <p class="description">Visitor description</p>
+                        <p class="description">Events control</p>
 
                         <div class="progress progress-sm mbn">
                             <div role="progressbar" style="width: 100%" class="progress-bar progress-bar-warning"></div>

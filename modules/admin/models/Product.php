@@ -21,6 +21,9 @@ class Product extends \yii\db\ActiveRecord
 
     public $image;
     public $gallery;
+    public $size_list;
+    public $size_main;
+    public $not_available;
 
     public function behaviors()
     {
@@ -53,9 +56,10 @@ class Product extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['category_id', 'name', 'description_en', 'description_ru'], 'required'],
+            [['category_id', 'name'], 'required'],
             [['category_id'], 'integer'],
             [['accessories', 'vase'], 'safe'],
+            [['size_list', 'size_main', 'not_available'], 'trim'],
             [['description_en', 'description_ru', 'hit'], 'string'],
             [['name', 'keywords'], 'string', 'max' => 255],
             [['image'], 'file', 'extensions' => 'png, jpg, jpeg'],
@@ -86,7 +90,7 @@ class Product extends \yii\db\ActiveRecord
         if ($this->validate()) {
             $path = 'upload/store/' . $this->image->basename . '.' . $this->image->extension;
             $this->image->saveAs($path);
-            $this->attachImage($path, true, $this->image->basename);
+            $this->attachImage($path, true, $this->size_main);
             @unlink($path);
             return true;
         } else {
@@ -94,13 +98,19 @@ class Product extends \yii\db\ActiveRecord
         }
     }
 
-    public function uploadGallery() {
+    public function uploadGallery($images_arr) {
         if ($this->validate()) {
-            foreach ($this->gallery as $file) {
-                $path = 'upload/store/' . $file->basename . '.' . $file->extension;
-                $file->saveAs($path);
-                $this->attachImage($path, false, $file->basename);
-                @unlink($path);
+            foreach ($images_arr as $image) {
+                // upload
+                foreach ($this->gallery as $file) {
+                    $name = $file->basename . '.' . $file->extension;
+                    if ($name == $image['img']->name) {
+                        $path = 'upload/store/' . $image['img']->name;
+                        $file->saveAs($path);
+                        $this->attachImage($path, false, $image['info']);
+                        @unlink($path);
+                    }
+                }
             }
             return true;
         } else {
