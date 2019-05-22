@@ -151,7 +151,7 @@ class ProductController extends AppAdminController
                     // get image and divide its name to parts
                     $image = Image::findOne($img_id);
                     $image_name_data = explode('_', $image->name);
-                    $str_data = $image_name_data[0] . '_' . $image_name_data[1] . '_' . $image_name_data[2];
+                    $str_data = $image_name_data[0] . '_' . $image_name_data[1] . '_' . $image_name_data[2] . '_' . $image_name_data[3];
                     // update image
                     $image->name = $str_data . '_' . $status;
                     $image->update();
@@ -233,6 +233,17 @@ class ProductController extends AppAdminController
         }
     }
 
+    public function actionRemoveAll() {
+        $id = Yii::$app->request->get('id');
+        $product = Product::findOne($id);
+        if (!empty($product)) {
+            $product->removeImages();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     /**
      * Deletes an existing Product model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
@@ -247,8 +258,8 @@ class ProductController extends AppAdminController
         foreach ($sizes as $size) {
             $size->delete();
         }
-        $model->delete();
         $model->removeImages();
+        $model->delete();
         return $this->redirect(['index']);
     }
 

@@ -108,12 +108,14 @@ return [
     'Home' => 'Дома',
     'Width' => 'Ширина',
     'Height' => 'Высота',
+    'H' => 'В',
+    'W' => 'Ш',
     'A little about category' => 'Немного о категории',
     'Menu' => 'Меню',
     'Yes, clear' => 'Да, очистить',
     'About Us' => 'О Нас',
     'About Luxury Collection' => 'О Роскошной Коллекции',
-    'Celebration Decoration' => 'Декорация Торжеств',
+    'Decoration of Events' => 'Декорация Торжеств',
     'Gallery' => 'Галерея',
     'Our Gallery' => 'Наша Галерея',
     'Roses for business' => 'Розы для бизнеса',
@@ -133,7 +135,13 @@ return [
     'Select a size' => 'Выберите размер',
     'If you want, you can select <span class="hide-on-mob"><br></span> an amazing vase for your fresh roses' => 'Если вы хотите вы можете выбрать <span class="hide-on-mob"><br></span> замечательную вазу для ваших свежих роз',
     'Press Add to cart' => 'Нажмите добавить в корзину',
-    'Click the checkout button <br> and fill out the form' => 'Нажмите кнопку оформления заказа <br> и заполните форму'
+    'Click the checkout button <br> and fill out the form' => 'Нажмите кнопку оформления заказа <br> и заполните форму',
+    'To add a vase to your rose composition, just click on the vase or on the checkbox under it.' => 'Чтобы добавить вазу в вашу композицию роз, просто нажмите на вазу или на чекбокс под ней.',
+    'Not available' => 'Нет в наличии',
+    'will be added soon!' => 'будут добавлены в ближайшее время!',
+    'Read more...' => 'Читать больше...',
+    'All contact information' => 'Вся контактная информация',
+    'Or call us now!' => 'Или позвоните нам сейчас!',
 ]
 
 ?>

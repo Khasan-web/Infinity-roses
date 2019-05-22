@@ -10,6 +10,8 @@ use yii\helpers\StringHelper;
 use yii\helpers\Url;
 use app\models\Category;
 use app\models\Gallery;
+use app\models\Color;
+use app\models\Events;
 
 class ProductController extends AppController
 {
@@ -41,6 +43,18 @@ class ProductController extends AppController
         $model = new GiftFinderForm();
         $name = 'name_' . Yii::$app->language;
         $request = Yii::$app->request;
+
+        // get the event
+        $events = Events::find()->asArray()->all();
+        $giftFinder_event = '';
+        foreach ($events as $event) {
+            $keys_explode = explode(' ', $event['keywords']);
+            foreach ($keys_explode as $key) {
+                if ($key == 'gift-finder') {
+                    $giftFinder_event = $event[$name];
+                }
+            }
+        }
 
         // get max and min price
         $prods = Product::find()->all();
@@ -249,7 +263,7 @@ class ProductController extends AppController
         // }
 
         $this->setMeta(Yii::t('app', 'Gift Finder'), 'gift finder roses beautiful tashkent поиск подарков красивый розы ташкент', Yii::t('app', 'Gift finder is a filter that helps you find the most suitable composition of roses for a gift, and Gift finder can be used as a more convenient version of the search for roses among the assortment of Infinity Roses!'));
-        return $this->render('finder', compact('model', 'products', 'name', 'minmax', 'price'));
+        return $this->render('finder', compact('model', 'products', 'name', 'minmax', 'price', 'giftFinder_event'));
     }
 
     public function actionGetImages()

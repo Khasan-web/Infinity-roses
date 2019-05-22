@@ -118,16 +118,15 @@ use mihaildev\elfinder\ElFinder;
                 <div class="panel-body" style="margin: 0 15px">
                     <!-- Buttons to switch sizes -->
                     <div class="btn-sizes">
-                        <?php if (!$model->vase) : ?>
+                        <?php
+                        $i = 0;
+                        foreach ($model->prices as $size) : ?>
+                            <button class="btn <?= $i == 0 ? 'btn-warning' : 'btn-default' ?> size-toggle" data-size="<?= $size->size ?>"><?= $size->size ?></button>
                             <?php
-                            $i = 0;
-                            foreach ($model->prices as $size) : ?>
-                                <button class="btn <?= $i == 0 ? 'btn-warning' : 'btn-default' ?> size-toggle" data-size="<?= $size->size ?>"><?= $size->size ?></button>
-                                <?php
-                                $i++;
-                            endforeach; ?>
-                            <button class="btn btn-default show-all">All</button>
-                        <?php endif; ?>
+                            $i++;
+                        endforeach; ?>
+                        <button class="btn btn-default show-all">All</button>
+                        <button class="btn btn-danger btn-remove_all" data-position="1">Remove all images</button>
                         <button class="btn btn-default btn-not_available" data-position="1">Not available</button>
                     </div>
                     <!-- Buttons to switch position -->
@@ -135,6 +134,8 @@ use mihaildev\elfinder\ElFinder;
                         <button class="btn btn-warning position-toggle" data-position="1">1st</button>
                         <button class="btn btn-default position-toggle" data-position="2">2nd</button>
                         <button class="btn btn-default position-toggle" data-position="closed">Closed</button>
+                        <!-- show only if we have price of vase -->
+                        <button class="btn btn-default position-toggle vase-toggle" data-position="vase">Vase</button>
                     </div>
                     <!-- Gallery from db -->
                     <div class="row text-center gallery">
@@ -143,17 +144,21 @@ use mihaildev\elfinder\ElFinder;
                             <?php
                             $i = 0;
                             foreach ($gallery as $image) : ?>
-                                <?php if ($image->urlAlias != 'placeHolder') : ?>
+                                <?php 
+                                // explode a name of each image
+                                $name_explode = explode('_', $image->name);
+                                //  && !in_array('vase', $name_explode)
+                                if ($image->urlAlias != 'placeHolder') : ?>
 
                                     <?php
                                     // getting all info
-                                    $name_explode = explode('_', $image->name);
-                                    $name = $name_explode[0];
-                                    if (count($name_explode) > 1) {
-                                        $position = $name_explode[1];
-                                    }
+                                    $color_en = $name_explode[0];
+                                    $color_ru = $name_explode[1];
                                     if (count($name_explode) > 2) {
-                                        $size = explode('.', $name_explode[2])[0];
+                                        $position = $name_explode[2];
+                                    }
+                                    if (count($name_explode) > 3) {
+                                        $size = explode('.', $name_explode[3])[0];
                                     } else {
                                         $size = '';
                                     }
@@ -161,16 +166,19 @@ use mihaildev\elfinder\ElFinder;
                                     ?>
 
                                     <div class="col-md-1 col-sm-2 size" style="opacity: <?= !$status ? '0.6' : '1'?>" data-size="<?= $size ?>" style="margin: 15px 0">
-                                        <div class="checkbox-none">
-                                            <input type="checkbox" class="not-available-check form-control" <?= !$status ? 'checked' : ''?> data-id="<?= $image->id?>">
-                                        </div>
+                                        <?php if ($color_en != 'vase'):?>
+                                            <div class="checkbox-none">
+                                                <input type="checkbox" class="not-available-check form-control" <?= !$status ? 'checked' : ''?> data-id="<?= $image->id?>">
+                                            </div>
+                                        <?php endif;?>
                                         <div class="removeImage" data-image="<?= $image->urlAlias ?>">
                                             <i class="fa fa-times"></i>
                                         </div>
                                         <img src="<?= $image->getUrl('80x') ?>" style="width: 100%">
-                                        <p style="margin-top: 5px; margin-bottom: 0;"><?= $name ? $name : '' ?></p>
-                                        <?php if ($position) {
-                                            echo "<p style='margin: 0'>Pos. №$position</p>";
+                                        <p style="margin-top: 5px; margin-bottom: 0;"><?= $color_en ? $color_en : '' ?></p>
+                                        <?php if ($position && $color_en != 'vase') {
+                                            $show_positon = $position == 'vase' ? 'vase' : 'Pos №' . $position;
+                                            echo "<p style='margin: 0'>$show_positon</p>";
                                         } ?>
                                         <?php if (count($name_explode) > 2) : ?>
                                             <p style="margin: 0"><?= $size ?></p>
@@ -209,7 +217,10 @@ use mihaildev\elfinder\ElFinder;
                         </div>
                     </div>
                     <hr>
-                    <p>The uploaded main image should be uploaded in the gallery</p>
+                    <ol>
+                        <li>Don't upload main image again in the gallery</li>
+                        <li>Upload only one position of one size at a time</li>
+                    </ol>
 
                 </div>
             </div>
@@ -269,7 +280,7 @@ use mihaildev\elfinder\ElFinder;
 
     <!-- COLOR SELECTION MODAL -->
     <div id="img-color" class="modal fade w-25" role="dialog">
-        <div class="modal-dialog" style="width: 300px">
+        <div class="modal-dialog" style="width: 400px">
 
             <!-- Modal content-->
             <div class="modal-content">
@@ -278,16 +289,20 @@ use mihaildev\elfinder\ElFinder;
                     <h4 class="modal-title">Please select a color</h4>
                 </div>
                 <div class="modal-body">
+                    <div class="row">
 
-                    <?php foreach ($colors as $color) : ?>
-                        <?php
-                        $color_img = $color->getImage()
-                        ?>
-                        <img class="color-img" src="<?= $color_img->getUrl('50x') ?>" alt="">
-                        <input type="radio" name="color" id="<?= $color->id ?>" value="<?= $color->color_en ?>">
-                        <label for="<?= $color->id ?>"><?= $color->color_en ?></label>
-                    <?php endforeach; ?>
+                    <?php // show colors in modal
+                        $i = 0; foreach ($colors as $color) : ?>
+                        <?php $color_img = $color->getImage()?>
+                        <div class="col-md-6">
+                            <img class="color-img" src="<?= $color_img->getUrl('50x') ?>" alt="">
+                            <input type="radio" name="color" id="<?= $color->id ?>" data-value-ru="<?= $color->color_ru ?>" value="<?= $color->color_en ?>">
+                            <label for="<?= $color->id ?>"><?= $color->color_en ?></label>
+                        </div>
 
+                    <?php $i++; endforeach; //end showing?>
+
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-success accept-color btn-block">Accept a color</button>

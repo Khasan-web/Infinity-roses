@@ -11,7 +11,7 @@ $gallery = $product->getImages();
 $description = 'description_' . Yii::$app->language;
 ?>
 <section id="product-details">
-    <?php if (count($gallery) > 2):?>
+    <?php if (count($gallery) > 1):?>
     <i class="helper__toggle toggle fa fa-question"></i><span class="helper__label toggle px-0"></span>
     <br class="hide-on-mob">
     <div class="helper col-lg-4 col-md-12 py-0">
@@ -21,10 +21,10 @@ $description = 'description_' . Yii::$app->language;
             <?php if (count($product->prices) > 1) : ?>
             <li><?= Yii::t('app', 'Select a size')?></li>
             <?php endif; ?>
-            <?php if ($product->vase) : ?>
+            <?php if (!empty($product->vase)) : ?>
             <li><?= Yii::t('app', 'If you want, you can select <span class="hide-on-mob"><br></span> an amazing vase for your fresh roses')?></li>
             <?php endif; ?>
-            <?php if ($product->accessories) : ?>
+            <?php if (!empty($product->accessories)) : ?>
             <li><?= Yii::t('app', 'For') . $product->name . Yii::t('app', 'we can offer <span class="hide-on-mob"><br></span> list of parfumes and
                 chocolates')?></li>
             <?php endif;?>
@@ -45,22 +45,54 @@ $description = 'description_' . Yii::$app->language;
                 $main_img_info = explode('_', $mainImage->name);
                 $main_img_count = count($main_img_info);
                 if ($main_img_count > 1) {
-                    $main_color_name = $main_img_info[0];
-                    $main_image_position = $main_img_info[1];
-                    if ($main_img_count > 2) {
-                        $main_image_size = $main_img_info[2];
-                    }
                     $available = end($main_img_info);
+                    // if color which is main image is available or not
+                    if ($available) {
+                        // available
+                        $main_color = $main_img_info[0];
+                        $main_color_ru = $main_img_info[1];
+                        $main_image_position = $main_img_info[2];
+                        if ($main_img_count > 3) {
+                            $main_image_size = $main_img_info[3];
+                        }
+                    } else {
+                        // not available
+                        // get any available color image from gallery
+                        foreach ($gallery as $image) {
+                            $info = explode('_', $image->name);
+                            if (end($info)) {
+                                $main_color = $info[0];
+                                $main_color_ru = $info[1];
+                                $main_image_position = $info[2];
+                                if ($main_img_count > 3) {
+                                    $main_image_size = $info[3];
+                                }
+                                break;
+                            }
+                        }
+                    }
+                    $product_available = empty($main_color) ? false : true;
+                    // end available checking
                 }
                 // end getting info about main image ?>
 
+                <?php // if all colors are not available, in place of main image will be shown main image
+                if (!$product_available) {
+                    // available
+                    $main_color = $main_img_info[0];
+                    $main_color_ru = $main_img_info[1];
+                    $main_image_position = $main_img_info[2];
+                    if ($main_img_count > 3) {
+                        $main_image_size = $main_img_info[3];
+                    }
+                }?>
                 <!-- show main image -->
                 <img 
-                src="<?= $mainImage->getUrl('800x') ?>" 
-                alt="<?= $main_color_name ?>"
+                src="<?= $mainImage->getUrl() ?>" 
+                alt="<?= $main_color ?>"
                 data-position="<?= $main_image_position ?>" 
                 class="active-img" 
-                data-color="<?= $main_color_name ?>">
+                data-color="<?= $main_color ?>">
                 <!-- end show main image -->
                 
 
@@ -74,19 +106,20 @@ $description = 'description_' . Yii::$app->language;
                     <?php // getting data of each image
                     $img_info = explode('_', $image->name);
                     if (count($img_info) > 1) {
-                        $color_name = $img_info[0];
-                        $image_position = $img_info[1];
-                        if (count($img_info) > 2) {
-                            $size = $img_info[2];
+                        $color = $img_info[0];
+                        $color_ru = $img_info[1];
+                        $image_position = $img_info[2];
+                        if (count($img_info) > 3) {
+                            $size = $img_info[3];
                         }
                     }
                     ?>
                     
                     <?php // 1st position
                     if ($image_position == 1 && $image->name != 'vase'):?>
-                    <div class="col-3 position" data-color="<?= $color_name?>">
+                    <div class="col-3 position" data-color="<?= $color?>">
                         <img 
-                        data-src="<?= $image->getUrl('800x') ?>" 
+                        data-src="<?= $image->getUrl() ?>" 
                         src="<?= $image->getUrl('300x') ?>"
                         <?= count($img_info) > 2 ? 'data-size="' . $size . '"' : '' ?>
                         data-position="<?= $image_position ?>"
@@ -96,9 +129,9 @@ $description = 'description_' . Yii::$app->language;
 
                     <?php // 2nd position
                     if ($image_position == 2 && $size == $main_image_size && $image->name != 'vase'):?>
-                    <div class="col-3 position" data-color="<?= $color_name?>">
+                    <div class="col-3 position" data-color="<?= $color?>">
                         <img 
-                        data-src="<?= $image->getUrl('800x') ?>" 
+                        data-src="<?= $image->getUrl() ?>" 
                         src="<?= $image->getUrl('300x') ?>"
                         <?= count($img_info) > 2 ? 'data-size="' . $size . '"' : '' ?>
                         data-position="<?= $image_position ?>" 
@@ -116,12 +149,12 @@ $description = 'description_' . Yii::$app->language;
                     <?php // getting image (closed position) info
                     $info = explode('_', $image->name);
                     // if there is a closed word, we make select it
-                    if (in_array('closed', $info)) : ?>
+                    if (in_array('closed', $info) && in_array($size, $info)) : ?>
 
                     <!-- show closed info -->
                     <div class="col-3 closed-img">
                         <img 
-                        data-src="<?= $image->getUrl('800x') ?>" 
+                        data-src="<?= $image->getUrl() ?>" 
                         class="closed" 
                         src="<?= $image->getUrl('300x') ?>"
                         <?= count($img_info) > 1 ? 'data-size="' . $size . '"' : '' ?>
@@ -159,7 +192,7 @@ $description = 'description_' . Yii::$app->language;
                 array_multisort($price, SORT_ASC, $prices);
                 // end getting info about sizes ?>
 
-                <div class="row colors">
+                <div class="row colors <?= count($gallery) > 1 ? '' : 'd-none'?>">
 
                     <?php // show images with different colors
                     usort($gallery, function ($a, $b) {
@@ -169,33 +202,44 @@ $description = 'description_' . Yii::$app->language;
 
                     <?php // getting info about images
                     $img_info = explode('_', $image->name);
-                    $color_name = '';
+                    $color = '';
                     $image_position = '';
                     if (count($img_info) > 1) {
-                        $color_name = $img_info[0];
-                        $image_position = $img_info[1];
-                        if (count($img_info) > 2) {
-                            $prod_size = $img_info[2];
+                        $color_en = $img_info[0];
+                        if (Yii::$app->language == 'ru') {
+                            $color = $img_info[1];
+                        } else {
+                            $color = $img_info[0];
+                        }
+                        $image_position = $img_info[2];
+                        if (count($img_info) > 3) {
+                            $prod_size = $img_info[3];
                         }
                     }
                     $available = end($img_info);
                     // end getting info about images ?>
 
                     <!-- show images -->
-                    <div class="col-3 color" data-available="<?= $available?>" title="<?= $available ? $color_name : 'Not available'?>" style="opacity: <?= $available ? '1' : '0.5'?>; cursor: <?= $available ? 'pointer' : 'no-drop'?>;">
-                        <img data-src="<?= $image->getUrl('800x') ?>" src="<?= $image->getUrl('200x')?>"
-                            alt="<?= $color_name ?>" data-position="<?= $image_position ?>"
-                            data-color="<?= $color_name ?>"
-                            style="cursor: <?= $available ? 'pointer' : 'no-drop'?>;"
+                    <div class="col-3 color" data-available="<?= $available || !$product_available?>" title="<?= $available || !$product_available ? $color : Yii::t('app', 'Not available')?>" style="opacity: <?= $available || !$product_available ? '1' : '0.5'?>; cursor: <?= $available || !$product_available ? 'pointer' : 'no-drop'?>;">
+                        <img data-src="<?= $image->getUrl() ?>" 
+                            src="<?= $image->getUrl('200x')?>"
+                            alt="<?= $color ?>" 
+                            data-position="<?= $image_position ?>"
+                            data-color="<?= $color_en ?>"
+                            style="cursor: <?= $available || !$product_available ? 'pointer' : 'no-drop'?>;"
                             <?= count($img_info) > 2 ? 'data-size="' . $prod_size . '"' : '' ?>>
-                        <span><?= ucfirst($color_name) ?></span>
+                        <?php if (count($gallery) > 1):?>
+                            <p class="d-inline"><?= ucfirst($color) ?></p>
+                        <?php endif;?>
                     </div>
                     <!-- end show images -->
 
                     <?php endforeach; // show images with different colors ?>
 
                 </div>
-                <hr>
+                <?php if (count($gallery) > 1):?>
+                    <hr>
+                <?php endif;?>
                 <div class="row my-4 info-panel">
                     <div class="col-5">
                         <h3 class="mb-0 product__price"><?= Yii::t('app', 'Price') ?></h3>
@@ -203,26 +247,29 @@ $description = 'description_' . Yii::$app->language;
                     <div class="col-7 size">
                         <select class="custom-select d-inline" id="product__size">
 
-                            <?php // getting sizes of a product
-                            $i = 0;
-                            foreach ($prices as $size) : ?>
-                            <?php if ($i = 0) : ?>
-                            <option selected data-price="<?= $size->price ?>" data-width="<?= $size->width ?>"
-                                data-height="<?= $size->height ?>" value="<?= $size->size ?>"><?= $size->$size_name ? ucfirst($size->$size_name) : $size->size ?>
-                            </option>
-                            <?php endif; ?>
-                            <option data-price="<?= $size->price ?>" data-width="<?= $size->width ?>"
-                                data-height="<?= $size->height ?>" value="<?= $size->size ?>">
-                                <?= $size->$size_name ? ucfirst($size->$size_name) : $size->size?></option>
-                            <?php endforeach; // end etting sizes of a product ?>
+                        <?php // getting sizes of a product
+                        $i = 0;
+                        foreach ($prices as $size) : ?>
+                        <?php if ($i = 0) : ?>
+                        <option selected data-price="<?= $size->price ?>" data-width="<?= $size->width ?>"
+                            data-height="<?= $size->height ?>" value="<?= $size->size ?>"><?= $size->$size_name ? ucfirst($size->$size_name) : $size->size ?>
+                        </option>
+                        <?php endif; ?>
+                        <option data-price="<?= $size->price ?>" data-width="<?= $size->width ?>"
+                            data-height="<?= $size->height ?>" value="<?= $size->size ?>">
+                            <?= $size->$size_name ? ucfirst($size->$size_name) : $size->size?></option>
+                        <?php endforeach; // end etting sizes of a product ?>
 
                         </select>
+
                         <?php // show height and width of a size
                         if ($prices[0]->width) : ?>
-                        <span class="width_height"><?= Yii::t('app', 'Height') ?>: <span
-                                class="height">--</span><?= Yii::t('app', 'cm'); ?> | <?= Yii::t('app', 'Width') ?>:
-                            <span class="width">--</span><?= Yii::t('app', 'cm'); ?></span>
+                        <span class="width_height">
+                        <span class="hide-on-mob"><?= Yii::t('app', 'Height') ?></span><span class="show-on-mob-inline"><?= Yii::t('app', 'H') ?></span>: <span class="height">--</span><?= Yii::t('app', 'cm'); ?> | 
+                        <span class="hide-on-mob"><?= Yii::t('app', 'Width') ?></span><span class="show-on-mob-inline"><?= Yii::t('app', 'W') ?></span>: <span class="width">--</span><?= Yii::t('app', 'cm'); ?>
+                        </span>
                         <?php endif; // end showing ?>
+
                     </div>
 
                     <!-- share buttons -->
@@ -231,8 +278,14 @@ $description = 'description_' . Yii::$app->language;
                         <div class="ya-share2" data-services="facebook,whatsapp,twitter,telegram"></div>
                     </div>
                     <div class="col-lg-7 col-md-12 text-center">
-                        <button class="btn btn-dark add-to-cart btn-block mt-2" data-id="<?= $product->id ?>"><i
-                                class="fas fa-shopping-cart mr-1"></i> <?= Yii::t('app', 'Add to cart!') ?></button>
+                        <?php // check does any color of a product is available
+                        if ($product_available):?>
+                            <button class="btn btn-dark add-to-cart btn-block mt-2" data-id="<?= $product->id ?>">
+                                <i class="fas fa-shopping-cart mr-1"></i> <?= Yii::t('app', 'Add to cart!') ?>
+                            </button>1
+                        <?php else:?>
+                            <h4 class="mt-4" style="color: grey">Not available</h4>
+                        <?php endif; // end checking?>
                     </div>
                     <div class="col-lg-5 col-md-12 share-buttons show-on-mob mt-3">
                         <span><?= Yii::t('app', 'Share') ?> <?= $product->name ?></span>
@@ -243,32 +296,33 @@ $description = 'description_' . Yii::$app->language;
 
                 </div>
                 <?php // showing a vase
-                if ($product->vase) : ?>
+                if (!empty($product->vase)) : ?>
 
                 <?php // getting a vase
                 foreach ($gallery as $image) {
-                    if ($image->name == 'vase') {
+                    if (in_array('vase', explode('_', $image->name))) {
                         $vase = $image;
                     }
                 }
                 // end getting a vase ?>
 
+                <?php if (isset($vase)):?>
                 <!-- show a vase -->
                 <hr>
                 <div class="vase dark-elements my-4">
                     <div class="checkbox">
                         <div class="custom-control d-inline custom-checkbox mx-2">
-                            <img src="<?= $vase->getUrl('80x') ?>" style="width: 80px" alt="vase">
+                            <img src="<?= $vase->getUrl('80x')?>" style="width: 80px" alt="vase">
                             <input type="checkbox" class="custom-control-input vase">
                             <label class="custom-control-label" for="customSwitches">Vase</label>
                         </div>
                         <p class="mt-1 text-center"><span class="vase-price"><?= $product->vase ?></span> sum</p>
                     </div>
                     <div>
-                        <p class="tip">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe fugiat eaque
-                            quaerat</p>
+                        <p class="tip"><?= Yii::t('app', 'To add a vase to your rose composition, just click on the vase or on the checkbox under it.')?></p>
                     </div>
                 </div>
+                <?php endif;?>
 
                 <?php endif; // end showing a vase ?>
 
@@ -335,8 +389,6 @@ $description = 'description_' . Yii::$app->language;
                 <p class="mx-3">
                     <?= Yii::t('app', 'Firstly bla bla bla Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate eius ducimus molestias est, temporibus quia.') ?>
                 </p>
-                <?php else : ?>
-                <hr>
                 <?php endif; // end showing parfume and chocalate ?>
             </div>
         </div>

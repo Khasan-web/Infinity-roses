@@ -19,6 +19,15 @@ class CategoryController extends AppController {
             throw new HttpException(404, 'This category does not exist');
         }
         $products = Product::find()->where(['category_id' => $id])->all();
+        // if (empty($products) && !empty($category->category)) {
+        //     foreach ($category->category as $cat) {
+        //         if (!empty($cat->product)) {
+        //             foreach ($cat->product as $prod) {
+        //                 array_push($products, $prod);
+        //             }
+        //         }
+        //     }
+        // }
         $name = getLang('name');
         $description  = 'description_' . Yii::$app->language;
         $this->setMeta($category->$name, $category->keywords, $category->$description);
@@ -53,13 +62,13 @@ class CategoryController extends AppController {
         return $this->render('search-li', compact('products'));
     }
 
-    public function actionCelebrationDecoration() {
-        $category = Category::findOne(4);
-        $name = 'name_' . Yii::$app->language;
+    public function actionDecorationOfEvents() {
+        $category = Category::find()->where(['like', 'keywords', '%events-decoration%', false])->one();
+        $name = getLang('name');
         $gallery = Gallery::find()->asArray()->where(['category_id' => $category->id])->all();
-        $description = 'description_' . Yii::$app->language;
-        $this->setMeta(Yii::t('app', 'Celebration Decoration'), null, 'celebration decoration tashket декорыция мероприятий ташкент');
-        return $this->render('celebration-decoration', compact('category', 'name', 'description', 'gallery'));
+        $description = getLang('description');
+        $this->setMeta(Yii::t('app', 'Decoration of Events'), null, 'Decoration of Events tashket декорыция мероприятий ташкент');
+        return $this->render('events-decoration', compact('category', 'name', 'description', 'gallery'));
     }
 
     public function actionBusiness() {

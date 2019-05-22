@@ -23,7 +23,7 @@ function checkGetParam($param)
                 <div class="col-md-2 col-12 mx-auto">
                     <div class="custom-control custom-switch">
                         <input type="checkbox" name="event" class="custom-control-input" <?= Yii::$app->request->get('event') || Yii::$app->request->get('GiftFinderForm')['event'] ? 'checked' : '' ?>>
-                        <label class="custom-control-label" for="customSwitches"><?= Yii::t('app', "Valentine's") ?></label>
+                        <label class="custom-control-label" style="line-height: 18px" for="customSwitches"><?= $giftFinder_event?></label>
                     </div>
                 </div>
                 <div class="col-md-2 col-12 mx-auto">

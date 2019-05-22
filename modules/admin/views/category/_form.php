@@ -49,7 +49,7 @@ $mainImage = $model->getImage();
                 </div>
                 <div class="col-md-9">
                     <?= $form->field($model, 'image', ['labelOptions' => ['class' => 'btn btn-default', 'style' => 'display: block']])->fileInput(['class' => 'uploadImage', 'style' => 'width: 0.1px; height: 0.1px'])->label('<i class="fa fa-upload"></i> Upload image', ['']) ?>
-                    <hr>
+                    <p>
                     <div class="col-md-6" style="padding: 0">
                         <p>Available extentions - jpg, jpeg, png</p>
                     </div>
@@ -62,6 +62,20 @@ $mainImage = $model->getImage();
         <div class="panel-heading">3. Work with text</div>
         <div class="panel-body">
 
+            <?php
+                if (isset($model->keywords)) {
+                    $keywords_arr = explode(' ', $model->keywords);
+                    if (in_array('unique', $keywords_arr)) {
+                        $keys_count = count($keywords_arr);
+                        for ($i = 0; $i < $keys_count; $i++) {
+                            if ($keywords_arr[$i] == 'unique' || $keywords_arr[$i] == 'events-decoration' || $keywords_arr[$i] == 'business-roses') {
+                                unset($keywords_arr[$i]);
+                            }
+                        }
+                        $model->keywords = implode(" ", $keywords_arr);
+                    }
+                }
+            ?>
             <?= $form->field($model, 'keywords')->textInput(['maxlength' => true]) ?>
 
             <?php

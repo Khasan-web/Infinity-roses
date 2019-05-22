@@ -21,6 +21,10 @@ body {
     text-decoration: underline !important;
 }
 
+.a-underline:hover {
+    text-decoration: none !important;
+}
+
 .modal-header {
     border-bottom: 1px solid #B89C64 !important;
 }
@@ -539,7 +543,7 @@ a.desc:after {
 
 .category-info {
     z-index: 100;
-    width: 50% !important;
+    width: 35% !important;
 }
 
 .product__position {
@@ -885,10 +889,35 @@ input.leaflet-bar {
     left: calc(50% - 10px);
     transform: rotate(45deg);
     background-color: #fff;
+    z-index: 5;
 }
 
 #gift-finder-item label {
     line-height: 16px;
+}
+
+.show-on-mob-inline {
+    display: none;
+}
+
+.more-info-show {
+    color: grey;
+}
+.more-info-show:hover {
+    color: grey;
+}
+.more-info p {
+    display: none;
+}
+
+.business-cats-img {
+    position: relative;
+    overflow: hidden;
+    height: 50vh;
+}
+.business-cats-img img {
+    width: 100%;
+    transform: translateY(-50%);
 }
 
 
@@ -902,10 +931,6 @@ input.leaflet-bar {
 
     .notification {
         margin-bottom: 0;
-    }
-
-    .category-info {
-        width: 100% !important;
     }
 
     .btn {
@@ -956,6 +981,10 @@ input.leaflet-bar {
         padding: 8px 15px !important;
     }
 
+    .category-info {
+        width: 100% !important;
+    }
+
     .dropdown-menu {
         display: none !important;
     }
@@ -987,6 +1016,10 @@ input.leaflet-bar {
 
     .business-roses p {
         text-align: left;
+    }
+
+    .show-on-mob-inline {
+        display: inline!important;
     }
 }
 

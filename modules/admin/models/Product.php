@@ -61,7 +61,8 @@ class Product extends \yii\db\ActiveRecord
             [['accessories', 'vase'], 'safe'],
             [['size_list', 'size_main', 'not_available'], 'trim'],
             [['description_en', 'description_ru', 'hit'], 'string'],
-            [['name', 'keywords'], 'string', 'max' => 255],
+            [['name'], 'string', 'max' => 255],
+            [['keywords'], 'string', 'max' => 500],
             [['image'], 'file', 'extensions' => 'png, jpg, jpeg'],
             [['gallery'], 'file', 'extensions' => 'png, jpg, jpeg', 'maxFiles' => 35],
         ];

@@ -61,7 +61,7 @@ class GalleryController extends Controller
                 $dropdownArr[$category['id']] = $category['name_en'];
             }
         }
-
+        
         if ($model->load(Yii::$app->request->post())) {
             $model->gallery = UploadedFile::getInstances($model, 'gallery');
             // upload function

@@ -79,7 +79,7 @@ $this->params['breadcrumbs'][] = ['label' => 'View'];
                     if ($model->vase) {
                         $images = $model->getImages();
                         foreach ($images as $image) {
-                            if ($image->name == 'vase') {
+                            if (in_array('vase', explode('_', $image->name))) {
                                 return "<img src='{$image->getUrl('80x')}'></img><span>" . priceWithSpaces($model->vase) . " sum</span>";
                             }
                         }

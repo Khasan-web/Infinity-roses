@@ -84,7 +84,7 @@
     margin-top: 15px;
 }
 
-.btn-not_available {
+.btn-not_available, .btn-remove_all {
     float: right;
 }
 

@@ -5,7 +5,7 @@ use yii\helpers\Url;
 
 ?>
 
-<img src="<?= Url::base(true) . '/web/img/mail-header.jpg';?>" alt="">
+<img src="<?= Url::base(true) . '/web/img/mail-header.jpg';?>" style="width: 100%" alt="">
 <table style="width: 100%; border: 1px solid #ddd; border-collapse: collapse;">
     <thead>
     <tr style="background: #f9f9f9;">

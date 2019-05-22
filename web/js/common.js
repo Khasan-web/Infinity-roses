@@ -48,7 +48,7 @@ var ru;
 if (window.location.href.indexOf("ru") > -1) {
 	ru = 'ru/';
 } else {
-	ru = '';
+	ru = false;
 }
 
 // get GET parametrs
@@ -485,6 +485,7 @@ $(function () {
 	function positionsByColor(currentColor) {
 		var size = $('.size select').children('option:selected').val();
 		$('.product__position .position').each(function (i) {
+			console.log(size + ' | ' + currentColor);
 			if ($(this).data('color') == currentColor && $(this).find('img').data('size') == size) {
 				$(this).show(0);
 			} else {
@@ -1159,5 +1160,24 @@ $(function () {
 	});
 
 	// SHOW MAP END
+
+
+	// Get detailed description of a sub-category on category view page
+	$('#cat').on('click', '.more-info-show', function() {
+		// clicked to show
+		if ($(this).hasClass('show')) {
+			$(this).removeClass('show').addClass('hide');
+			ru ? $(this).html('Скрыть информацию') : $(this).html('Hide info');
+			$('.more-info p').show();
+		} 
+		// clicked to hide
+		else if ($(this).hasClass('hide')) {
+			ru ? $(this).html('Читать больше...') : $(this).html('Read more...');
+			$(this).removeClass('hide').addClass('show');
+			$('.more-info p').hide();
+		}
+		return false;
+	});
+	// End detailed description
 
 });

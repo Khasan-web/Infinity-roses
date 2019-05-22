@@ -6,6 +6,8 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model app\modules\admin\models\Color */
 /* @var $form yii\widgets\ActiveForm */
+
+$mainImage = $model->getImage();
 ?>
 
 <div class="color-form">

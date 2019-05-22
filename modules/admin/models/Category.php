@@ -50,7 +50,8 @@ class Category extends \yii\db\ActiveRecord
         return [
             [['name_en', 'name_ru', 'description_en', 'description_ru', 'keywords'], 'required'],
             [['description_en', 'description_ru'], 'string'],
-            [['name_en', 'name_ru', 'keywords'], 'string', 'max' => 255],
+            [['name_en', 'name_ru'], 'string', 'max' => 255],
+            [['keywords'], 'string', 'max' => 500],
             [['image'], 'file', 'extensions' => 'png, jpg, jpeg'],
             ['parent_id', 'safe'],
         ];

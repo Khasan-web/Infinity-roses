@@ -386,6 +386,7 @@ $(function () {
             // nothing
         } else {
             $('#product-size_list').val('');
+            colors_data = [];
         }
 
         function readFile(index) {
@@ -405,7 +406,7 @@ $(function () {
                 size_html = size == undefined ? '' : size;
 
                 // make sure that everything exists
-                if (position != 'closed') {
+                if (position != 'closed' && position != 'vase') {
                     position_html = position == undefined ? '' : 'Pos. №' + position;
                     // add to preview and add data info [size, position, index]
                     if ($('.product-form').length) {
@@ -414,12 +415,20 @@ $(function () {
                         // if the upload system is used from another section, like gallery and so on
                         $('.preview-images').html($('.preview-images').html() + '<div class="col-md-1 col-sm-2"><img src="' + bin + '" style="width: 100%"><p style="margin: 0">' + position_html + '</p><p style="margin: 0">' + size_html + '</p></div>');
                     }
-                } else {
+                } else if (position == 'closed') {
                     position_html = position;
                     $('.preview-images').html($('.preview-images').html() + '<div class="col-md-1 col-sm-2" data-index="' + ($('.preview-images div').length) + '" data-size="' + size + '" data-position="' + position + '"><img src="' + bin + '" style="width: 100%"><p style="margin: 0">' + position_html + '</p><p style="margin: 0">' + size_html + '</p></div>');
                     // Set data abt closed img in the input with all data
                     var dataStr = '_' + position + '_' + size;
-                    $('#product-size_list').val($('#product-size_list').val() + ($('#product-size_list').val() != false ? ',' : '') + dataStr);
+                    // push into colors_data array
+                    colors_data[($('.preview-images div').length)] = dataStr;
+                } else if (position == 'vase') {
+                    position_html = position;
+                    $('.preview-images').html($('.preview-images').html() + '<div class="col-md-1 col-sm-2" data-index="' + ($('.preview-images div').length) + '" data-size="' + size + '" data-position="' + position + '"><img src="' + bin + '" style="width: 100%"><p style="margin: 0">' + position_html + '</p></div>');
+                    // Set data abt vase img in the input with all data
+                    var dataStr = position;
+                    // push into colors_data array
+                    colors_data[($('.preview-images div').length)] = dataStr;
                 }
 
                 // do smth with bin
@@ -458,45 +467,38 @@ $(function () {
     });
 
 
-    // change selected color of certain image | function
-    function changeColor(index) {
-        var dataInput = $('#product-size_list'),
-            explodedImages = dataInput.val().split(',');
-
-        explodedImages.forEach(image => {
-            var imageExploded = image.split('_');
-            console.log(parseInt(imageExploded[3]) + ' | ' + index);
-            if (parseInt(imageExploded[3]) == index) {
-                var strVal = dataInput.val();
-                strVal.replace('black', '');
-                dataInput.val(strVal);
-            }
-        });
-
-
-    }
+    // selected colors array
+    colors_data = [];
 
     // Accept a color
     $('.accept-color').click(function () {
         // save selected color
-        var color = $('#img-color input[type="radio"]:checked').val();
-        if (color == undefined) {
+        var color = $('#img-color input[type="radio"]:checked');
+        if (color.val() == undefined) {
             return false;
         }
         // check does selected color for a main image or not
         if (mainImageSelecting) {
-            var dataStr = color + '_' + $('.main-image').data('position') + '_' + $('.main-image').data('size');
+            var dataStr = color.val() + '_' + color.data('value-ru') + '_' + $('.main-image').data('position') + '_' + $('.main-image').data('size');
             $('#product-size_main').val(dataStr);
             mainImageSelecting = false;
+            
+            // set new style and color name in the color button
+            var modalColorBtn = $('.main-img-color');
+            modalColorBtn.text(color.val().toUpperCase());
+            modalColorBtn.removeClass('btn-warning');
+            modalColorBtn.addClass('btn-default');
         } else {
-            var dataStr = color + '_' + currentImg.data('position') + '_' + currentImg.data('size');
+            var dataStr = color.val() + '_' + color.data('value-ru') + '_' + currentImg.data('position') + '_' + currentImg.data('size');
     
-            // Set data in the input with all data 
-            $('#product-size_list').val($('#product-size_list').val() + ($('#product-size_list').val() != false ? ',' : '') + dataStr);
-    
-            // check does we added a new color or we change one
-            changeColor(currentImg.data('index'));
+            // set new style and color name in the color button
+            var modalColorBtn = currentImg.find('.img-color');
+            modalColorBtn.text(color.val().toUpperCase());
+            modalColorBtn.removeClass('btn-warning');
+            modalColorBtn.addClass('btn-default');
 
+            // push into colors_data array and after clicking on .save-product btn, it automatically will write it in product-size_list input
+            colors_data[currentImg.data('index')] = dataStr;
         }
 
         // hide the modal
@@ -505,11 +507,6 @@ $(function () {
         // clear checked radio
         $('#img-color input[type="radio"]:checked').prop('checked', false);
 
-        // set new style and color name in the color button
-        var modalColorBtn = currentImg.find('.img-color');
-        modalColorBtn.text(color.toUpperCase());
-        modalColorBtn.removeClass('btn-warning');
-        modalColorBtn.addClass('btn-default');
     });
 
 
@@ -669,7 +666,7 @@ $(function () {
         }
 
         // paste new checked products into non_available input with their id
-        // clear inout
+        // clear input
         $('#product-not_available').val('');
         // check all checkboxes
         $('.not-available-check').each(function (i) {
@@ -680,6 +677,18 @@ $(function () {
                 $('#product-not_available').val(!$('#product-not_available').val() ? $('#product-not_available').val() + $(this).data('id') + '_' + '1' : $('#product-not_available').val() + ',' + $(this).data('id') + '_' + '1');
             }
         });
+
+        // add list of selected colors and additional info like position and size
+        var colors_info_inp = $('#product-size_list');
+        colors_info_inp.val('');
+        colors_data.forEach(color => {
+            if (colors_info_inp.val()) {
+                colors_info_inp.val(colors_info_inp.val() + ',' + color);
+            } else {
+                colors_info_inp.val(color);
+            }
+        });
+        // end adding
     });
 
 
@@ -779,11 +788,17 @@ $(function () {
         $('.btn-sizes .size-toggle').removeClass('btn-warning');
         $('.btn-sizes .size-toggle').addClass('btn-default');
         $(this).addClass('btn-warning');
-        $('.btn-sizes .gallery .size').each(function (i) {
+        $('.gallery .size').each(function (i) {
             $(this).show(0);
         });
         // prevent default behaviour
         return false;
+    });
+
+    $(document).click(function(){
+        $('.btn-sizes .gallery .size').each(function (i) {
+            $(this).show(0);
+        });
     });
 
     // SIZE TOGGLE END
@@ -810,6 +825,28 @@ $(function () {
     });
 
     // POSITION TOGGLE END
+
+    // VASE TOGGLE
+
+    // check does the product have a vase
+    function vaseCheck() {
+        if ($('#product-vase').val()) {
+            $('.vase-toggle').show();
+        } else {
+            $('.vase-toggle').hide();
+        }   
+    }
+
+    vaseCheck();
+
+    // make checking on every change of the vase pricing input
+    $('#product-vase').keyup(function() {
+        vaseCheck();
+        $('#product-gallery').val('');
+        $('.preview-images').html('');
+    });
+
+    // VASE TOGGLE END
 
 
 
@@ -841,5 +878,42 @@ $(function () {
     });
 
     // NOT AVAILABLE END
+
+
+    // REMOVE ALL IMAGES
+
+    $('.btn-remove_all').click(function() {
+        var id = $('.product-form').data('id');
+        if (confirm('All images will be permanently deleted')) {
+            $.ajax({
+                url: '/' + ru + 'admin/product/remove-all',
+                type: 'GET',
+                data: {id: id},
+                success: function(res) {
+                    if (!res) {
+                        return false
+                    } else {
+                        // remove all preview images from gallery
+                        $('.gallery .size').remove();
+
+                        // clear src of main image
+                        $('.product-form .preview-image img').attr('src', '');
+                        
+                        // make button to choose the main image color active
+                        $('.main-img-color').removeClass('btn-default');
+                        $('.main-img-color').addClass('btn-warning');
+                        $('.main-img-color').val('COLOR');
+                    };
+                },
+                error: function(xml) {
+                    console.log(xml);
+                }
+            });
+        } 
+
+        return false;
+    });
+
+    // END REMOVE ALL IMAGES
 
 });

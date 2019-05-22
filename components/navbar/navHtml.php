@@ -47,12 +47,20 @@ $luxury_sub_cats = [];
             <?php foreach ($this->categories as $cat) : ?>
                 <?php
                 // show only independent categories and hide business section
-                if ($cat->parent_id == 0 && $cat->name_en != 'Roses for Business' && $cat->name_en != 'Celebration Decorations') : ?>
+                if ($cat->parent_id == 0 && !in_array('unique', explode(' ', $cat->keywords))) : ?>
                     <li class="nav-item drop-item <?= $id == $cat->id && $action == 'view' && $controller == 'category' || $active_category == $cat->id ? 'active' : '' ?>" id="<?= $cat->id ?>">
                         <a class="nav-link" style="padding: 3px 15px;" href="<?= Url::to(['category/view', 'id' => $cat->id]); ?>" role="button" id="dropdown-menu" aria-haspopup="true" aria-expanded="false"><?= $cat->$name ?></a>
                         <div class="dropdown-menu" aria-labelledby="dropdown-menu">
                             <div class="container">
-                                <?php if ($cat->name_en == 'Luxury Collection') : ?>
+                                <?php // show products of categories
+                                $prods_exist = false;
+                                if (!empty($cat->category)) {
+                                    $prods_exist = true;
+                                }
+                                if (!empty($cat->product)) {
+                                    $prods_exist = true;
+                                }
+                                if (!empty($cat->category) && boolval($prods_exist)) : ?>
                                     <div class="row mb-5 mt-4 content luxury-collection">
                                         <?php foreach ($cat->category as $subcat) : ?>
                                             <div class="col-lg-2 col-md-4 p-0">
@@ -80,7 +88,7 @@ $luxury_sub_cats = [];
                                             <p><?= $desc_arr[0] ?></p>
                                         </div>
                                     </div>
-                                <?php else : ?>
+                                <?php elseif (empty($cat->category) && boolval($prods_exist)) : ?>
                                     <div class="row mb-5 mt-4 content">
                                         <div class="col-lg-2 offset-lg-1 col-md-4">
                                             <ul class="list-unstyled">
@@ -120,15 +128,18 @@ $luxury_sub_cats = [];
                                             </a>
                                         </div>
                                     </div>
+                                <?php elseif (!boolval($prods_exist)):?>
+                                    <h2 class="not-found text-center"><?= $cat->$name . ' ' . Yii::t('app', 'will be added soon!')?></h2>
                                 <?php endif; ?>
+ 
                             </div>
                         </div>
                     </li>
                 <?php endif; ?>
                 <?php $i++;
             endforeach; ?>
-            <li class="nav-item <?= $controller == 'category' && $action == 'celebration-decoration' ? 'active' : '' ?>">
-                <a class="nav-link" href="<?= Url::to(['category/celebration-decoration']) ?>"><?= Yii::t('app', 'Celebration Decoration'); ?></a>
+            <li class="nav-item <?= $controller == 'category' && $action == 'decoration-of-events' ? 'active' : '' ?>">
+                <a class="nav-link" href="<?= Url::to(['category/decoration-of-events']) ?>"><?= Yii::t('app', 'Decoration of Events'); ?></a>
             </li>
             <li class="nav-item <?= $controller == 'site' && $action == 'contact' ? 'active' : '' ?>">
                 <a class="nav-link" href="<?= Url::to(['site/contact']) ?>"><?= Yii::t('app', 'Contacts'); ?></a>
