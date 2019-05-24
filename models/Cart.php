@@ -5,43 +5,43 @@ use yii\db\ActiveRecord;
 class Cart extends ActiveRecord {
     
     public function addToCart($product, $size, $color, $accessories, $vase = false) {
-        $i = 0;
-        if (isset($_SESSION['cart'])) {
-            $i = count($_SESSION['cart']);
-        }
-        if ($i != 0) {
-            for ($id = 0; $id <= $i; $id++) {
+        $cart_count = 0;
+        $cart_count = count($_SESSION['cart']);
+        $new = true;
+        if ($cart_count > 1) {
+            for ($id = 0; $id <= $cart_count; $id++) {
                 if ($_SESSION['cart'][$id]['id'] == $product->id && 
                     $_SESSION['cart'][$id]['name'] == $product->name && 
                     $_SESSION['cart'][$id]['size'] == $size['selected_size'] && 
                     $_SESSION['cart'][$id]['parfume'] == $accessories['parfume'] && 
                     $_SESSION['cart'][$id]['chocolate'] == $accessories['chocolate'] && 
                     $_SESSION['cart'][$id]['color'] == $color['color'] &&
-                    $_SESSION['cart'][$id]['vase'] == $vase) 
+                    $_SESSION['cart'][$id]['vase'] == $vase)
                 {
 
                     $_SESSION['cart'][$id]['qty'] += 1;
+                    $new = false;
                     break;
 
                 }
-                if ($id == $i) {
-                    $_SESSION['cart'][$i] = [
-                        'id' => $product->id,
-                        'qty' => 1,
-                        'name' => $product->name,
-                        'price' => $size['price'],
-                        'img' => $color['img'],
-                        'size' => $size['selected_size'],
-                        'color' => $color['color'],
-                        'parfume' => empty($accessories) ? $accessories['parfume'] : false, // if accessories will not be important set them in condition
-                        'chocolate' => empty($accessories) ? $accessories['chocolate'] : false,
-                        'vase' => $vase,
-                    ];
-                    break;
-                }
             }
+            if ($new) {
+                $_SESSION['cart'][$cart_count] = [
+                    'id' => $product->id,
+                    'qty' => 1,
+                    'name' => $product->name,
+                    'price' => $size['price'],
+                    'img' => $color['img'],
+                    'size' => $size['selected_size'],
+                    'color' => $color['color'],
+                    'parfume' => empty($accessories) ? $accessories['parfume'] : false, // if accessories will not be important set them in condition
+                    'chocolate' => empty($accessories) ? $accessories['chocolate'] : false,
+                    'vase' => $vase,
+                ];
+            }
+
         } else {
-            $_SESSION['cart'][$i] = [
+            $_SESSION['cart'][$cart_count] = [
                 'id' => $product->id,
                 'qty' => 1,
                 'name' => $product->name,

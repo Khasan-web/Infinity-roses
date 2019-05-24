@@ -485,7 +485,6 @@ $(function () {
 	function positionsByColor(currentColor) {
 		var size = $('.size select').children('option:selected').val();
 		$('.product__position .position').each(function (i) {
-			console.log(size + ' | ' + currentColor);
 			if ($(this).data('color') == currentColor && $(this).find('img').data('size') == size) {
 				$(this).show(0);
 			} else {
@@ -818,6 +817,7 @@ $(function () {
 				},
 				success: function (res) {
 					if (!res) goldAlert('Error!');
+					console.log(res);
 					$('.cart-qty').text(parseInt($('.cart-qty').text()) + 1);
 					showCart(res);
 				},
