@@ -200,11 +200,6 @@ class ProductController extends AppController
             }
         }
 
-        // // show all products, if all filters off 
-        // if (empty($request->get())) {
-        //     $products = $prods;
-        // }
-        // if there is only price filter
         if (count($request->get()) == 1 && $request->get('price')) {
             if ($price[0] != $minmax['min'] || $price[1] != $minmax['max']) {
                 $products = $prods;
@@ -246,21 +241,6 @@ class ProductController extends AppController
                 // price filter end
             }
         }
-
-        // remove same products
-        // $prev_name = '';
-        // $product_count = count($products);
-        // for ($i = 0; $i < $product_count; $i++) {
-        //     if ($prev_name == '') {
-        //         $prev_name = $products[$i]->name;
-        //     } else {
-        //         if ($prev_name == $products[$i]->name) {
-        //             unset($products[$i]);
-        //         } else {
-        //             $prev_name = $products[$i]->name;
-        //         }
-        //     }
-        // }
 
         $this->setMeta(Yii::t('app', 'Gift Finder'), 'gift finder roses beautiful tashkent поиск подарков красивый розы ташкент', Yii::t('app', 'Gift finder is a filter that helps you find the most suitable composition of roses for a gift, and Gift finder can be used as a more convenient version of the search for roses among the assortment of Infinity Roses!'));
         return $this->render('finder', compact('model', 'products', 'name', 'minmax', 'price', 'giftFinder_event'));

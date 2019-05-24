@@ -23,7 +23,17 @@ class GiftFinder extends Widget {
     public function run () {
         // get max and min price
         $nav = new Navbar();
-        $this->events = Events::find()->asArray()->all();
+
+        // caching events
+        if (Yii::$app->cache->exists('events')) {
+            $this->events = Yii::$app->cache->get('events');
+        } else {
+            $events_cache = Events::find()->all();
+            Yii::$app->cache->set('events', $events_cache, 60);
+            $this->events = $events_cache;
+        }
+        // end caching events
+
         $this->model = new GiftFinderForm();
         $this->minmax = [
             'min' => 0,

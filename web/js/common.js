@@ -48,7 +48,7 @@ var ru;
 if (window.location.href.indexOf("ru") > -1) {
 	ru = 'ru/';
 } else {
-	ru = false;
+	ru = '';
 }
 
 // get GET parametrs

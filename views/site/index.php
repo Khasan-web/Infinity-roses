@@ -44,10 +44,21 @@ $date = date('d');
                 <div class="row mt-5">
                     <?php $delay = 0.6; ?>
                     <?php foreach ($hits as $hit) : ?>
-                        <?php
+
+                        <?php 
+                        // delay to make fade effect
                         $delay += 0.2;
-                        $image = $hit->getImage();
-                        ?>
+
+                        // caching hits
+                        if (Yii::$app->cache->exists($hit->id. 'hit_img')) {
+                            $image = Yii::$app->cache->get($hit->id. 'hit_img');
+                        } else {
+                            $image_cache = $hit->getImage();
+                            Yii::$app->cache->set($hit->id. 'hit_img', $image_cache, 60);
+                            $image = $image_cache;
+                        }
+                        // end caching hits ?>
+
                         <div class="col-lg-3 col-6 product wow fadeIn" data-wow-delay="<?= $delay ?>s">
                             <a href="<?= Url::to(['product/view', 'id' => $hit->id]) ?>">
                                 <img src="<?= $image->getUrl() ?>" alt="" class="w-100" />
@@ -87,24 +98,21 @@ $date = date('d');
             </div>
         </div>
     </section>
-    <!-- <section id="gift-finder">
-      <p class="subheader text-black text-center wow fadeIn" data-wow-delay="0.8s"><?= Yii::t('app', 'BENEFIT TOOL') ?></p>
-      <h1 class="wow fadeIn"><?= Yii::t('app', 'Set creator') ?></h1>
-      <i class="fas fa-plus bg-icon"></i>
-      <div class="content offset-lg-2 offset-md-2 wow fadeIn">
-        <div class="col-lg-4 col-md-6 col-12 offset-lg-2">
-          <p><?= Yii::t('app', 'Lorem ipsum, dolor sit amet quia vel placeat, consectetur
-            adipisicing elit. Asperiores voluptatem est voluptatum.') 
-                ?></p>
-          <button class="btn btn-outline-dark mt-4">Creat my own set!</button>
-        </div>
-      </div>
-    </section> -->
     <section id="holidays">
         <?php if ($events) : ?>
             <?php foreach ($events as $event) : ?>
                 <?php if (strtotime($event->date_to) > date('d-M-Y')):?>
-                    <?php $image = $event->getImage() ?>
+
+                    <?php // caching holidays
+                    if (Yii::$app->cache->exists('holidays_img')) {
+                        $image = Yii::$app->cache->get('holidays_img');
+                    } else {
+                        $image_cache = $event->getImage();
+                        Yii::$app->cache->set('holidays_img', $image_cache, 60);
+                        $image = $image_cache;
+                    }
+                    // end caching holidays ?>
+
                     <a href="<?= Url::to(["events/{$event->id}"]) ?>">
                         <div class="holiday wow fadeIn" style="background-image: url(<?= $image->getUrl() ?>)">
                             <?php

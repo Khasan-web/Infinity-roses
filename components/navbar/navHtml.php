@@ -61,7 +61,7 @@ $luxury_sub_cats = [];
                                     $prods_exist = true;
                                 }
                                 if (!empty($cat->category) && boolval($prods_exist)) : ?>
-                                    <div class="row mb-5 mt-4 content luxury-collection">
+                                    <div class="row mb-5 mt-4 content">
                                         <?php foreach ($cat->category as $subcat) : ?>
                                             <div class="col-lg-2 col-md-4 p-0">
                                                 <a href="<?= Url::to(['category/' . $subcat->id]) ?>">
@@ -71,7 +71,17 @@ $luxury_sub_cats = [];
                                                     <?php
                                                     // get products and their images
                                                     foreach ($subcat->product as $product) : ?>
-                                                        <?php $image = $product->getImage() ?>
+
+                                                    <?php // caching products
+                                                    if (Yii::$app->cache->exists($product['id'] . 'img')) {
+                                                        $image = Yii::$app->cache->get($product['id'] . 'img');
+                                                    } else {
+                                                        $image_cache = $product->getImage();
+                                                        Yii::$app->cache->set($product['id'] . 'img', $image_cache, 60);
+                                                        $image = $image_cache;
+                                                    }
+                                                    // end caching products ?>
+
                                                         <li>
                                                             <?= Html::a($product->name, Url::to(['product/view', 'id' => $product->id]), $options = ['class' => 'product-item', 'data-image' => $image->getUrl('400x')]) ?>
                                                         </li>
@@ -95,7 +105,17 @@ $luxury_sub_cats = [];
                                                 <?php
                                                 // get products and their images
                                                 foreach ($cat->product as $product) : ?>
-                                                    <?php $image = $product->getImage() ?>
+
+                                                    <?php // caching products
+                                                    if (Yii::$app->cache->exists($product->id . '_img')) {
+                                                        $image = Yii::$app->cache->get($product->id . '_img');
+                                                    } else {
+                                                        $image_cache = $product->getImage();
+                                                        Yii::$app->cache->set($product->id . '_img', $image_cache, 60);
+                                                        $image = $image_cache;
+                                                    }
+                                                    // end caching products ?>
+
                                                     <li>
                                                         <?php if ($product->category_id == $cat->id) : ?>
                                                             <?= Html::a($product->name, Url::to(['product/view', 'id' => $product->id]), $options = ['class' => 'product-item', 'data-image' => $image->getUrl('400x')]) ?>

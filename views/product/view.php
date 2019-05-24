@@ -6,8 +6,10 @@ $_GET['active-category'] = $product->category->id;
 
 ?>
 <?php
+
 $mainImage = $product->getImage();
 $gallery = $product->getImages();
+
 $description = 'description_' . Yii::$app->language;
 ?>
 <section id="product-details">
@@ -282,7 +284,7 @@ $description = 'description_' . Yii::$app->language;
                         if ($product_available):?>
                             <button class="btn btn-dark add-to-cart btn-block mt-2" data-id="<?= $product->id ?>">
                                 <i class="fas fa-shopping-cart mr-1"></i> <?= Yii::t('app', 'Add to cart!') ?>
-                            </button>1
+                            </button>
                         <?php else:?>
                             <h4 class="mt-4" style="color: grey">Not available</h4>
                         <?php endif; // end checking?>
@@ -410,10 +412,21 @@ if ($hits) : ?>
             <?php // looping hits array
             foreach ($hits as $hit) : ?>
             <?php if ($hit->hit) : ?>
-            <?php
+
+            <?php 
+            // delay to make fade effect
             $delay += 0.2;
-            $image = $hit->getImage();
-            ?>
+
+            // caching hits
+            if (Yii::$app->cache->exists($hit->id. 'hit_img')) {
+                $image = Yii::$app->cache->get($hit->id. 'hit_img');
+            } else {
+                $image_cache = $hit->getImage();
+                Yii::$app->cache->set($hit->id. 'hit_img', $image_cache, 60);
+                $image = $image_cache;
+            }
+            // end caching hits ?>
+
             <div class="col-lg-3 col-6 product wow fadeIn" data-wow-delay="<?= $delay ?>s">
                 <a href="<?= Url::to(['product/view', 'id' => $hit->id]) ?>">
                     <img src="<?= $image->getUrl() ?>" alt="" class="w-100" />

@@ -66,15 +66,51 @@ class SiteController extends AppController
      * @return string
      */
     public function actionIndex()
-    {
+    {   
         $name = getLang('name');
         $description = getLang('description');
         $title = getLang('title');
-        $events = Events::find()->all();
-        $gallery = Gallery::find()->asArray()->limit(6)->all();
-        $background = Background::find()->asArray()->where(['position' => 'home'])->one();
-        // get hits
-        $hits = Product::find()->where(['hit' => '1'])->with('category')->limit(4)->all();
+
+        // caching events
+        if (Yii::$app->cache->exists('events')) {
+            $events = Yii::$app->cache->get('events');
+        } else {
+            $events_cache = Events::find()->all();
+            Yii::$app->cache->set('events', $events_cache, 60);
+            $events = $events_cache;
+        }
+        // end caching events
+
+        // caching gallery
+        if (Yii::$app->cache->exists('gallery')) {
+            $gallery = Yii::$app->cache->get('gallery');
+        } else {
+            $gallery_cache = Gallery::find()->asArray()->limit(6)->all();
+            Yii::$app->cache->set('gallery', $gallery_cache, 60);
+            $gallery = $gallery_cache;
+        }
+        // end caching gallery
+
+        // caching background
+        if (Yii::$app->cache->exists('background')) {
+            $background = Yii::$app->cache->get('background');
+        } else {
+            $background_cache = Background::find()->asArray()->where(['position' => 'home'])->one();
+            Yii::$app->cache->set('background', $background_cache, 60);
+            $background = $background_cache;
+        }
+        // end caching background
+
+        // caching hits
+        if (Yii::$app->cache->exists('hits')) {
+            $hits = Yii::$app->cache->get('hits');
+        } else {
+            $hits_cache = Product::find()->where(['hit' => '1'])->with('category')->limit(4)->all();
+            Yii::$app->cache->set('hits', $hits_cache, 60);
+            $hits = $hits_cache;
+        }
+        // end caching hits
+ 
         $this->setMeta(null, "Delivery flowers in Tashkent,Roses in Tashkent,Цветы в Ташкенте, Розы в Ташкенте, Доставка роз в Ташкенте, Роза доставка, Цветы доставка, Букеты в ташкенте, Где продаются розы, Самые лучшие розы, Инфинити розы, Atirgullar, Atir gullar Toshkent, Gul Toshkent", "Delivery flowers in Tashkent Цветы в Ташкенте", '/web/img/mail-header.jpg');
         $this->view->title = 'Infinity Roses';
         return $this->render('index', compact('hits', 'lang', 'name', 'description', 'events', 'gallery', 'background', 'title'));

@@ -112,7 +112,7 @@ class ProductController extends AppAdminController
             $all_data_exploded = explode(',', $model->size_list);
 
             // link data from size_list input with uploaded images by index (last part in the string color_position_size_index)
-            if (is_array($all_data_exploded)) {
+            if (is_array($all_data_exploded) && !empty($model->gallery)) {
                 $i = 0;
                 foreach ($all_data_exploded as $data) {
                     // exploded color_position_size_index
@@ -126,7 +126,7 @@ class ProductController extends AppAdminController
                     array_push($images_arr, $img_data);
                     $i++;
                 }
-            } else if (!is_null($model->size_list)) {
+            } else if (!is_null($model->size_list) && !empty($model->gallery)) {
                 // exploded color_position_size_index
                 $data_exploded = explode('_', $model->size_list);
 
@@ -136,8 +136,6 @@ class ProductController extends AppAdminController
                     'info' => $model->size_list,
                 ];
                 array_push($images_arr, $img_data);
-            } else {
-                return false;
             }
 
             if (!empty($model->not_available)) {

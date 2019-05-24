@@ -31,17 +31,38 @@ $desc_arr = explode('<p>br</p>', $category->$description);
 			<div class="row mt-5">
 				<?php // products looping
 				foreach ($products as $product): ?>
-					<?php $image = $product->getImage() ?>
+
+					<?php // caching product
+                    if (Yii::$app->cache->exists($product->id . '_img')) {
+                        $image = Yii::$app->cache->get($product->id . '_img');
+                    } else {
+                        $image_cache = $product->getImage();
+                        Yii::$app->cache->set($product->id . '_img', $image_cache, 60);
+                        $image = $image_cache;
+                    }
+                    // end caching product ?>
+
 					<div class="col-lg-3 col-6 product wow fadeIn" data-wow-delay="0.6s">
 						<a href="<?= Url::to(['product/view', 'id' => $product->id]) ?>">
 							<img src="<?= $image->getUrl() ?>" alt="" class="w-100" />
 							<h2 class="name"><?= $product->name ?></h2>
 						</a>
 						<?php
-						// lowest price
+						// getting lowest price
 						$lowest_price;
 						$i = 0;
-						foreach ($product->prices as $price) {
+
+						// caching prices of products
+						if (Yii::$app->cache->exists($product->id . '_lowest')) {
+							$prices = Yii::$app->cache->get($product->id . '_lowest');
+						} else {
+							$product_prices_cache = $product->prices;
+							Yii::$app->cache->set($product->id . '_lowest', $product_prices_cache, 60);
+							$prices = $product_prices_cache;
+						}
+						// end caching prices of products
+
+						foreach ($prices as $price) {
 							if ($i == 0) {
 								$lowest_price = $price->price;
 							}
@@ -91,7 +112,7 @@ $desc_arr = explode('<p>br</p>', $category->$description);
 
 					<?php // looping of sub-categories
 					foreach ($cat->product as $product): ?>
-					<?php // get images
+					<?php // get a main image
 					$image = $product->getImage() ?>
 
 					<!-- show products -->
